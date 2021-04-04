@@ -1,0 +1,25 @@
+<h1>Edit email</h1>
+
+<%= form_for @changeset, routes().profile_user_email_path(@conn, :update), [method: :patch], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="mb-3 col-md-4">
+    <%= label f, :email, class: "form-label" %>
+    <%= text_input f, :email, class: "form-control" %>
+    <%= error_tag f, :email %>
+  </div>
+
+  <div class="mb-3 col-md-4">
+    <%= label f, :current_password, class: "form-label" %>
+    <%= password_input f, :current_password, class: "form-control"  %>
+    <%= error_tag f, :current_password %>
+  </div>
+
+  <div class="mb-3 col-md-4">
+    <%= submit "Save", class: "btn btn-primary" %>
+  </div>
+<% end %>

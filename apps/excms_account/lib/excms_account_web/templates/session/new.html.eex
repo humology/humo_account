@@ -1,0 +1,13 @@
+<div class="row mt-5">
+  <div class="col-md-4 m-auto">
+    <%= form_for @conn, routes().session_path(@conn, :create), [method: :post], fn f -> %>
+      <h3 class="mb-3">Login</h3>
+      <%= text_input f, :email, class: "form-control", placeholder: "Email" %>
+      <%= password_input f, :password, class: "form-control", placeholder: "Password" %>
+      <%= submit "Login", class: "btn btn-primary mt-4" %>
+    <% end %>
+    <div class="mt-4">
+      <%= link "Forgot Password?", to: routes().reset_password_path(@conn, :new) %>
+    </div>
+  </div>
+</div>

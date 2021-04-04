@@ -1,0 +1,7 @@
+<h1>Email verified</h1>
+
+<%= if @verified do %>
+  Email was verified, now you can login
+<% else %>
+  Email verification is limited by 24 hours, please request email verification again.
+<% end %>

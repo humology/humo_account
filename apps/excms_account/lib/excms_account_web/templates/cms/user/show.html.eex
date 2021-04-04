@@ -1,0 +1,32 @@
+<h3>Show User</h3>
+
+<div class="mb-3 col-md-6">
+  <label class="col-sm-4 col-form-label">First name</label>
+  <span class="col-sm-8">
+    <%= @user.first_name %>
+  </span>
+</div>
+
+<div class="mb-3 col-md-6">
+  <label class="col-sm-4 col-form-label">Last name</label>
+  <span class="col-sm-8">
+    <%= @user.last_name %>
+  </span>
+</div>
+
+<div class="mb-3 col-md-6">
+  <label class="col-sm-4 col-form-label">Email</label>
+  <span class="col-sm-8">
+    <%= @user.email %>
+  </span>
+</div>
+
+<div class="mb-3 col-md-6">
+  <label class="col-sm-4 col-form-label">Email verified at</label>
+  <span class="col-sm-8">
+    <%= @user.email_verified_at %>
+  </span>
+</div>
+
+<%= ulink @conn, "Edit", to: routes().cms_user_path(@conn, :edit, @user), class: "mr-1" %>
+<%= rlink @conn, "Back", to: routes().cms_user_path(@conn, :index) %>

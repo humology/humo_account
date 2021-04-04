@@ -1,0 +1,38 @@
+<div class="row mt-5">
+  <div class="col-md-4 m-auto">
+    <h3 class="mb-3">Sign up</h3>
+
+    <%= form_for @changeset, routes().signup_path(@conn, :create), [method: :post], fn f -> %>
+      <div class="mb-3">
+        <%= label f, :first_name, class: "form-label" %>
+        <%= text_input f, :first_name, class: "form-control" %>
+        <%= error_tag f, :first_name %>
+      </div>
+
+      <div class="mb-3">
+        <%= label f, :last_name, class: "form-label" %>
+        <%= text_input f, :last_name, class: "form-control" %>
+        <%= error_tag f, :last_name %>
+      </div>
+
+      <div class="mb-3">
+        <%= label f, :email, class: "form-label" %>
+        <%= text_input f, :email, class: "form-control" %>
+        <%= error_tag f, :email %>
+      </div>
+
+      <div class="mb-3">
+        <%= label f, :password, class: "form-label" %>
+        <%= password_input f, :password, class: "form-control" %>
+        <%= error_tag f, :password %>
+      </div>
+
+      <div class="mb-3 mt-4">
+        <%= submit "Sign up", class: "btn btn-primary" %>
+      </div>
+    <% end %>
+    <div class="mt-4">
+      <%= link "Forgot Password?", to: routes().reset_password_path(@conn, :new) %>
+    </div>
+  </div>
+</div>
