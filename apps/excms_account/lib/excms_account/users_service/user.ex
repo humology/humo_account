@@ -1,5 +1,6 @@
 defmodule ExcmsAccount.UsersService.User do
   use Ecto.Schema
+  use ExcmsCore.Resource
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
