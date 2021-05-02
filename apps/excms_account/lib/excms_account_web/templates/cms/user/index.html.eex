@@ -32,9 +32,9 @@
         <td><%= user.inserted_at %></td>
 
         <td>
-          <%= rlink @conn, "Show", to: routes().cms_user_path(@conn, :show, user), class: "mr-1" %>
-          <%= ulink @conn, "Edit", to: routes().cms_user_path(@conn, :edit, user), class: "mr-1" %>
-          <%= dlink @conn, "Delete", to: routes().cms_user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"] %>
+          <%= permitted_link @conn, "Show", to: routes().cms_user_path(@conn, :show, user), class: "mr-1" %>
+          <%= permitted_link @conn, "Edit", to: routes().cms_user_path(@conn, :edit, user), class: "mr-1" %>
+          <%= permitted_link @conn, "Delete", to: routes().cms_user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"] %>
         </td>
       </tr>
     <% end %>

@@ -8,15 +8,16 @@ defmodule ExcmsAccountWeb.AuthService do
   import ExcmsCoreWeb.RouterHelpers
   alias ExcmsServer.Endpoint
 
-  @auth                 Application.compile_env!(:excms_account, __MODULE__)
-  @auth_secret          @auth[:secret]
-  @auth_salt            @auth[:salt]
+  @auth Application.compile_env!(:excms_account, __MODULE__)
+  @auth_secret @auth[:secret]
+  @auth_salt @auth[:salt]
   @auth_timeout_seconds @auth[:timeout_seconds]
-  @email_service        Application.compile_env!(:excms_account, :email)[:service]
-  @send_email_async     Application.compile_env!(:excms_account, :email)[:async_send]
+  @email_service Application.compile_env!(:excms_account, :email)[:service]
+  @send_email_async Application.compile_env!(:excms_account, :email)[:async_send]
 
   def authenticate_by_email_password(email, password) do
     email = String.downcase(email)
+
     with %User{
            email_verified_at: %DateTime{}
          } = user <- UsersService.get_user_by_email(email),
@@ -25,6 +26,7 @@ defmodule ExcmsAccountWeb.AuthService do
     else
       %User{email_verified_at: nil, email: email} ->
         {:error, :email_not_verified, email}
+
       _ ->
         {:error, :unauthorized}
     end
@@ -32,10 +34,12 @@ defmodule ExcmsAccountWeb.AuthService do
 
   def get_token(email) do
     email = String.downcase(email)
+
     case UsersService.get_user_by_email(email) do
       %User{email: email} ->
         token = encode_payload(email)
         {:ok, email, token}
+
       _ ->
         {:error, :not_found}
     end
@@ -102,7 +106,7 @@ defmodule ExcmsAccountWeb.AuthService do
   defp send_email(message) do
     case @send_email_async do
       false -> @email_service.send_email(message)
-      true ->  Task.start(@email_service, :send_email, [message])
+      true -> Task.start(@email_service, :send_email, [message])
     end
   end
 

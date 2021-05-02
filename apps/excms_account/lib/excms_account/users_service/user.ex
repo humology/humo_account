@@ -1,6 +1,5 @@
 defmodule ExcmsAccount.UsersService.User do
   use Ecto.Schema
-  use ExcmsCore.Resource
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -75,15 +74,17 @@ defmodule ExcmsAccount.UsersService.User do
   def roles_changeset(user, attrs) do
     user
     |> cast(attrs, [])
+
     # |> put_assoc(:roles, get_roles(attrs))
   end
 
-  #defp get_roles(%{"roles" => ids}), do: RolesService.get_roles(ids)
-  #defp get_roles(_), do: []
+  # defp get_roles(%{"roles" => ids}), do: RolesService.get_roles(ids)
+  # defp get_roles(_), do: []
 
   def validate_current_password(%Ecto.Changeset{valid?: true} = changeset) do
     current_password = get_change(changeset, :current_password)
     password_hash = get_field(changeset, :password_hash)
+
     if Bcrypt.verify_pass(current_password, password_hash) do
       changeset
     else
@@ -97,6 +98,7 @@ defmodule ExcmsAccount.UsersService.User do
     case get_change(changeset, :password) do
       nil ->
         changeset
+
       password ->
         put_change(changeset, :password_hash, Bcrypt.hash_pwd_salt(password))
     end
@@ -105,12 +107,17 @@ defmodule ExcmsAccount.UsersService.User do
   def put_password_hash(changeset), do: changeset
 
   def put_downcase_email(%Ecto.Changeset{valid?: true} = changeset) do
-    email = changeset
-    |> get_field(:email)
-    |> String.downcase()
+    email =
+      changeset
+      |> get_field(:email)
+      |> String.downcase()
 
     put_change(changeset, :email, email)
   end
 
   def put_downcase_email(changeset), do: changeset
+
+  defmodule Helpers do
+    use ExcmsCore.EctoResourceHelpers
+  end
 end

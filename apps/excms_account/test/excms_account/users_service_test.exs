@@ -4,9 +4,26 @@ defmodule ExcmsAccount.UsersServiceTest do
   alias ExcmsAccount.UsersService
   alias ExcmsAccount.UsersService.User
 
-  @valid_attrs %{email: "some@teST.invalid", first_name: "some first_name", last_name: "some last_name", password: "some password"}
-  @update_attrs %{email: "uPDated@test.invalid", first_name: "some updated first_name", last_name: "some updated last_name", password: "updated password", current_password: "password"}
-  @invalid_attrs %{email: nil, first_name: nil, last_name: nil, password: nil, current_password: nil}
+  @valid_attrs %{
+    email: "some@teST.invalid",
+    first_name: "some first_name",
+    last_name: "some last_name",
+    password: "some password"
+  }
+  @update_attrs %{
+    email: "uPDated@test.invalid",
+    first_name: "some updated first_name",
+    last_name: "some updated last_name",
+    password: "updated password",
+    current_password: "password"
+  }
+  @invalid_attrs %{
+    email: nil,
+    first_name: nil,
+    last_name: nil,
+    password: nil,
+    current_password: nil
+  }
 
   describe "user" do
     test "page_users/3 returns paginated users by optional search query" do
@@ -66,8 +83,7 @@ defmodule ExcmsAccount.UsersServiceTest do
 
     test "update_user/2 with invalid data returns error changeset" do
       user = UsersService.get_user!(insert(:user).id)
-      assert {:error, %Ecto.Changeset{}} =
-               UsersService.update_user(user, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = UsersService.update_user(user, @invalid_attrs)
       assert user == UsersService.get_user!(user.id)
     end
 
@@ -88,8 +104,7 @@ defmodule ExcmsAccount.UsersServiceTest do
 
     test "update_user_reset_password/2 with valid data updates the user" do
       user = insert(:user)
-      assert {:ok, %User{} = user} =
-               UsersService.update_user_reset_password(user, @update_attrs)
+      assert {:ok, %User{} = user} = UsersService.update_user_reset_password(user, @update_attrs)
       refute user.email == "updated@test.invalid"
       refute user.first_name == "some updated first_name"
       refute user.last_name == "some updated last_name"
@@ -98,22 +113,22 @@ defmodule ExcmsAccount.UsersServiceTest do
 
     test "update_user_reset_password/2 with invalid data returns error changeset" do
       user = UsersService.get_user!(insert(:user).id)
+
       assert {:error, %Ecto.Changeset{}} =
                UsersService.update_user_reset_password(user, @invalid_attrs)
+
       assert user == UsersService.get_user!(user.id)
     end
 
     test "update_user_email_verified/1 with valid data updates the user" do
       user = insert(:user)
-      assert {:ok, %User{} = user} =
-               UsersService.update_user_email_verified(user)
+      assert {:ok, %User{} = user} = UsersService.update_user_email_verified(user)
       assert user.email_verified_at
     end
 
     test "update_user_password/2 with valid data updates the user" do
       user = insert(:user)
-      assert {:ok, %User{} = user} =
-               UsersService.update_user_password(user, @update_attrs)
+      assert {:ok, %User{} = user} = UsersService.update_user_password(user, @update_attrs)
       refute user.email == "updated@test.invalid"
       refute user.first_name == "some updated first_name"
       refute user.last_name == "some updated last_name"
@@ -123,8 +138,7 @@ defmodule ExcmsAccount.UsersServiceTest do
     test "update_user_password/2 with wrong current password returns error changeset" do
       user = insert(:user)
       attrs = %{@update_attrs | current_password: "wrong password"}
-      assert {:error, %Ecto.Changeset{}} =
-               UsersService.update_user_password(user, attrs)
+      assert {:error, %Ecto.Changeset{}} = UsersService.update_user_password(user, attrs)
 
       user = UsersService.get_user!(user.id)
 

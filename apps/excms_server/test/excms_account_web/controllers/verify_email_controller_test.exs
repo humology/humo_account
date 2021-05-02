@@ -7,8 +7,9 @@ defmodule ExcmsAccountWeb.VerifyEmailControllerTest do
   setup %{conn: conn} do
     user = insert(:user)
 
-    conn = conn
-    |> put_req_header("accept-language", "en")
+    conn =
+      conn
+      |> put_req_header("accept-language", "en")
 
     MailerDummy.test_init()
 
@@ -17,6 +18,7 @@ defmodule ExcmsAccountWeb.VerifyEmailControllerTest do
 
   test "success", %{conn: conn} do
     email = "jack@example.invalid"
+
     params = %{
       "user" => %{
         first_name: "Jack",
@@ -25,15 +27,18 @@ defmodule ExcmsAccountWeb.VerifyEmailControllerTest do
         password: "password"
       }
     }
+
     conn = post(conn, routes().signup_path(conn, :create), params)
     assert redirected_to(conn) == routes().verify_email_path(conn, :index)
 
     assert %{email_verified_at: nil} = UsersService.get_user_by_email(email)
 
-    [{
-      ^email,
-      %VerifyEmail{to: ^email, email_verified_url: email_verified_url}
-    }] = MailerDummy.test_get_messages_by_email(email)
+    [
+      {
+        ^email,
+        %VerifyEmail{to: ^email, email_verified_url: email_verified_url}
+      }
+    ] = MailerDummy.test_get_messages_by_email(email)
 
     conn = get(conn, email_verified_url)
     assert html_response(conn, 200) =~ "Email was verified, now you can login"

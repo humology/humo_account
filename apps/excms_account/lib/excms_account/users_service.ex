@@ -258,10 +258,13 @@ defmodule ExcmsAccount.UsersService do
       {:ok, _} ->
         from u in query,
           where: u.id == ^search
+
       :error ->
         search = "%#{search}%"
+
         from u in query,
-          where: ilike(u.first_name, ^search) or ilike(u.last_name, ^search) or ilike(u.email, ^search)
+          where:
+            ilike(u.first_name, ^search) or ilike(u.last_name, ^search) or ilike(u.email, ^search)
     end
   end
 
@@ -273,6 +276,6 @@ defmodule ExcmsAccount.UsersService do
   defp paginate(query, page, size) do
     from query,
       limit: ^size,
-      offset: ^((page-1) * size)
+      offset: ^((page - 1) * size)
   end
 end

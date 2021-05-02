@@ -28,5 +28,5 @@
   </span>
 </div>
 
-<%= ulink @conn, "Edit", to: routes().cms_user_path(@conn, :edit, @user), class: "mr-1" %>
-<%= rlink @conn, "Back", to: routes().cms_user_path(@conn, :index) %>
+<%= permitted_link @conn, "Edit", to: routes().cms_user_path(@conn, :edit, @user), class: "mr-1" %>
+<%= permitted_link @conn, "Back", to: routes().cms_user_path(@conn, :index) %>

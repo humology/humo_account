@@ -2,4 +2,4 @@
 
 <%= render "form.html", Map.put(assigns, :action, routes().cms_user_path(@conn, :update, @user)) %>
 
-<%= rlink @conn, "Back", to: routes().cms_user_path(@conn, :index) %>
+<%= permitted_link @conn, "Back", to: routes().cms_user_path(@conn, :index) %>

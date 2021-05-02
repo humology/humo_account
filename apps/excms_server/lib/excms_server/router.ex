@@ -8,9 +8,12 @@ defmodule ExcmsServer.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
 
-    plug ExcmsCoreWeb.LocalePlug # excms insert
-    plug ExcmsCoreWeb.SetAdministratorPlug # excms insert
-    plug ExcmsAccountWeb.AssignUserPlug # excms insert
+    # excms insert
+    plug ExcmsCoreWeb.LocalePlug
+    # excms insert
+    plug ExcmsCoreWeb.SetAdministratorPlug
+    # excms insert
+    plug ExcmsAccountWeb.AssignUserPlug
   end
 
   pipeline :api do
@@ -23,7 +26,8 @@ defmodule ExcmsServer.Router do
     get "/", PageController, :index
   end
 
-  use ExcmsCoreWeb.PluginsRouter # excms insert
+  # excms insert
+  use ExcmsCoreWeb.PluginsRouter
 
   # Other scopes may use custom stacks.
   # scope "/api", ExcmsAccountWeb do

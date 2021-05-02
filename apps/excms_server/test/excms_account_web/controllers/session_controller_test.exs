@@ -6,8 +6,9 @@ defmodule ExcmsAccountWeb.SessionControllerTest do
   setup %{conn: conn} do
     user = insert(:user)
 
-    conn = conn
-    |> put_req_header("accept-language", "en")
+    conn =
+      conn
+      |> put_req_header("accept-language", "en")
 
     MailerDummy.test_init()
 
@@ -16,14 +17,17 @@ defmodule ExcmsAccountWeb.SessionControllerTest do
 
   test "success", %{conn: conn, user: user} do
     conn = get(conn, routes().session_path(conn, :new))
-    assert html_response(conn, 200) =~ "<form action=\"#{
-             routes().session_path(conn, :create)}\" method=\"post\">"
+
+    assert html_response(conn, 200) =~
+             "<form action=\"#{routes().session_path(conn, :create)}\" method=\"post\">"
 
     email = user.email
+
     params = %{
       email: email,
       password: "password"
     }
+
     conn = post(conn, routes().session_path(conn, :create), params)
 
     user_id = user.id
@@ -45,16 +49,17 @@ defmodule ExcmsAccountWeb.SessionControllerTest do
     conn = post(conn, routes().session_path(conn, :create), params)
     assert redirected_to(conn) == routes().verify_email_path(conn, :index)
 
-    [{^email, %VerifyEmail{to: ^email}}] =
-      MailerDummy.test_get_messages_by_email(email)
+    [{^email, %VerifyEmail{to: ^email}}] = MailerDummy.test_get_messages_by_email(email)
   end
 
   test "wrong password", %{conn: conn, user: user} do
     email = user.email
+
     params = %{
       email: email,
       password: "wrong_password"
     }
+
     conn = post(conn, routes().session_path(conn, :create), params)
     assert html_response(conn, 200) =~ "Bad email/password combination"
   end

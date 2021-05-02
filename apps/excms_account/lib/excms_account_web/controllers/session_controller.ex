@@ -14,10 +14,13 @@ defmodule ExcmsAccountWeb.SessionController do
         |> put_session(:user_id, user.id)
         |> configure_session(renew: true)
         |> redirect(to: routes().cms_user_path(conn, :index))
+
       {:error, :email_not_verified, email} ->
         AuthService.send_verify_email(email)
+
         conn
         |> redirect(to: routes().verify_email_path(conn, :index))
+
       {:error, :unauthorized} ->
         conn
         |> put_flash(:error, "Bad email/password combination")

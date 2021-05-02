@@ -3,8 +3,18 @@ defmodule ExcmsAccountWeb.Cms.UserControllerTest do
 
   alias ExcmsAccount.UsersService
 
-  @create_attrs %{email: "SOME@test.invalid", first_name: "some first_name", last_name: "some last_name", password: "some password"}
-  @update_attrs %{email: "UPDATED@test.invalid", first_name: "some updated first_name", last_name: "some updated last_name", password: "some updated password"}
+  @create_attrs %{
+    email: "SOME@test.invalid",
+    first_name: "some first_name",
+    last_name: "some last_name",
+    password: "some password"
+  }
+  @update_attrs %{
+    email: "UPDATED@test.invalid",
+    first_name: "some updated first_name",
+    last_name: "some updated last_name",
+    password: "some updated password"
+  }
   @invalid_attrs %{email: nil, first_name: nil, last_name: nil, password: nil}
 
   def fixture(:user) do
@@ -15,8 +25,9 @@ defmodule ExcmsAccountWeb.Cms.UserControllerTest do
   setup %{conn: conn} do
     user = insert(:user)
 
-    conn = conn
-    |> Plug.Test.init_test_session(user_id: user.id)
+    conn =
+      conn
+      |> Plug.Test.init_test_session(user_id: user.id)
 
     %{conn: conn}
   end
@@ -60,6 +71,7 @@ defmodule ExcmsAccountWeb.Cms.UserControllerTest do
     test "deletes chosen user", %{conn: conn, user: user} do
       conn = delete(conn, routes().cms_user_path(conn, :delete, user))
       assert redirected_to(conn) == routes().cms_user_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, routes().cms_user_path(conn, :show, user))
       end

@@ -3,11 +3,12 @@ defmodule ExcmsAccountWeb.Cms.UserController do
 
   alias ExcmsAccount.UsersService
   alias ExcmsAccount.UsersService.User
-  alias ExcmsCore.CmsAccess
+  alias ExcmsCore.GlobalAccess
 
   @page_size 50
 
-  def permissions(type), do: [{type, User}, {type, CmsAccess}]
+  def rest_permissions(rest_action),
+    do: [Permission.new(User, rest_action), Permission.new(GlobalAccess, "cms")]
 
   def index(conn, params) do
     page = Map.get(params, "page", "1") |> String.to_integer()
@@ -16,10 +17,9 @@ defmodule ExcmsAccountWeb.Cms.UserController do
     users = UsersService.page_users(page, @page_size, search)
 
     users_count = UsersService.count_users(search)
-    page_max = div(users_count-1, @page_size) + 1
+    page_max = div(users_count - 1, @page_size) + 1
 
-    render(conn, "index.html",
-      users: users, search: search, page: page, page_max: page_max)
+    render(conn, "index.html", users: users, search: search, page: page, page_max: page_max)
   end
 
   def show(conn, %{"id" => id}) do

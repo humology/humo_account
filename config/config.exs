@@ -10,9 +10,10 @@
 use Mix.Config
 
 deps_dir = Path.join(__DIR__, "../deps/excms_deps/") |> Path.expand()
+
 if File.exists?(deps_dir) do
   Path.join(deps_dir, "lib/excms_deps.ex") |> Code.require_file()
-  for config <- ExcmsDeps.configs(), do: import_config config
+  for config <- ExcmsDeps.configs(), do: import_config(config)
 end
 
 # Configures the endpoint
@@ -38,7 +39,7 @@ config :excms_mail, ExcmsMailWeb.Mailer,
   auth: :always
 
 config :excms_account, ExcmsAccountWeb.AuthService,
-  timeout_seconds: 3600*24,
+  timeout_seconds: 3600 * 24,
   secret: "sKKlOpvwOwHg+cTLFO4byayYBUWEBGCJGjgGTjdRWYkTVPNGi9gnlYAmVCWo9mVnDhgT",
   salt: "JghkDhKAHTBDTVtbtdsOTtdsgtOPGqKSHvBtGHTDgh"
 

@@ -49,7 +49,7 @@ defmodule ExcmsAccount.MixProject do
       {:ex_machina, "~> 2.4", only: :test},
       {:bcrypt_elixir, "~> 2.0"},
       {:excms_core, git: "git@github.com:excms/excms_core.git", sparse: "apps/excms_core"},
-      {:excms_mail, git: "git@github.com:excms/excms_mail.git", sparse: "apps/excms_mail"},
+      {:excms_mail, git: "git@github.com:excms/excms_mail.git", sparse: "apps/excms_mail"}
     ]
   end
 

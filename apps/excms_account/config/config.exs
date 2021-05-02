@@ -12,7 +12,7 @@ config :excms_core, :plugins,
     ],
     account_links: [
       %{title: "Profile", route: :profile_user_path, action: :show},
-      %{title: "Logout", route: :session_path, action: :delete},
+      %{title: "Logout", route: :session_path, action: :delete, method: :delete}
     ]
   }
 
@@ -21,3 +21,5 @@ config :excms_core, ExcmsCoreWeb.PluginsRouter,
     routers: [ExcmsAccountWeb.Routers.Root],
     cms_routers: [ExcmsAccountWeb.Routers.Cms]
   }
+
+config :excms_core, ExcmsCore.Warehouse, excms_account: [ExcmsAccount.UsersService.User]

@@ -6,8 +6,9 @@ defmodule ExcmsAccountWeb.SignupControllerTest do
   setup %{conn: conn} do
     user = insert(:user)
 
-    conn = conn
-    |> put_req_header("accept-language", "en")
+    conn =
+      conn
+      |> put_req_header("accept-language", "en")
 
     MailerDummy.test_init()
 
@@ -16,11 +17,14 @@ defmodule ExcmsAccountWeb.SignupControllerTest do
 
   test "show form", %{conn: conn} do
     conn = get(conn, routes().signup_path(conn, :new))
-    assert html_response(conn, 200) =~ "<form action=\"#{routes().signup_path(conn, :create)}\" method=\"post\">"
+
+    assert html_response(conn, 200) =~
+             "<form action=\"#{routes().signup_path(conn, :create)}\" method=\"post\">"
   end
 
   test "success", %{conn: conn} do
     email = "jack@example.invalid"
+
     params = %{
       "user" => %{
         first_name: "Jack",
@@ -29,6 +33,7 @@ defmodule ExcmsAccountWeb.SignupControllerTest do
         password: "password"
       }
     }
+
     conn = post(conn, routes().signup_path(conn, :create), params)
     assert redirected_to(conn) == routes().verify_email_path(conn, :index)
 
@@ -37,6 +42,7 @@ defmodule ExcmsAccountWeb.SignupControllerTest do
 
   test "duplicate email", %{conn: conn, user: user} do
     email = user.email
+
     params = %{
       "user" => %{
         first_name: "Jack",
@@ -45,6 +51,7 @@ defmodule ExcmsAccountWeb.SignupControllerTest do
         password: "password"
       }
     }
+
     conn = post(conn, routes().signup_path(conn, :create), params)
     assert html_response(conn, 200) =~ "user_email\">has already been taken"
   end
