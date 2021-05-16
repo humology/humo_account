@@ -9,11 +9,7 @@ defmodule ExcmsServer.Router do
     plug :put_secure_browser_headers
 
     # excms insert
-    plug ExcmsCoreWeb.LocalePlug
-    # excms insert
-    plug ExcmsCoreWeb.SetAdministratorPlug
-    # excms insert
-    plug ExcmsAccountWeb.AssignUserPlug
+    use ExcmsCoreWeb.BrowserPlugs
   end
 
   pipeline :api do

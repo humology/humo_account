@@ -22,4 +22,6 @@ config :excms_core, ExcmsCoreWeb.PluginsRouter,
     cms_routers: [ExcmsAccountWeb.Routers.Cms]
   }
 
+config :excms_core, ExcmsCoreWeb.BrowserPlugs, excms_account: [ExcmsAccountWeb.AssignUserPlug]
+
 config :excms_core, ExcmsCore.Warehouse, excms_account: [ExcmsAccount.UsersService.User]
