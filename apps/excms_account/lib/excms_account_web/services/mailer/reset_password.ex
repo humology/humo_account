@@ -1,10 +1,7 @@
 defmodule ExcmsAccountWeb.Mailer.ResetPassword do
-  use Bamboo.Phoenix, view: ExcmsAccountWeb.EmailView
+  defstruct to: nil, reset_password_url: nil
 
-  defstruct [
-    :to,
-    :reset_password_url
-  ]
+  use Bamboo.Phoenix, view: ExcmsAccountWeb.EmailView
 
   def render_email(%__MODULE__{to: to} = payload) do
     new_email()

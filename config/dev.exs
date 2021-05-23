@@ -75,10 +75,6 @@ config :phoenix, :plug_init_mode, :runtime
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
 
-config :excms_account, :email,
-  service: ExcmsAccountWeb.Mailer,
-  async_send: true
-
 mailer_server = System.get_env("DEV_SMTP_SERVER") || raise "missing env DEV_SMTP_SERVER"
 mailer_hostname = System.get_env("DEV_SMTP_HOSTNAME") || raise "missing env DEV_SMTP_HOSTNAME"
 mailer_port = System.get_env("DEV_SMTP_PORT") || raise "missing env DEV_SMTP_PORT"
@@ -86,6 +82,7 @@ mailer_username = System.get_env("DEV_SMTP_USERNAME") || raise "missing env DEV_
 mailer_password = System.get_env("DEV_SMTP_PASSWORD") || raise "missing env DEV_SMTP_PASSWORD"
 
 config :excms_account, ExcmsAccountWeb.Mailer,
+  sender: ExcmsAccountWeb.Mailer.Sender,
   server: mailer_server,
   hostname: mailer_hostname,
   port: mailer_port,

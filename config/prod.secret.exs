@@ -40,10 +40,6 @@ config :excms_server, ExcmsServer.Endpoint,
 # Then you can assemble a release by calling `mix release`.
 # See `mix help release` for more information.
 
-config :excms_account, :email,
-  service: ExcmsAccountWeb.Mailer,
-  async_send: true
-
 mailer_server = System.get_env("SMTP_SERVER") || raise "missing env SMTP_SERVER"
 mailer_hostname = System.get_env("SMTP_HOSTNAME") || raise "missing env SMTP_HOSTNAME"
 mailer_port = System.get_env("SMTP_PORT") || raise "missing env SMTP_PORT"
@@ -51,6 +47,7 @@ mailer_username = System.get_env("SMTP_USERNAME") || raise "missing env SMTP_USE
 mailer_password = System.get_env("SMTP_PASSWORD") || raise "missing env SMTP_PASSWORD"
 
 config :excms_account, ExcmsAccountWeb.Mailer,
+  sender: ExcmsAccountWeb.Mailer.Sender,
   server: mailer_server,
   hostname: mailer_hostname,
   port: mailer_port,

@@ -26,3 +26,13 @@ config :excms_core, ExcmsCoreWeb.BrowserPlugs,
   excms_account: [{ExcmsAccountWeb.AssignUserPlug, true}]
 
 config :excms_core, ExcmsCore.Warehouse, excms_account: [ExcmsAccount.UsersService.User]
+
+config :excms_account, ExcmsAccountWeb.Mailer,
+  sender: ExcmsAccountWeb.Mailer.SenderDummy,
+  async: true
+
+config :excms_account, ExcmsAccountWeb.Mailer.VerifyEmail,
+  renderer: ExcmsAccountWeb.Mailer.VerifyEmail
+
+config :excms_account, ExcmsAccountWeb.Mailer.ResetPassword,
+  renderer: ExcmsAccountWeb.Mailer.ResetPassword

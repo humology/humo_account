@@ -1,6 +1,5 @@
 defmodule ExcmsAccountWeb.VerifyEmailControllerTest do
   use ExcmsServer.ConnCase, async: false
-  alias ExcmsAccountWeb.Mailer.VerifyEmail
   alias ExcmsAccount.UsersService
 
   setup %{conn: conn} do
@@ -28,7 +27,7 @@ defmodule ExcmsAccountWeb.VerifyEmailControllerTest do
 
     assert %{email_verified_at: nil} = UsersService.get_user_by_email(email)
 
-    assert_receive %VerifyEmail{to: ^email, email_verified_url: email_verified_url}
+    assert_receive %Bamboo.Email{to: ^email, assigns: %{email_verified_url: email_verified_url}}
 
     conn = get(conn, email_verified_url)
     assert html_response(conn, 200) =~ "Email was verified, now you can login"

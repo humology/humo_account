@@ -1,6 +1,5 @@
 defmodule ExcmsAccountWeb.ResetPasswordControllerTest do
   use ExcmsServer.ConnCase, async: false
-  alias ExcmsAccountWeb.Mailer.ResetPassword
   alias ExcmsAccount.UsersService
 
   setup %{conn: conn} do
@@ -35,14 +34,7 @@ defmodule ExcmsAccountWeb.ResetPasswordControllerTest do
 
     assert html_response(conn, 200) =~ "reset password was sent"
 
-    reset_password_url =
-      receive do
-        %ResetPassword{to: ^email, reset_password_url: reset_password_url} ->
-          reset_password_url
-      after
-        200 ->
-          raise "Must receive ResetPassword"
-      end
+    assert_receive %Bamboo.Email{to: ^email, assigns: %{reset_password_url: reset_password_url}}
 
     reset_password_prefix = routes().reset_password_path(conn, :edit, "")
     [_, token] = String.split(reset_password_url, reset_password_prefix)
@@ -71,12 +63,6 @@ defmodule ExcmsAccountWeb.ResetPasswordControllerTest do
 
     assert html_response(conn, 200) =~ "reset password was sent"
 
-    receive do
-      %ResetPassword{to: ^email} ->
-        raise "Must not receive any email"
-    after
-      100 ->
-        :ok
-    end
+    refute_receive %Bamboo.Email{}, 100
   end
 end

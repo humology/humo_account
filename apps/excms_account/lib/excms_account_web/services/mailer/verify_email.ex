@@ -1,10 +1,7 @@
 defmodule ExcmsAccountWeb.Mailer.VerifyEmail do
-  use Bamboo.Phoenix, view: ExcmsAccountWeb.EmailView
+  defstruct to: nil, email_verified_url: nil
 
-  defstruct [
-    :to,
-    :email_verified_url
-  ]
+  use Bamboo.Phoenix, view: ExcmsAccountWeb.EmailView
 
   def render_email(%__MODULE__{to: to} = payload) do
     new_email()

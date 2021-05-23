@@ -7,13 +7,12 @@ defmodule ExcmsAccountWeb.AuthService do
   alias ExcmsAccountWeb.Mailer.ResetPassword
   import ExcmsCoreWeb.RouterHelpers
   alias ExcmsServer.Endpoint
+  alias ExcmsAccountWeb.Mailer
 
   @auth Application.compile_env!(:excms_account, __MODULE__)
   @auth_secret @auth[:secret]
   @auth_salt @auth[:salt]
   @auth_timeout_seconds @auth[:timeout_seconds]
-  @email_service Application.compile_env!(:excms_account, :email)[:service]
-  @send_email_async Application.compile_env!(:excms_account, :email)[:async_send]
 
   def authenticate_by_email_password(email, password) do
     email = String.downcase(email)
@@ -87,7 +86,7 @@ defmodule ExcmsAccountWeb.AuthService do
 
   def send_verify_email(email) do
     with {:ok, email, token} <- get_token(email) do
-      send_email(%VerifyEmail{
+      Mailer.send_email(%VerifyEmail{
         to: email,
         email_verified_url: routes().verify_email_url(Endpoint, :edit, token)
       })
@@ -96,17 +95,10 @@ defmodule ExcmsAccountWeb.AuthService do
 
   def send_reset_password_email(email) do
     with {:ok, email, token} <- get_token(email) do
-      send_email(%ResetPassword{
+      Mailer.send_email(%ResetPassword{
         to: email,
         reset_password_url: routes().reset_password_url(Endpoint, :edit, token)
       })
-    end
-  end
-
-  defp send_email(message) do
-    case @send_email_async do
-      false -> @email_service.send_email(message)
-      true -> Task.start(@email_service, :send_email, [message])
     end
   end
 

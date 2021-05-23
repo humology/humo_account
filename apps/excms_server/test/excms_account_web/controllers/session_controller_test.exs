@@ -1,6 +1,5 @@
 defmodule ExcmsAccountWeb.SessionControllerTest do
   use ExcmsServer.ConnCase, async: false
-  alias ExcmsAccountWeb.Mailer.VerifyEmail
 
   setup %{conn: conn} do
     user = insert(:user)
@@ -44,7 +43,7 @@ defmodule ExcmsAccountWeb.SessionControllerTest do
     conn = post(conn, routes().session_path(conn, :create), params)
     assert redirected_to(conn) == routes().verify_email_path(conn, :index)
 
-    assert_receive %VerifyEmail{to: ^email}
+    assert_receive %Bamboo.Email{to: ^email}
   end
 
   test "wrong password", %{conn: conn, user: user} do
