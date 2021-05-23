@@ -3,8 +3,8 @@ defmodule ExcmsAccountWeb.AuthService do
 
   alias ExcmsAccount.UsersService
   alias ExcmsAccount.UsersService.User
-  alias ExcmsMailWeb.Mailer.VerifyEmail
-  alias ExcmsMailWeb.Mailer.ResetPassword
+  alias ExcmsAccountWeb.Mailer.VerifyEmail
+  alias ExcmsAccountWeb.Mailer.ResetPassword
   import ExcmsCoreWeb.RouterHelpers
   alias ExcmsServer.Endpoint
 

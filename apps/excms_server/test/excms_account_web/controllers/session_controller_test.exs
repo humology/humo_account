@@ -1,16 +1,11 @@
 defmodule ExcmsAccountWeb.SessionControllerTest do
   use ExcmsServer.ConnCase, async: false
-  alias ExcmsMailWeb.MailerDummy
-  alias ExcmsMailWeb.Mailer.VerifyEmail
+  alias ExcmsAccountWeb.Mailer.VerifyEmail
 
   setup %{conn: conn} do
     user = insert(:user)
 
-    conn =
-      conn
-      |> put_req_header("accept-language", "en")
-
-    MailerDummy.test_init()
+    conn = put_req_header(conn, "accept-language", "en")
 
     %{conn: conn, user: user}
   end
@@ -49,7 +44,7 @@ defmodule ExcmsAccountWeb.SessionControllerTest do
     conn = post(conn, routes().session_path(conn, :create), params)
     assert redirected_to(conn) == routes().verify_email_path(conn, :index)
 
-    [{^email, %VerifyEmail{to: ^email}}] = MailerDummy.test_get_messages_by_email(email)
+    assert_receive %VerifyEmail{to: ^email}
   end
 
   test "wrong password", %{conn: conn, user: user} do

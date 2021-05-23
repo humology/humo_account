@@ -1,17 +1,12 @@
 defmodule ExcmsAccountWeb.ResetPasswordControllerTest do
   use ExcmsServer.ConnCase, async: false
-  alias ExcmsMailWeb.Mailer.ResetPassword
-  alias ExcmsMailWeb.MailerDummy
+  alias ExcmsAccountWeb.Mailer.ResetPassword
   alias ExcmsAccount.UsersService
 
   setup %{conn: conn} do
     user = insert(:user)
 
-    conn =
-      conn
-      |> put_req_header("accept-language", "en")
-
-    MailerDummy.test_init()
+    conn = put_req_header(conn, "accept-language", "en")
 
     %{conn: conn, user: user}
   end
@@ -36,18 +31,18 @@ defmodule ExcmsAccountWeb.ResetPasswordControllerTest do
     %{password_hash: password_hash} = UsersService.get_user_by_email(email)
     assert Bcrypt.verify_pass("password", password_hash)
 
-    conn =
-      conn
-      |> post(routes().reset_password_path(conn, :create), %{email: email})
+    conn = post(conn, routes().reset_password_path(conn, :create), %{email: email})
 
     assert html_response(conn, 200) =~ "reset password was sent"
 
-    [
-      {
-        ^email,
-        %ResetPassword{to: ^email, reset_password_url: reset_password_url}
-      }
-    ] = MailerDummy.test_get_messages_by_email(email)
+    reset_password_url =
+      receive do
+        %ResetPassword{to: ^email, reset_password_url: reset_password_url} ->
+          reset_password_url
+      after
+        200 ->
+          raise "Must receive ResetPassword"
+      end
 
     reset_password_prefix = routes().reset_password_path(conn, :edit, "")
     [_, token] = String.split(reset_password_url, reset_password_prefix)
@@ -58,9 +53,7 @@ defmodule ExcmsAccountWeb.ResetPasswordControllerTest do
     assert html_response(conn, 200) =~
              "<form action=\"#{reset_password_update}\" method=\"post\">"
 
-    conn =
-      conn
-      |> patch(reset_password_update, %{user: %{password: "new_password"}})
+    conn = patch(conn, reset_password_update, %{user: %{password: "new_password"}})
 
     user_id = user.id
     assert %{"user_id" => ^user_id} = get_session(conn)
@@ -74,12 +67,16 @@ defmodule ExcmsAccountWeb.ResetPasswordControllerTest do
   test "not registered", %{conn: conn} do
     email = "random@example.invalid"
 
-    conn =
-      conn
-      |> post(routes().reset_password_path(conn, :create), %{email: email})
+    conn = post(conn, routes().reset_password_path(conn, :create), %{email: email})
 
     assert html_response(conn, 200) =~ "reset password was sent"
 
-    [] = MailerDummy.test_get_messages_by_email(email)
+    receive do
+      %ResetPassword{to: ^email} ->
+        raise "Must not receive any email"
+    after
+      100 ->
+        :ok
+    end
   end
 end

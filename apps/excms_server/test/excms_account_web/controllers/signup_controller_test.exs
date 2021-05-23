@@ -1,16 +1,11 @@
 defmodule ExcmsAccountWeb.SignupControllerTest do
   use ExcmsServer.ConnCase, async: false
-  alias ExcmsMailWeb.MailerDummy
   alias ExcmsAccount.UsersService
 
   setup %{conn: conn} do
     user = insert(:user)
 
-    conn =
-      conn
-      |> put_req_header("accept-language", "en")
-
-    MailerDummy.test_init()
+    conn = put_req_header(conn, "accept-language", "en")
 
     %{conn: conn, user: user}
   end

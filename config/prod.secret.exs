@@ -41,7 +41,7 @@ config :excms_server, ExcmsServer.Endpoint,
 # See `mix help release` for more information.
 
 config :excms_account, :email,
-  service: ExcmsMailWeb.Mailer,
+  service: ExcmsAccountWeb.Mailer,
   async_send: true
 
 mailer_server = System.get_env("SMTP_SERVER") || raise "missing env SMTP_SERVER"
@@ -50,7 +50,7 @@ mailer_port = System.get_env("SMTP_PORT") || raise "missing env SMTP_PORT"
 mailer_username = System.get_env("SMTP_USERNAME") || raise "missing env SMTP_USERNAME"
 mailer_password = System.get_env("SMTP_PASSWORD") || raise "missing env SMTP_PASSWORD"
 
-config :excms_mail, ExcmsMailWeb.Mailer,
+config :excms_account, ExcmsAccountWeb.Mailer,
   server: mailer_server,
   hostname: mailer_hostname,
   port: mailer_port,

@@ -76,7 +76,7 @@ config :phoenix, :plug_init_mode, :runtime
 config :phoenix, :stacktrace_depth, 20
 
 config :excms_account, :email,
-  service: ExcmsMailWeb.Mailer,
+  service: ExcmsAccountWeb.Mailer,
   async_send: true
 
 mailer_server = System.get_env("DEV_SMTP_SERVER") || raise "missing env DEV_SMTP_SERVER"
@@ -85,7 +85,7 @@ mailer_port = System.get_env("DEV_SMTP_PORT") || raise "missing env DEV_SMTP_POR
 mailer_username = System.get_env("DEV_SMTP_USERNAME") || raise "missing env DEV_SMTP_USERNAME"
 mailer_password = System.get_env("DEV_SMTP_PASSWORD") || raise "missing env DEV_SMTP_PASSWORD"
 
-config :excms_mail, ExcmsMailWeb.Mailer,
+config :excms_account, ExcmsAccountWeb.Mailer,
   server: mailer_server,
   hostname: mailer_hostname,
   port: mailer_port,

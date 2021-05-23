@@ -48,8 +48,9 @@ defmodule ExcmsAccount.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:ex_machina, "~> 2.4", only: :test},
       {:bcrypt_elixir, "~> 2.0"},
-      {:excms_core, git: "git@github.com:excms/excms_core.git", sparse: "apps/excms_core"},
-      {:excms_mail, git: "git@github.com:excms/excms_mail.git", sparse: "apps/excms_mail"}
+      {:bamboo, "~> 1.5"},
+      {:bamboo_smtp, "~> 2.1.0"},
+      {:excms_core, git: "git@github.com:excms/excms_core.git", sparse: "apps/excms_core"}
     ]
   end
 

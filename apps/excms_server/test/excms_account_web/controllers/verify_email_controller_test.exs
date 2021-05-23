@@ -1,17 +1,12 @@
 defmodule ExcmsAccountWeb.VerifyEmailControllerTest do
   use ExcmsServer.ConnCase, async: false
-  alias ExcmsMailWeb.Mailer.VerifyEmail
-  alias ExcmsMailWeb.MailerDummy
+  alias ExcmsAccountWeb.Mailer.VerifyEmail
   alias ExcmsAccount.UsersService
 
   setup %{conn: conn} do
     user = insert(:user)
 
-    conn =
-      conn
-      |> put_req_header("accept-language", "en")
-
-    MailerDummy.test_init()
+    conn = put_req_header(conn, "accept-language", "en")
 
     %{conn: conn, user: user}
   end
@@ -33,12 +28,7 @@ defmodule ExcmsAccountWeb.VerifyEmailControllerTest do
 
     assert %{email_verified_at: nil} = UsersService.get_user_by_email(email)
 
-    [
-      {
-        ^email,
-        %VerifyEmail{to: ^email, email_verified_url: email_verified_url}
-      }
-    ] = MailerDummy.test_get_messages_by_email(email)
+    assert_receive %VerifyEmail{to: ^email, email_verified_url: email_verified_url}
 
     conn = get(conn, email_verified_url)
     assert html_response(conn, 200) =~ "Email was verified, now you can login"
