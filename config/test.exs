@@ -18,8 +18,7 @@ config :excms_server, ExcmsServer.Endpoint,
   http: [port: 4002],
   server: false
 
-config :excms_account, ExcmsAccountWeb.Mailer,
-  async: false
+config :excms_account, ExcmsAccountWeb.Mailer, async: false
 
 # Print only warnings and errors during test
 config :logger, level: :warn
