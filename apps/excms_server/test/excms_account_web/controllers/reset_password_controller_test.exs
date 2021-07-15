@@ -50,7 +50,7 @@ defmodule ExcmsAccountWeb.ResetPasswordControllerTest do
     user_id = user.id
     assert %{"user_id" => ^user_id} = get_session(conn)
 
-    assert redirected_to(conn) == routes().cms_user_path(conn, :index)
+    assert redirected_to(conn) == routes().dashboard_user_path(conn, :index)
 
     %{password_hash: password_hash} = UsersService.get_user_by_email(email)
     assert Bcrypt.verify_pass("new_password", password_hash)

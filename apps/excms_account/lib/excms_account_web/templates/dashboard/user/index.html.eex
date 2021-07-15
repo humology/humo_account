@@ -1,7 +1,7 @@
 <h3>Users</h3>
 
 <div class="mb-3">
-  <%= form_for @conn, routes().cms_user_path(@conn, :index), [method: "get", class: "form-row"], fn f -> %>
+  <%= form_for @conn, routes().dashboard_user_path(@conn, :index), [method: "get", class: "form-row"], fn f -> %>
     <div class="col-md-4 mb-2 mr-2">
       <%= text_input f, :search, class: "form-control",
           placeholder: "Search by email, full name or id",
@@ -32,9 +32,9 @@
         <td><%= user.inserted_at %></td>
 
         <td>
-          <%= permitted_link @conn, "Show", to: routes().cms_user_path(@conn, :show, user), class: "mr-1" %>
-          <%= permitted_link @conn, "Edit", to: routes().cms_user_path(@conn, :edit, user), class: "mr-1" %>
-          <%= permitted_link @conn, "Delete", to: routes().cms_user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"] %>
+          <%= permitted_link @conn, "Show", to: routes().dashboard_user_path(@conn, :show, user), class: "mr-1" %>
+          <%= permitted_link @conn, "Edit", to: routes().dashboard_user_path(@conn, :edit, user), class: "mr-1" %>
+          <%= permitted_link @conn, "Delete", to: routes().dashboard_user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"] %>
         </td>
       </tr>
     <% end %>
@@ -44,22 +44,22 @@
   <ul class="pagination">
     <%= if @page > 1 do %>
       <li class="page-item">
-        <%= link "First", to: routes().cms_user_path(@conn, :index,
+        <%= link "First", to: routes().dashboard_user_path(@conn, :index,
             search: @search, page: 1), class: "page-link" %>
       </li>
       <li class="page-item">
-        <%= link "Previous", to: routes().cms_user_path(@conn, :index,
+        <%= link "Previous", to: routes().dashboard_user_path(@conn, :index,
             search: @search, page: min(@page-1, @page_max)), class: "page-link" %>
       </li>
     <% end %>
     <li class="page-item"><a class="page-link" href="#"><%= @page %></a></li>
     <%= if @page < @page_max do %>
       <li class="page-item">
-        <%= link "Next", to: routes().cms_user_path(@conn, :index,
+        <%= link "Next", to: routes().dashboard_user_path(@conn, :index,
             search: @search, page: @page+1), class: "page-link" %>
       </li>
       <li class="page-item">
-        <%= link "Last", to: routes().cms_user_path(@conn, :index,
+        <%= link "Last", to: routes().dashboard_user_path(@conn, :index,
             search: @search, page: @page_max), class: "page-link" %>
       </li>
     <% end %>

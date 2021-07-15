@@ -1,0 +1,5 @@
+<h3 class="mt-5">Edit User</h3>
+
+<%= render "form.html", Map.put(assigns, :action, routes().dashboard_user_path(@conn, :update, @user)) %>
+
+<%= permitted_link @conn, "Back", to: routes().dashboard_user_path(@conn, :index) %>

@@ -1,4 +1,4 @@
-defmodule ExcmsAccountWeb.Cms.UserControllerTest do
+defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
   use ExcmsServer.ConnCase
 
   alias ExcmsAccount.UsersService
@@ -34,7 +34,7 @@ defmodule ExcmsAccountWeb.Cms.UserControllerTest do
 
   describe "index" do
     test "lists all user", %{conn: conn} do
-      conn = get(conn, routes().cms_user_path(conn, :index))
+      conn = get(conn, routes().dashboard_user_path(conn, :index))
       assert html_response(conn, 200) =~ "<h3>Users</h3>"
     end
   end
@@ -43,7 +43,7 @@ defmodule ExcmsAccountWeb.Cms.UserControllerTest do
     setup [:create_user]
 
     test "renders form for editing chosen user", %{conn: conn, user: user} do
-      conn = get(conn, routes().cms_user_path(conn, :edit, user))
+      conn = get(conn, routes().dashboard_user_path(conn, :edit, user))
       assert html_response(conn, 200) =~ "Edit User"
     end
   end
@@ -52,15 +52,15 @@ defmodule ExcmsAccountWeb.Cms.UserControllerTest do
     setup [:create_user]
 
     test "redirects when data is valid", %{conn: conn, user: user} do
-      conn = put(conn, routes().cms_user_path(conn, :update, user), user: @update_attrs)
-      assert redirected_to(conn) == routes().cms_user_path(conn, :show, user)
+      conn = put(conn, routes().dashboard_user_path(conn, :update, user), user: @update_attrs)
+      assert redirected_to(conn) == routes().dashboard_user_path(conn, :show, user)
 
-      conn = get(conn, routes().cms_user_path(conn, :show, user))
+      conn = get(conn, routes().dashboard_user_path(conn, :show, user))
       assert html_response(conn, 200) =~ "updated@test.invalid"
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
-      conn = put(conn, routes().cms_user_path(conn, :update, user), user: @invalid_attrs)
+      conn = put(conn, routes().dashboard_user_path(conn, :update, user), user: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit User"
     end
   end
@@ -69,11 +69,11 @@ defmodule ExcmsAccountWeb.Cms.UserControllerTest do
     setup [:create_user]
 
     test "deletes chosen user", %{conn: conn, user: user} do
-      conn = delete(conn, routes().cms_user_path(conn, :delete, user))
-      assert redirected_to(conn) == routes().cms_user_path(conn, :index)
+      conn = delete(conn, routes().dashboard_user_path(conn, :delete, user))
+      assert redirected_to(conn) == routes().dashboard_user_path(conn, :index)
 
       assert_error_sent 404, fn ->
-        get(conn, routes().cms_user_path(conn, :show, user))
+        get(conn, routes().dashboard_user_path(conn, :show, user))
       end
     end
   end

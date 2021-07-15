@@ -26,9 +26,9 @@ defmodule ExcmsAccountWeb.SessionControllerTest do
 
     user_id = user.id
     assert %{"user_id" => ^user_id} = get_session(conn)
-    assert redirected_to(conn) == routes().cms_user_path(conn, :index)
+    assert redirected_to(conn) == routes().dashboard_user_path(conn, :index)
 
-    conn = get(conn, routes().cms_user_path(conn, :index))
+    conn = get(conn, routes().dashboard_user_path(conn, :index))
     assert html_response(conn, 200)
 
     conn = delete(conn, routes().session_path(conn, :delete))

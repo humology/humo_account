@@ -1,4 +1,4 @@
-defmodule ExcmsAccountWeb.Cms.UserController do
+defmodule ExcmsAccountWeb.Dashboard.UserController do
   use ExcmsAccountWeb, :controller
 
   alias ExcmsAccount.UsersService
@@ -8,7 +8,7 @@ defmodule ExcmsAccountWeb.Cms.UserController do
   @page_size 50
 
   def rest_permissions(rest_action),
-    do: [Permission.new(User, rest_action), Permission.new(GlobalAccess, "cms")]
+    do: [Permission.new(User, rest_action), Permission.new(GlobalAccess, "dashboard")]
 
   def index(conn, params) do
     page = Map.get(params, "page", "1") |> String.to_integer()
@@ -40,7 +40,7 @@ defmodule ExcmsAccountWeb.Cms.UserController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User updated successfully.")
-        |> redirect(to: routes().cms_user_path(conn, :show, user))
+        |> redirect(to: routes().dashboard_user_path(conn, :show, user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", user: user, changeset: changeset)
@@ -53,6 +53,6 @@ defmodule ExcmsAccountWeb.Cms.UserController do
 
     conn
     |> put_flash(:info, "User deleted successfully.")
-    |> redirect(to: routes().cms_user_path(conn, :index))
+    |> redirect(to: routes().dashboard_user_path(conn, :index))
   end
 end

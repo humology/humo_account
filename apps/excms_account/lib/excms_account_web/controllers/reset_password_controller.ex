@@ -32,7 +32,7 @@ defmodule ExcmsAccountWeb.ResetPasswordController do
         conn
         |> put_session(:user_id, user.id)
         |> configure_session(renew: true)
-        |> redirect(to: routes().cms_user_path(conn, :index))
+        |> redirect(to: routes().dashboard_user_path(conn, :index))
 
       {:error, :failed} ->
         render(conn, "edit.html", token: token, changeset: nil)
