@@ -1,14 +1,11 @@
-defmodule ExcmsAccount.MixProject do
+defmodule ExcmsServer.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :excms_account,
+      app: :excms_server,
       version: "0.1.0",
-      build_path: "../../_build",
-      config_path: "../../config/config.exs",
-      deps_path: "../../deps",
-      lockfile: "../../mix.lock",
+      deps_path: "../deps",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -23,7 +20,7 @@ defmodule ExcmsAccount.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {ExcmsAccount.Application, []},
+      mod: {ExcmsServer.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -37,31 +34,25 @@ defmodule ExcmsAccount.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix_pubsub, "~> 2.0"},
-      {:ecto_sql, "~> 3.4"},
-      {:postgrex, ">= 0.0.0"},
-      {:jason, "~> 1.0"},
-      {:phoenix, "~> 1.5.3"},
-      {:phoenix_ecto, "~> 4.1"},
-      {:phoenix_html, "~> 2.11"},
-      {:gettext, "~> 0.11"},
-      {:plug_cowboy, "~> 2.0"},
-      {:ex_machina, "~> 2.4", only: :test},
-      {:bcrypt_elixir, "~> 2.0"},
-      {:bamboo, "~> 1.5"},
-      {:bamboo_smtp, "~> 2.1.0"},
-      {:excms_core, git: "git@github.com:excms/excms_core.git", sparse: "apps/excms_core"}
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_dashboard, "~> 0.2.0"},
+      {:telemetry_metrics, "~> 0.4"},
+      {:telemetry_poller, "~> 0.4"},
+      {:excms_account, path: "../"}
     ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
+  # For example, to install project dependencies and perform other setup tasks, run:
+  #
+  #     $ mix setup
   #
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      "setup.deps": ["deps.get"],
-      setup: ["ecto.setup", "excms.assets.setup"],
-      "ecto.setup": ["ecto.create", "excms.ecto.migrate", "run priv/repo/seeds.exs"],
+      "setup.deps": ["deps.get", "cmd elixir ../deps/excms_core/lib/deps.config.gen.exs"],
+      setup: ["cmd mix setup.deps", "ecto.setup", "cmd npm install --prefix assets"], #, "excms.assets.setup -g"],
+      "ecto.setup": ["ecto.create", "ecto.migrate"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "excms.ecto.migrate", "test"]
     ]
