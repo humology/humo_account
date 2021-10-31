@@ -1,13 +1,13 @@
 [
   {
     "force": false,
-    "from": "../../../deps/excms_core/assets/static",
+    "from": "../deps/excms_core/assets/static",
     "priority": 0,
     "to": "../"
   },
   {
     "force": true,
-    "from": "../../../apps/excms_account/assets/static",
+    "from": "../assets/static",
     "priority": 1,
     "to": "../"
   }
