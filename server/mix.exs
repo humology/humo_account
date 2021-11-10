@@ -55,7 +55,7 @@ defmodule ExcmsServer.MixProject do
       "deps.setup": ["deps.get", "cmd elixir ../deps/excms_core/lib/deps.config.gen.exs"],
       "rest.setup": ["ecto.setup", "assets.setup"],
       "assets.setup": ["excms.assets.gen", "excms.npm.install"],
-      "ecto.setup": ["ecto.create", "excms.ecto.migrate"],
+      "ecto.setup": ["ecto.create", "excms.ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "excms.ecto.migrate", "test"],
       "assets.deploy": ["esbuild default --minify", "phx.digest"]
