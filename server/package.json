@@ -1,7 +1,6 @@
 {
   "dependencies": {
-    "excms_account": "file:../",
-    "excms_core": "file:../deps/excms_core/"
+    "excms_account": "file:../"
   },
   "description": " ",
   "license": "Apache-2.0",
