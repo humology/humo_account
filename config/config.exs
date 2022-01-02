@@ -11,10 +11,10 @@ if Path.expand("#{Mix.env()}_deps.exs", __DIR__) |> File.exists?(), do:
   import_config "#{Mix.env()}_deps.exs"
 
 # Configures the endpoint
-config :excms_account, ExcmsAccount.Endpoint,
+config :excms_account, ExcmsAccountWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "jgjMNNV0mMjjqQVqsndA68SDM01N9gp1LwwV/pYZqrxECS7tbpj1ar8O9wifgh8O",
-  render_errors: [view: ExcmsAccount.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [view: ExcmsAccountWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: ExcmsAccount.PubSub,
   live_view: [signing_salt: "YsbwsVkA"]
 

@@ -1,4 +1,4 @@
-defmodule ExcmsAccount.Endpoint do
+defmodule ExcmsAccountWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :excms_account
 
   # The session will be stored in the cookie and signed,
@@ -50,5 +50,5 @@ defmodule ExcmsAccount.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug ExcmsAccount.Router
+  plug ExcmsAccountWeb.Router
 end

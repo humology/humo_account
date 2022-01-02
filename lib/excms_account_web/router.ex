@@ -1,4 +1,4 @@
-defmodule ExcmsAccount.Router do
+defmodule ExcmsAccountWeb.Router do
   use ExcmsAccountWeb, :router
 
   pipeline :browser do
@@ -40,7 +40,7 @@ defmodule ExcmsAccount.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: ExcmsAccount.Telemetry
+      live_dashboard "/dashboard", metrics: ExcmsAccountWeb.Telemetry
     end
   end
 end

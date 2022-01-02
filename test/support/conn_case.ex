@@ -28,7 +28,7 @@ defmodule ExcmsAccount.ConnCase do
       import ExcmsAccount.Factory
 
       # The default endpoint for testing
-      @endpoint ExcmsAccount.Endpoint
+      @endpoint ExcmsAccountWeb.Endpoint
     end
   end
 

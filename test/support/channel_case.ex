@@ -24,7 +24,7 @@ defmodule ExcmsAccount.ChannelCase do
       import ExcmsAccount.ChannelCase
 
       # The default endpoint for testing
-      @endpoint ExcmsAccount.Endpoint
+      @endpoint ExcmsAccountWeb.Endpoint
     end
   end
 
