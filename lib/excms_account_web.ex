@@ -71,9 +71,7 @@ defmodule ExcmsAccountWeb do
 
       import ExcmsAccountWeb.ErrorHelpers
       import ExcmsAccountWeb.Gettext
-      # excms insert
-      import ExcmsCoreWeb.RouterHelpers
-      # excms insert
+      import ExcmsCore, only: [routes: 0]
       import ExcmsCoreWeb.AccessViewHelpers
     end
   end

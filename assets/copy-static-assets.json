@@ -1,0 +1,8 @@
+[
+  {
+    "force": false,
+    "from": "deps/excms_core/assets/static",
+    "priority": 0,
+    "to": "../"
+  }
+]

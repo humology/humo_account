@@ -42,6 +42,11 @@ defmodule ExcmsAccount.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_dashboard, "~> 0.6"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 1.0"},
+      {:esbuild, "~> 0.3", runtime: Mix.env() == :dev},
       {:ex_machina, "~> 2.4", only: :test},
       {:bcrypt_elixir, "~> 2.0"},
       {:bamboo, "~> 1.5"},
@@ -58,11 +63,14 @@ defmodule ExcmsAccount.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      "setup.deps": ["deps.get"],
-      setup: ["ecto.setup"],
+      setup: ["cmd mix deps.setup", "cmd mix rest.setup"],
+      "deps.setup": ["deps.get", "cmd elixir ./deps/excms_core/lib/deps.config.gen.exs"],
+      "rest.setup": ["ecto.setup", "assets.setup"],
+      "assets.setup": ["excms.assets.gen", "excms.npm.install"],
       "ecto.setup": ["ecto.create", "excms.ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "excms.ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "excms.ecto.migrate", "test"],
+      "assets.deploy": ["esbuild default --minify", "phx.digest"]
     ]
   end
 end

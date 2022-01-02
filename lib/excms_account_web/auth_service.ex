@@ -5,8 +5,7 @@ defmodule ExcmsAccountWeb.AuthService do
   alias ExcmsAccount.UsersService.User
   alias ExcmsAccountWeb.Mailer.VerifyEmail
   alias ExcmsAccountWeb.Mailer.ResetPassword
-  import ExcmsCoreWeb.RouterHelpers
-  alias ExcmsServer.Endpoint
+  import ExcmsCore, only: [routes: 0]
   alias ExcmsAccountWeb.Mailer
 
   @auth Application.compile_env!(:excms_account, __MODULE__)
@@ -88,7 +87,7 @@ defmodule ExcmsAccountWeb.AuthService do
     with {:ok, email, token} <- get_token(email) do
       Mailer.send_email(%VerifyEmail{
         to: email,
-        email_verified_url: routes().verify_email_url(Endpoint, :edit, token)
+        email_verified_url: routes().verify_email_url(ExcmsCore.endpoint(), :edit, token)
       })
     end
   end
@@ -97,7 +96,7 @@ defmodule ExcmsAccountWeb.AuthService do
     with {:ok, email, token} <- get_token(email) do
       Mailer.send_email(%ResetPassword{
         to: email,
-        reset_password_url: routes().reset_password_url(Endpoint, :edit, token)
+        reset_password_url: routes().reset_password_url(ExcmsCore.endpoint(), :edit, token)
       })
     end
   end
