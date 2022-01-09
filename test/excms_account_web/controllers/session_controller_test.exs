@@ -1,5 +1,5 @@
 defmodule ExcmsAccountWeb.SessionControllerTest do
-  use ExcmsAccount.ConnCase, async: false
+  use ExcmsAccountWeb.ConnCase, async: false
 
   setup %{conn: conn} do
     user = insert(:user)

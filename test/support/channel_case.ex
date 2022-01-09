@@ -1,4 +1,4 @@
-defmodule ExcmsAccount.ChannelCase do
+defmodule ExcmsAccountWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -11,7 +11,7 @@ defmodule ExcmsAccount.ChannelCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use ExcmsAccount.ChannelCase, async: true`, although
+  by setting `use ExcmsAccountWeb.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -21,7 +21,7 @@ defmodule ExcmsAccount.ChannelCase do
     quote do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
-      import ExcmsAccount.ChannelCase
+      import ExcmsAccountWeb.ChannelCase
 
       # The default endpoint for testing
       @endpoint ExcmsAccountWeb.Endpoint

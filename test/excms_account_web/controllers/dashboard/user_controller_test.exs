@@ -1,5 +1,5 @@
 defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
-  use ExcmsAccount.ConnCase
+  use ExcmsAccountWeb.ConnCase
 
   alias ExcmsAccount.UsersService
 
