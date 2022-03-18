@@ -32,9 +32,15 @@
         <td><%= user.inserted_at %></td>
 
         <td>
-          <%= permitted_link @conn, "Show", to: routes().dashboard_user_path(@conn, :show, user), class: "mr-1" %>
-          <%= permitted_link @conn, "Edit", to: routes().dashboard_user_path(@conn, :edit, user), class: "mr-1" %>
-          <%= permitted_link @conn, "Delete", to: routes().dashboard_user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"] %>
+          <%= can_link Plug.Conn.assign(@conn, :user, user), "Show",
+                       to: routes().dashboard_user_path(@conn, :show, user),
+                       class: "mr-1" %>
+          <%= can_link Plug.Conn.assign(@conn, :user, user), "Edit",
+                       to: routes().dashboard_user_path(@conn, :edit, user),
+                       class: "mr-1" %>
+          <%= can_link Plug.Conn.assign(@conn, :user, user), "Delete",
+                       to: routes().dashboard_user_path(@conn, :delete, user),
+                       method: :delete, data: [confirm: "Are you sure?"] %>
         </td>
       </tr>
     <% end %>

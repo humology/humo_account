@@ -7,12 +7,10 @@ defmodule ExcmsAccountWeb.Profile.UserPasswordControllerTest do
 
     params = %{email: user.email, password: "password"}
 
-    conn =
-      conn
-      |> put_req_header("accept-language", "en")
-      |> post(routes().session_path(conn, :create), params)
+    authenticated_conn =
+      post(conn, routes().session_path(conn, :create), params)
 
-    %{conn: conn, user: user}
+    %{conn: authenticated_conn, user: user}
   end
 
   test "edit", %{conn: conn, user: user} do

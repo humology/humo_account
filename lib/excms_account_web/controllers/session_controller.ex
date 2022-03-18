@@ -3,6 +3,18 @@ defmodule ExcmsAccountWeb.SessionController do
 
   alias ExcmsAccountWeb.AuthService
 
+  use ExcmsCoreWeb.AuthorizeControllerHelpers,
+    resource_module: User,
+    resource_assign_key: :current_user
+
+  def can?(conn, phoenix_action) when phoenix_action in [:new, :create] do
+    is_nil(conn.assigns[:current_user])
+  end
+
+  def can?(conn, :delete) do
+    !is_nil(conn.assigns[:current_user])
+  end
+
   def new(conn, _) do
     render(conn, "new.html")
   end
@@ -30,6 +42,7 @@ defmodule ExcmsAccountWeb.SessionController do
 
   def delete(conn, _) do
     conn
+    |> clear_session()
     |> configure_session(drop: true)
     |> redirect(to: "/")
   end

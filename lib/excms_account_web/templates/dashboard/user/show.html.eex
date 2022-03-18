@@ -28,5 +28,7 @@
   </span>
 </div>
 
-<%= permitted_link @conn, "Edit", to: routes().dashboard_user_path(@conn, :edit, @user), class: "mr-1" %>
-<%= permitted_link @conn, "Back", to: routes().dashboard_user_path(@conn, :index) %>
+<%= can_link Plug.Conn.assign(@conn, :user, @user), "Edit",
+             to: routes().dashboard_user_path(@conn, :edit, @user),
+             class: "mr-1" %>
+<%= can_link @conn, "Back", to: routes().dashboard_user_path(@conn, :index) %>

@@ -11,6 +11,7 @@ config :excms_core, :plugins,
       %{title: "Users", route: :dashboard_user_path, action: :index}
     ],
     account_links: [
+      %{title: "Login", route: :session_path, action: :new},
       %{title: "Profile", route: :profile_user_path, action: :show},
       %{title: "Logout", route: :session_path, action: :delete, method: :delete}
     ]

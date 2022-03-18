@@ -7,18 +7,19 @@ defmodule ExcmsAccount.UsersService do
   alias ExcmsCore.Repo
 
   alias ExcmsAccount.UsersService.User
+  alias ExcmsCore.Authorizer
 
   @doc """
   Returns list of users by page, size and optional search query.
 
   ## Examples
 
-      iex> page_users(page, size, search)
+      iex> page_users(authorization, page, size, search)
       [%User{}, ...]
 
   """
-  def page_users(page, size, search) do
-    User
+  def page_users(authorization, page, size, search) do
+    Authorizer.can_all(authorization, "read", User)
     |> match_search(search)
     |> sort_by_inserted_at()
     |> paginate(page, size)
@@ -30,12 +31,12 @@ defmodule ExcmsAccount.UsersService do
 
   ## Examples
 
-      iex> count_users(search)
+      iex> count_users(authorization, search)
       3
 
   """
-  def count_users(search) do
-    User
+  def count_users(authorization, search) do
+    Authorizer.can_all(authorization, "read", User)
     |> match_search(search)
     |> do_count_users()
   end

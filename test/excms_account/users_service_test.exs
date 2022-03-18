@@ -3,6 +3,9 @@ defmodule ExcmsAccount.UsersServiceTest do
 
   alias ExcmsAccount.UsersService
   alias ExcmsAccount.UsersService.User
+  alias ExcmsCore.Authorizer.Mock
+  alias ExcmsCore.Authorizer.AllAccess
+  alias ExcmsCore.Authorizer.NoAccess
 
   @valid_attrs %{
     email: "some@teST.invalid",
@@ -25,42 +28,129 @@ defmodule ExcmsAccount.UsersServiceTest do
     current_password: nil
   }
 
-  describe "user" do
-    test "page_users/3 returns paginated users by optional search query" do
-      user = UsersService.get_user!(insert(:user).id)
-      user2 = UsersService.get_user!(insert(:user).id)
-      user3 = UsersService.get_user!(insert(:user).id)
+  describe "page_users/4" do
+    setup do
+      user = insert(:user, inserted_at: ~N[2022-03-15 00:00:00])
+      user2 = insert(:user, email: "user2@example.invalid", inserted_at: ~N[2022-03-16 00:00:00])
+      user3 = insert(:user, email: "user3@example.invalid", inserted_at: ~N[2022-03-17 00:00:00])
 
-      assert UsersService.page_users(1, 2, nil) == [user3, user2]
-      assert UsersService.page_users(2, 2, nil) == [user]
-      assert UsersService.page_users(1, 5, user.email) == [user]
-      assert UsersService.page_users(1, 5, user.id) == [user]
-      assert UsersService.page_users(1, 5, "some wrong search query") == []
+      %{user: user, user2: user2, user3: user3}
     end
 
-    test "count_users/1 returns user count by optional search query" do
+    test "without access returns no users" do
+      fn ->
+        assert UsersService.page_users(nil, 1, 2, nil) == []
+      end
+      |> Mock.with_mock(can_all: &NoAccess.can_all/3)
+    end
+
+    test "returns 2 users on 1st page", %{user2: user2, user3: user3} do
+      fn ->
+        assert UsersService.page_users(nil, 1, 2, nil) == [user3, user2]
+      end
+      |> Mock.with_mock(can_all: &AllAccess.can_all/3)
+    end
+
+    test "returns 1 user on 2nd page", %{user: user} do
+      fn ->
+        assert UsersService.page_users(nil, 2, 2, nil) == [user]
+      end
+      |> Mock.with_mock(can_all: &AllAccess.can_all/3)
+    end
+
+    test "finds user by email", %{user: user} do
+      fn ->
+        assert UsersService.page_users(nil, 1, 5, user.email) == [user]
+      end
+      |> Mock.with_mock(can_all: &AllAccess.can_all/3)
+    end
+
+    test "finds user by id", %{user: user} do
+      fn ->
+        assert UsersService.page_users(nil, 1, 5, user.id) == [user]
+      end
+      |> Mock.with_mock(can_all: &AllAccess.can_all/3)
+    end
+
+    test "cannot find user by query" do
+      fn ->
+        assert UsersService.page_users(nil, 1, 5, "wrong search") == []
+      end
+      |> Mock.with_mock(can_all: &AllAccess.can_all/3)
+    end
+  end
+
+  describe "count_users/2" do
+    setup do
       user = insert(:user)
-      insert(:user)
-
-      assert UsersService.count_users(nil) == 2
-      assert UsersService.count_users(user.email) == 1
-      assert UsersService.count_users(user.id) == 1
-      assert UsersService.count_users("some wrong search query") == 0
+      insert(:user, email: "user2@example.invalid")
+      %{user: user}
     end
 
-    test "get_user!/1 returns a user" do
-      user = UsersService.get_user!(insert(:user).id)
+    test "without access returns 0" do
+      fn ->
+        assert UsersService.count_users(nil, nil) == 0
+      end
+      |> Mock.with_mock(can_all: &NoAccess.can_all/3)
+    end
+
+    test "with all access returns 2" do
+      fn ->
+        assert UsersService.count_users(nil, nil) == 2
+      end
+      |> Mock.with_mock(can_all: &AllAccess.can_all/3)
+    end
+
+    test "when email matches, returns 1", %{user: user} do
+      fn ->
+        assert UsersService.count_users(nil, user.email) == 1
+      end
+      |> Mock.with_mock(can_all: &AllAccess.can_all/3)
+    end
+
+    test "when id matches, returns 1", %{user: user} do
+      fn ->
+        assert UsersService.count_users(nil, user.id) == 1
+      end
+      |> Mock.with_mock(can_all: &AllAccess.can_all/3)
+    end
+
+    test "when query doesn't match, returns 0" do
+      fn ->
+        assert UsersService.count_users(nil, "wrong query") == 0
+      end
+      |> Mock.with_mock(can_all: &AllAccess.can_all/3)
+    end
+  end
+
+  describe "get_user!/1" do
+    test "returns existing user by id" do
+      user = insert(:user)
 
       assert user == UsersService.get_user!(user.id)
     end
 
-    test "get_user_by_email/1 returns a user by email" do
-      user = UsersService.get_user!(insert(:user).id)
+    test "when cannot find user by id, raises error" do
+      assert_raise Ecto.NoResultsError, fn ->
+        UsersService.get_user!(Ecto.UUID.generate())
+      end
+    end
+  end
+
+  describe "get_user_by_email/1" do
+    test "returns existing user by email" do
+      user = insert(:user)
 
       assert user == UsersService.get_user_by_email(user.email)
     end
 
-    test "create_user/1 with valid data creates a user" do
+    test "when cannot find user by email, returns nil" do
+      refute UsersService.get_user_by_email("wrong@example.invalid")
+    end
+  end
+
+  describe "create_user/1" do
+    test "with valid data creates user" do
       assert {:ok, %User{} = user} = UsersService.create_user(@valid_attrs)
       assert user.email == "some@test.invalid"
       assert user.first_name == "some first_name"
@@ -68,11 +158,13 @@ defmodule ExcmsAccount.UsersServiceTest do
       assert Bcrypt.verify_pass("some password", user.password_hash)
     end
 
-    test "create_user/1 with invalid data returns error changeset" do
+    test "with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = UsersService.create_user(@invalid_attrs)
     end
+  end
 
-    test "update_user/2 with valid data updates the user" do
+  describe "update_user/2" do
+    test "with valid data updates user" do
       user = insert(:user)
       assert {:ok, %User{} = user} = UsersService.update_user(user, @update_attrs)
       assert user.email == "updated@test.invalid"
@@ -81,13 +173,15 @@ defmodule ExcmsAccount.UsersServiceTest do
       refute Bcrypt.verify_pass("updated password", user.password_hash)
     end
 
-    test "update_user/2 with invalid data returns error changeset" do
-      user = UsersService.get_user!(insert(:user).id)
+    test "with invalid data returns error changeset" do
+      user = insert(:user)
       assert {:error, %Ecto.Changeset{}} = UsersService.update_user(user, @invalid_attrs)
       assert user == UsersService.get_user!(user.id)
     end
+  end
 
-    test "update_user_profile/2 with valid data updates the user" do
+  describe "update_user_profile/2" do
+    test "with valid data updates user profile" do
       user = insert(:user)
       assert {:ok, %User{} = user} = UsersService.update_user_profile(user, @update_attrs)
       refute user.email == "updated@test.invalid"
@@ -96,13 +190,15 @@ defmodule ExcmsAccount.UsersServiceTest do
       refute Bcrypt.verify_pass("updated password", user.password_hash)
     end
 
-    test "update_user_profile/2 with invalid data returns error changeset" do
-      user = UsersService.get_user!(insert(:user).id)
+    test "with invalid data returns error changeset" do
+      user = insert(:user)
       assert {:error, %Ecto.Changeset{}} = UsersService.update_user_profile(user, @invalid_attrs)
       assert user == UsersService.get_user!(user.id)
     end
+  end
 
-    test "update_user_reset_password/2 with valid data updates the user" do
+  describe "update_user_reset_password/2" do
+    test "with valid data updates user password" do
       user = insert(:user)
       assert {:ok, %User{} = user} = UsersService.update_user_reset_password(user, @update_attrs)
       refute user.email == "updated@test.invalid"
@@ -111,22 +207,26 @@ defmodule ExcmsAccount.UsersServiceTest do
       assert Bcrypt.verify_pass("updated password", user.password_hash)
     end
 
-    test "update_user_reset_password/2 with invalid data returns error changeset" do
-      user = UsersService.get_user!(insert(:user).id)
+    test "with invalid data returns error changeset" do
+      user = insert(:user)
 
       assert {:error, %Ecto.Changeset{}} =
                UsersService.update_user_reset_password(user, @invalid_attrs)
 
       assert user == UsersService.get_user!(user.id)
     end
+  end
 
-    test "update_user_email_verified/1 with valid data updates the user" do
+  describe "update_user_email_verified/1" do
+    test "sets email verified" do
       user = insert(:user)
       assert {:ok, %User{} = user} = UsersService.update_user_email_verified(user)
       assert user.email_verified_at
     end
+  end
 
-    test "update_user_password/2 with valid data updates the user" do
+  describe "update_user_password/2" do
+    test "with valid data updates user's password" do
       user = insert(:user)
       assert {:ok, %User{} = user} = UsersService.update_user_password(user, @update_attrs)
       refute user.email == "updated@test.invalid"
@@ -135,7 +235,7 @@ defmodule ExcmsAccount.UsersServiceTest do
       assert Bcrypt.verify_pass("updated password", user.password_hash)
     end
 
-    test "update_user_password/2 with wrong current password returns error changeset" do
+    test "when current password is wrong, returns error changeset" do
       user = insert(:user)
       attrs = %{@update_attrs | current_password: "wrong password"}
       assert {:error, %Ecto.Changeset{}} = UsersService.update_user_password(user, attrs)
@@ -148,13 +248,15 @@ defmodule ExcmsAccount.UsersServiceTest do
       refute Bcrypt.verify_pass("updated password", user.password_hash)
     end
 
-    test "update_user_password/2 with invalid data returns error changeset" do
-      user = UsersService.get_user!(insert(:user).id)
+    test "with invalid data returns error changeset" do
+      user = insert(:user)
       assert {:error, %Ecto.Changeset{}} = UsersService.update_user_password(user, @invalid_attrs)
       assert user == UsersService.get_user!(user.id)
     end
+  end
 
-    test "update_user_email/2 with valid data updates the user" do
+  describe "update_user_email/2" do
+    test "with valid data updates the user" do
       user = insert(:user)
       assert {:ok, %User{} = user} = UsersService.update_user_email(user, @update_attrs)
       assert user.email == "updated@test.invalid"
@@ -163,13 +265,15 @@ defmodule ExcmsAccount.UsersServiceTest do
       refute Bcrypt.verify_pass("updated password", user.password_hash)
     end
 
-    test "update_user_email/2 with invalid data returns error changeset" do
-      user = UsersService.get_user!(insert(:user).id)
+    test "with invalid data returns error changeset" do
+      user = insert(:user)
       assert {:error, %Ecto.Changeset{}} = UsersService.update_user_email(user, @invalid_attrs)
       assert user == UsersService.get_user!(user.id)
     end
+  end
 
-    test "delete_user/1 deletes user" do
+  describe "delete_user/1" do
+    test "deletes user" do
       user = insert(:user)
 
       UsersService.delete_user(user)
@@ -178,8 +282,10 @@ defmodule ExcmsAccount.UsersServiceTest do
         UsersService.get_user!(user.id)
       end
     end
+  end
 
-    test "change_user/1 returns a user changeset" do
+  describe "change_user/1" do
+    test "returns user changeset" do
       user = insert(:user)
       assert %Ecto.Changeset{} = UsersService.change_user(user)
     end

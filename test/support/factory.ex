@@ -1,16 +1,14 @@
 defmodule ExcmsAccount.Factory do
-  use ExMachina.Ecto, repo: ExcmsCore.Repo
-
   alias ExcmsAccount.UsersService.User
+  alias ExcmsCore.Repo
 
-  def user_factory do
+  def insert(:user, params \\ []) do
     %User{
       first_name: "Jane",
       last_name: "Smith",
-      email: sequence(:email, &"email-#{&1}@example.invalid"),
+      email: "jane-smith@example.invalid",
       email_verified_at: DateTime.utc_now(),
-      password_hash: Bcrypt.hash_pwd_salt("password"),
-      inserted_at: DateTime.utc_now() |> DateTime.add(sequence(:user_inserted_at, & &1), :second)
-    }
+      password_hash: Bcrypt.hash_pwd_salt("password")
+    } |> Ecto.Changeset.change(params) |> Repo.insert!()
   end
 end

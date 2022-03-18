@@ -2,6 +2,14 @@ defmodule ExcmsAccountWeb.Profile.UserController do
   use ExcmsAccountWeb, :controller
   alias ExcmsAccount.UsersService
 
+  use ExcmsCoreWeb.AuthorizeControllerHelpers,
+    resource_module: User,
+    resource_assign_key: :current_user
+
+  def can?(conn, _phoenix_action) do
+    !is_nil(conn.assigns[:current_user])
+  end
+
   def show(conn, _params) do
     render(conn, "show.html")
   end

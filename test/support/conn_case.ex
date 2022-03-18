@@ -25,6 +25,7 @@ defmodule ExcmsAccountWeb.ConnCase do
       import ExcmsAccountWeb.ConnCase
 
       import ExcmsCoreWeb, only: [routes: 0]
+
       import ExcmsAccount.Factory
 
       # The default endpoint for testing

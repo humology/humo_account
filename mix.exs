@@ -47,11 +47,10 @@ defmodule ExcmsAccount.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:esbuild, "~> 0.3", runtime: Mix.env() == :dev},
-      {:ex_machina, "~> 2.4", only: :test},
-      {:bcrypt_elixir, "~> 2.0"},
+      {:bcrypt_elixir, "~> 3.0"},
       {:bamboo, "~> 1.5"},
       {:bamboo_smtp, "~> 2.1.0"},
-      {:excms_core, git: "git@github.com:excms/excms_core.git", branch: "experiment-no-umbrella"}
+      {:excms_core, git: "git@github.com:excms/excms_core.git"}
     ]
   end
 

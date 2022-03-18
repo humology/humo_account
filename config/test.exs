@@ -18,5 +18,14 @@ config :excms_account, ExcmsAccountWeb.Endpoint,
   http: [port: 4002],
   server: false
 
+config :bcrypt_elixir, log_rounds: 4
+
+config :excms_core, ExcmsCore.Authorizer,
+  authorizer: ExcmsCore.Authorizer.Mock
+
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :excms_account, ExcmsAccountWeb.Mailer,
+  sender: ExcmsAccountWeb.Mailer.SenderDummy,
+  async: false
