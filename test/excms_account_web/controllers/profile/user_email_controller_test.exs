@@ -1,5 +1,5 @@
 defmodule ExcmsAccountWeb.Profile.UserEmailControllerTest do
-  use ExcmsAccountWeb.ConnCase, async: false
+  use ExcmsAccountWeb.ConnCase, async: true
   alias ExcmsAccount.UsersService
 
   setup %{conn: conn} do

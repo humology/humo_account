@@ -1,5 +1,5 @@
 defmodule ExcmsAccountWeb.PageControllerTest do
-  use ExcmsAccountWeb.ConnCase
+  use ExcmsAccountWeb.ConnCase, async: true
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")

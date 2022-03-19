@@ -1,5 +1,5 @@
 defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
-  use ExcmsAccountWeb.ConnCase
+  use ExcmsAccountWeb.ConnCase, async: true
 
   alias ExcmsAccount.UsersService
   alias ExcmsAccount.UsersService.User
@@ -44,7 +44,7 @@ defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
           can_all: fn _, "read", User -> User end,
           can_actions: fn
             _, %User{} -> resource_can_actions
-            _, User -> ["read"]
+            _, {:list, User} -> ["read"]
           end
         )
       end
@@ -76,29 +76,17 @@ defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
 
   describe "edit" do
     test "renders user edit form with allowed links", %{conn: conn, user: user} do
-      for module_can_actions <- [["read"], []] do
+      for list_module_can_actions <- [["read"], []] do
         fn ->
           conn = get(conn, routes().dashboard_user_path(conn, :edit, user))
           assert html_response(conn, 200) =~ "Edit User"
-          assert (html_response(conn, 200) =~ "Back") == ("read" in module_can_actions)
+          assert (html_response(conn, 200) =~ "Back") == ("read" in list_module_can_actions)
         end
         |> Mock.with_mock(can_actions: fn
           _, %User{} -> ["update"]
-          _, User -> module_can_actions
+          _, {:list, User} -> list_module_can_actions
         end)
       end
-    end
-
-    test "no access to index", %{conn: conn, user: user} do
-      fn ->
-        conn = get(conn, routes().dashboard_user_path(conn, :edit, user))
-        assert html_response(conn, 200) =~ "Edit User"
-        refute html_response(conn, 200) =~ "Back"
-      end
-      |> Mock.with_mock(can_actions: fn
-        _, %User{} -> ["update"]
-        _, User -> []
-      end)
     end
 
     test "no access", %{conn: conn, user: user} do
@@ -134,15 +122,15 @@ defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
   describe "show" do
     test "renders show available actions", %{conn: conn, user: user} do
       for record_can_actions <- [["read", "update"], ["read"]],
-          module_can_actions <- [["read"], []] do
+          list_module_can_actions <- [["read"], []] do
         fn ->
           conn = get(conn, routes().dashboard_user_path(conn, :show, user))
           assert (html_response(conn, 200) =~ "Edit") == ("update" in record_can_actions)
-          assert (html_response(conn, 200) =~ "Back") == ("read" in module_can_actions)
+          assert (html_response(conn, 200) =~ "Back") == ("read" in list_module_can_actions)
         end
         |> Mock.with_mock(can_actions: fn
           _, %User{} -> record_can_actions
-          _, User -> module_can_actions
+          _, {:list, User} -> list_module_can_actions
         end)
       end
     end

@@ -1,5 +1,5 @@
 defmodule ExcmsAccount.UsersServiceTest do
-  use ExcmsAccount.DataCase
+  use ExcmsAccount.DataCase, async: true
 
   alias ExcmsAccount.UsersService
   alias ExcmsAccount.UsersService.User

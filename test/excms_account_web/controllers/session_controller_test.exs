@@ -1,5 +1,5 @@
 defmodule ExcmsAccountWeb.SessionControllerTest do
-  use ExcmsAccountWeb.ConnCase, async: false
+  use ExcmsAccountWeb.ConnCase, async: true
   alias ExcmsCore.Authorizer.AllAccess
   alias ExcmsCore.Authorizer.Mock
 
