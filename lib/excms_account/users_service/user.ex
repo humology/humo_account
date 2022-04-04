@@ -5,7 +5,7 @@ defmodule ExcmsAccount.UsersService.User do
   @primary_key {:id, :binary_id, autogenerate: true}
   @derive {Inspect, only: [:id]}
 
-  schema "users" do
+  schema "excms_account_users" do
     field :first_name, :string
     field :last_name, :string
     field :email, :string
