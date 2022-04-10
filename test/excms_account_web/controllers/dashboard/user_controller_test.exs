@@ -117,6 +117,14 @@ defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
       end
       |> Mock.with_mock(can_actions: &AllAccess.can_actions/2)
     end
+
+    test "no access", %{conn: conn, user: user} do
+      fn ->
+        conn = put(conn, routes().dashboard_user_path(conn, :update, user), user: @update_attrs)
+        assert response(conn, 403) =~ "Forbidden"
+      end
+      |> Mock.with_mock(can_actions: &NoAccess.can_actions/2)
+    end
   end
 
   describe "show" do
