@@ -74,7 +74,7 @@ defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
     end
   end
 
-  describe "edit" do
+  describe "edit user" do
     test "renders user edit form with allowed links", %{conn: conn, user: user} do
       for list_module_can_actions <- [["read"], []] do
         fn ->
@@ -104,10 +104,12 @@ defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
         conn = put(conn, routes().dashboard_user_path(conn, :update, user), user: @update_attrs)
         assert redirected_to(conn) == routes().dashboard_user_path(conn, :show, user)
 
-        conn = get(conn, routes().dashboard_user_path(conn, :show, user))
-        assert html_response(conn, 200) =~ "updated@test.invalid"
+        user = UsersService.get_user!(user.id)
+        assert "updated@test.invalid" = user.email
       end
-      |> Mock.with_mock(can_actions: &AllAccess.can_actions/2)
+      |> Mock.with_mock(can_actions: fn
+        _, %User{} -> ["update"]
+      end)
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
