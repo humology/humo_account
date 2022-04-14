@@ -34,11 +34,13 @@ defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
       for resource_can_actions <- [[], ["read"], ["update"], ["delete"], ["read", "update", "delete"]] do
         fn ->
           conn = get(conn, routes().dashboard_user_path(conn, :index))
-          assert html_response(conn, 200) =~ "<h3>Users</h3>"
-          assert html_response(conn, 200) =~ @create_attrs.first_name
-          assert (html_response(conn, 200) =~ "Show") == ("read" in resource_can_actions)
-          assert (html_response(conn, 200) =~ "Edit") == ("update" in resource_can_actions)
-          assert (html_response(conn, 200) =~ "Delete") == ("delete" in resource_can_actions)
+
+          response = html_response(conn, 200)
+          assert response =~ "<h3>Users</h3>"
+          assert response =~ @create_attrs.first_name
+          assert (response =~ "Show") == ("read" in resource_can_actions)
+          assert (response =~ "Edit") == ("update" in resource_can_actions)
+          assert (response =~ "Delete") == ("delete" in resource_can_actions)
         end
         |> Mock.with_mock(
           can_all: fn _, "read", User -> User end,
@@ -53,11 +55,13 @@ defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
     test "when list of record is empty, renders no user", %{conn: conn} do
       fn ->
         conn = get(conn, routes().dashboard_user_path(conn, :index))
-        assert html_response(conn, 200) =~ "<h3>Users</h3>"
-        refute html_response(conn, 200) =~ @create_attrs.first_name
-        refute html_response(conn, 200) =~ "Show"
-        refute html_response(conn, 200) =~ "Edit"
-        refute html_response(conn, 200) =~ "Delete"
+
+        response = html_response(conn, 200)
+        assert response =~ "<h3>Users</h3>"
+        refute response =~ @create_attrs.first_name
+        refute response =~ "Show"
+        refute response =~ "Edit"
+        refute response =~ "Delete"
       end
       |> Mock.with_mock(
         can_all: fn _, "read", User -> ExcmsCore.Repo.none(User) end,
@@ -79,8 +83,10 @@ defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
       for list_module_can_actions <- [["read"], []] do
         fn ->
           conn = get(conn, routes().dashboard_user_path(conn, :edit, user))
-          assert html_response(conn, 200) =~ "Edit User"
-          assert (html_response(conn, 200) =~ "Back") == ("read" in list_module_can_actions)
+
+          response = html_response(conn, 200)
+          assert response =~ "Edit User"
+          assert (response =~ "Back") == ("read" in list_module_can_actions)
         end
         |> Mock.with_mock(can_actions: fn
           _, %User{} -> ["update"]
@@ -135,8 +141,10 @@ defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
           list_module_can_actions <- [["read"], []] do
         fn ->
           conn = get(conn, routes().dashboard_user_path(conn, :show, user))
-          assert (html_response(conn, 200) =~ "Edit") == ("update" in record_can_actions)
-          assert (html_response(conn, 200) =~ "Back") == ("read" in list_module_can_actions)
+
+          response = html_response(conn, 200)
+          assert (response =~ "Edit") == ("update" in record_can_actions)
+          assert (response =~ "Back") == ("read" in list_module_can_actions)
         end
         |> Mock.with_mock(can_actions: fn
           _, %User{} -> record_can_actions
