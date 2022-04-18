@@ -1,3 +1,3 @@
-defmodule ExcmsAccountWeb.Dashboard.UserView do
-  use ExcmsAccountWeb, :view
+defmodule HumoAccountWeb.Dashboard.UserView do
+  use HumoAccountWeb, :view
 end

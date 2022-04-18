@@ -1,5 +1,5 @@
-defmodule ExcmsAccountWeb.Mailer.Sender do
-  alias ExcmsAccountWeb.Mailer
+defmodule HumoAccountWeb.Mailer.Sender do
+  alias HumoAccountWeb.Mailer
 
   @doc "Send message"
   def send_email(%Bamboo.Email{} = mail) do

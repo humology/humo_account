@@ -1,6 +1,6 @@
-defmodule ExcmsAccountWeb.AssignUserPlug do
+defmodule HumoAccountWeb.AssignUserPlug do
   import Plug.Conn
-  alias ExcmsAccountWeb.AuthService
+  alias HumoAccountWeb.AuthService
 
   def init(defaults), do: defaults
 

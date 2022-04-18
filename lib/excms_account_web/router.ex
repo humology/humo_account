@@ -1,5 +1,5 @@
-defmodule ExcmsAccountWeb.Router do
-  use ExcmsAccountWeb, :router
+defmodule HumoAccountWeb.Router do
+  use HumoAccountWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -8,23 +8,23 @@ defmodule ExcmsAccountWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
 
-    use ExcmsCoreWeb.BrowserPlugs, otp_app: :excms_account
+    use HumoWeb.BrowserPlugs, otp_app: :humo_account
   end
 
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  scope "/", ExcmsAccountWeb do
+  scope "/", HumoAccountWeb do
     pipe_through :browser
 
     get "/", PageController, :index
   end
 
-  use ExcmsCoreWeb.PluginsRouter, otp_app: :excms_account
+  use HumoWeb.PluginsRouter, otp_app: :humo_account
 
   # Other scopes may use custom stacks.
-  # scope "/api", ExcmsAccountWeb do
+  # scope "/api", HumoAccountWeb do
   #   pipe_through :api
   # end
 
@@ -40,7 +40,7 @@ defmodule ExcmsAccountWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: ExcmsAccountWeb.Telemetry
+      live_dashboard "/dashboard", metrics: HumoAccountWeb.Telemetry
     end
   end
 end

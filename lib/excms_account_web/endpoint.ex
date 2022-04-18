@@ -1,16 +1,16 @@
-defmodule ExcmsAccountWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :excms_account
+defmodule HumoAccountWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :humo_account
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_excms_account_key",
+    key: "_humo_account_key",
     signing_salt: "9gvidbAL"
   ]
 
-  socket "/socket", ExcmsAccountWeb.UserSocket,
+  socket "/socket", HumoAccountWeb.UserSocket,
     websocket: true,
     longpoll: false
 
@@ -22,7 +22,7 @@ defmodule ExcmsAccountWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :excms_account,
+    from: :humo_account,
     gzip: false,
     only: ~w(assets fonts images favicon.ico robots.txt)
 
@@ -32,7 +32,7 @@ defmodule ExcmsAccountWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :excms_account
+    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :humo_account
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
@@ -50,5 +50,5 @@ defmodule ExcmsAccountWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug ExcmsAccountWeb.Router
+  plug HumoAccountWeb.Router
 end

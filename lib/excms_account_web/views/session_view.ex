@@ -1,3 +1,3 @@
-defmodule ExcmsAccountWeb.SessionView do
-  use ExcmsAccountWeb, :view
+defmodule HumoAccountWeb.SessionView do
+  use HumoAccountWeb, :view
 end

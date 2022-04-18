@@ -1,3 +1,3 @@
-defmodule ExcmsAccountWeb.ResetPasswordView do
-  use ExcmsAccountWeb, :view
+defmodule HumoAccountWeb.ResetPasswordView do
+  use HumoAccountWeb, :view
 end

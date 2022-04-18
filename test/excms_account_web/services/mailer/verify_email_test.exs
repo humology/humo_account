@@ -1,6 +1,6 @@
-defmodule ExcmsAccountWeb.Mailer.VerifyEmailTest do
+defmodule HumoAccountWeb.Mailer.VerifyEmailTest do
   use ExUnit.Case
-  alias ExcmsAccountWeb.Mailer.VerifyEmail
+  alias HumoAccountWeb.Mailer.VerifyEmail
 
   test "password reset email" do
     email = "user@mail.invalid"

@@ -1,9 +1,9 @@
-defmodule ExcmsAccount.MixProject do
+defmodule HumoAccount.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :excms_account,
+      app: :humo_account,
       version: "0.1.0",
       elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -20,7 +20,7 @@ defmodule ExcmsAccount.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {ExcmsAccount.Application, []},
+      mod: {HumoAccount.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -50,7 +50,7 @@ defmodule ExcmsAccount.MixProject do
       {:bcrypt_elixir, "~> 3.0"},
       {:bamboo, "~> 1.5"},
       {:bamboo_smtp, "~> 2.1.0"},
-      {:excms_core, git: "git@github.com:excms/excms_core.git"}
+      {:humo, git: "git@github.com:humology/humo.git"}
     ]
   end
 
@@ -63,12 +63,12 @@ defmodule ExcmsAccount.MixProject do
   defp aliases do
     [
       setup: ["deps.setup", "cmd mix rest.setup"],
-      "deps.setup": ["deps.get", "excms.deps.config.gen"],
+      "deps.setup": ["deps.get", "humo.deps.config.gen"],
       "rest.setup": ["ecto.setup", "assets.setup"],
-      "assets.setup": ["excms.assets.gen", "excms.npm.install"],
-      "ecto.setup": ["ecto.create", "excms.ecto.migrate", "run priv/repo/seeds.exs"],
+      "assets.setup": ["humo.assets.gen", "humo.npm.install"],
+      "ecto.setup": ["ecto.create", "humo.ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "excms.ecto.migrate", "test"],
+      test: ["ecto.create --quiet", "humo.ecto.migrate", "test"],
       "assets.deploy": ["esbuild default --minify", "phx.digest"]
     ]
   end

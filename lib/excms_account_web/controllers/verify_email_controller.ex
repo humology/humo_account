@@ -1,7 +1,7 @@
-defmodule ExcmsAccountWeb.VerifyEmailController do
-  use ExcmsAccountWeb, :controller
+defmodule HumoAccountWeb.VerifyEmailController do
+  use HumoAccountWeb, :controller
 
-  alias ExcmsAccountWeb.AuthService
+  alias HumoAccountWeb.AuthService
 
   def index(conn, _params) do
     render(conn, "index.html")

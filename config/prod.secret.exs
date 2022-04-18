@@ -11,7 +11,7 @@ database_url =
     For example: ecto://USER:PASS@HOST/DATABASE
     """
 
-config :excms_core, ExcmsCore.Repo,
+config :humo, Humo.Repo,
   # ssl: true,
   url: database_url,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
@@ -23,7 +23,7 @@ secret_key_base =
     You can generate one by calling: mix phx.gen.secret
     """
 
-config :excms_account, ExcmsAccountWeb.Endpoint,
+config :humo_account, HumoAccountWeb.Endpoint,
   http: [
     port: String.to_integer(System.get_env("PORT") || "4000"),
     transport_options: [socket_opts: [:inet6]]
@@ -35,7 +35,7 @@ config :excms_account, ExcmsAccountWeb.Endpoint,
 # If you are doing OTP releases, you need to instruct Phoenix
 # to start each relevant endpoint:
 #
-#     config :excms_account, ExcmsAccountWeb.Endpoint, server: true
+#     config :humo_account, HumoAccountWeb.Endpoint, server: true
 #
 # Then you can assemble a release by calling `mix release`.
 # See `mix help release` for more information.

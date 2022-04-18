@@ -1,3 +1,3 @@
-defmodule ExcmsAccountWeb.LayoutView do
-  use ExcmsAccountWeb, :view
+defmodule HumoAccountWeb.LayoutView do
+  use HumoAccountWeb, :view
 end

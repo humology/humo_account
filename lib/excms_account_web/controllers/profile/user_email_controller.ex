@@ -1,6 +1,6 @@
-defmodule ExcmsAccountWeb.Profile.UserEmailController do
-  use ExcmsAccountWeb, :controller
-  alias ExcmsAccount.UsersService
+defmodule HumoAccountWeb.Profile.UserEmailController do
+  use HumoAccountWeb, :controller
+  alias HumoAccount.UsersService
 
   def edit(conn, _params) do
     user = conn.assigns.current_user

@@ -1,7 +1,7 @@
 [
   {
     "force": false,
-    "from": "deps/excms_core/assets/static",
+    "from": "deps/humo/assets/static",
     "priority": 0,
     "to": "../"
   }

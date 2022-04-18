@@ -1,9 +1,9 @@
-defmodule ExcmsAccountWeb.SignupController do
-  use ExcmsAccountWeb, :controller
+defmodule HumoAccountWeb.SignupController do
+  use HumoAccountWeb, :controller
 
-  alias ExcmsAccount.UsersService
-  alias ExcmsAccount.UsersService.User
-  alias ExcmsAccountWeb.AuthService
+  alias HumoAccount.UsersService
+  alias HumoAccount.UsersService.User
+  alias HumoAccountWeb.AuthService
 
   def new(conn, _) do
     changeset = UsersService.change_user(%User{})

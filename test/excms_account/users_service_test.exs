@@ -1,11 +1,11 @@
-defmodule ExcmsAccount.UsersServiceTest do
-  use ExcmsAccount.DataCase, async: true
+defmodule HumoAccount.UsersServiceTest do
+  use HumoAccount.DataCase, async: true
 
-  alias ExcmsAccount.UsersService
-  alias ExcmsAccount.UsersService.User
-  alias ExcmsCore.Authorizer.Mock
-  alias ExcmsCore.Authorizer.AllAccess
-  alias ExcmsCore.Authorizer.NoAccess
+  alias HumoAccount.UsersService
+  alias HumoAccount.UsersService.User
+  alias Humo.Authorizer.Mock
+  alias Humo.Authorizer.AllAccess
+  alias Humo.Authorizer.NoAccess
 
   @valid_attrs %{
     email: "some@teST.invalid",

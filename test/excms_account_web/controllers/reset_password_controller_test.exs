@@ -1,6 +1,6 @@
-defmodule ExcmsAccountWeb.ResetPasswordControllerTest do
-  use ExcmsAccountWeb.ConnCase, async: true
-  alias ExcmsAccount.UsersService
+defmodule HumoAccountWeb.ResetPasswordControllerTest do
+  use HumoAccountWeb.ConnCase, async: true
+  alias HumoAccount.UsersService
 
   setup %{conn: conn} do
     user = insert(:user)

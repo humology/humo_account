@@ -1,11 +1,11 @@
 import Config
 
 # Configure Mix tasks and generators
-config :excms_account,
-  ecto_repos: [ExcmsCore.Repo]
+config :humo_account,
+  ecto_repos: [Humo.Repo]
 
-config :excms_core, :plugins,
-  excms_account: %{
+config :humo, :plugins,
+  humo_account: %{
     title: "Accounts",
     dashboard_links: [
       %{title: "Users", route: :dashboard_user_path, action: :index}
@@ -17,24 +17,24 @@ config :excms_core, :plugins,
     ]
   }
 
-config :excms_core, ExcmsCoreWeb.PluginsRouter,
-  excms_account: %{
-    routers: [ExcmsAccountWeb.Routers.Root],
-    dashboard_routers: [ExcmsAccountWeb.Routers.Dashboard]
+config :humo, HumoWeb.PluginsRouter,
+  humo_account: %{
+    routers: [HumoAccountWeb.Routers.Root],
+    dashboard_routers: [HumoAccountWeb.Routers.Dashboard]
   }
 
-config :excms_core, ExcmsCoreWeb.BrowserPlugs,
-  excms_account: [{ExcmsAccountWeb.AssignUserPlug, true}]
+config :humo, HumoWeb.BrowserPlugs,
+  humo_account: [{HumoAccountWeb.AssignUserPlug, true}]
 
-config :excms_core, ExcmsCore.Warehouse,
-  excms_account: [ExcmsAccount.UsersService.User]
+config :humo, Humo.Warehouse,
+  humo_account: [HumoAccount.UsersService.User]
 
-config :excms_account, ExcmsAccountWeb.Mailer,
-  sender: ExcmsAccountWeb.Mailer.SenderDummy,
+config :humo_account, HumoAccountWeb.Mailer,
+  sender: HumoAccountWeb.Mailer.SenderDummy,
   async: true
 
-config :excms_account, ExcmsAccountWeb.Mailer.VerifyEmail,
-  renderer: ExcmsAccountWeb.Mailer.VerifyEmail
+config :humo_account, HumoAccountWeb.Mailer.VerifyEmail,
+  renderer: HumoAccountWeb.Mailer.VerifyEmail
 
-config :excms_account, ExcmsAccountWeb.Mailer.ResetPassword,
-  renderer: ExcmsAccountWeb.Mailer.ResetPassword
+config :humo_account, HumoAccountWeb.Mailer.ResetPassword,
+  renderer: HumoAccountWeb.Mailer.ResetPassword

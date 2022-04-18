@@ -1,8 +1,8 @@
-defmodule ExcmsAccountWeb.Profile.UserController do
-  use ExcmsAccountWeb, :controller
-  alias ExcmsAccount.UsersService
+defmodule HumoAccountWeb.Profile.UserController do
+  use HumoAccountWeb, :controller
+  alias HumoAccount.UsersService
 
-  use ExcmsCoreWeb.AuthorizeControllerHelpers,
+  use HumoWeb.AuthorizeControllerHelpers,
     resource_module: User,
     resource_assign_key: :current_user
 

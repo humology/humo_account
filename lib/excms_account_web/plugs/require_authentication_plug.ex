@@ -1,4 +1,4 @@
-defmodule ExcmsAccountWeb.RequireAuthenticationPlug do
+defmodule HumoAccountWeb.RequireAuthenticationPlug do
   import Plug.Conn
   import Phoenix.Controller
 

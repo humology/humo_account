@@ -1,6 +1,6 @@
-defmodule ExcmsAccountWeb.SignupControllerTest do
-  use ExcmsAccountWeb.ConnCase, async: true
-  alias ExcmsAccount.UsersService
+defmodule HumoAccountWeb.SignupControllerTest do
+  use HumoAccountWeb.ConnCase, async: true
+  alias HumoAccount.UsersService
 
   setup %{conn: conn} do
     user = insert(:user)

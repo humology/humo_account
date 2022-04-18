@@ -1,3 +1,3 @@
-defmodule ExcmsAccountWeb.VerifyEmailView do
-  use ExcmsAccountWeb, :view
+defmodule HumoAccountWeb.VerifyEmailView do
+  use HumoAccountWeb, :view
 end

@@ -1,7 +1,7 @@
-defmodule ExcmsAccountWeb.ResetPasswordController do
-  use ExcmsAccountWeb, :controller
+defmodule HumoAccountWeb.ResetPasswordController do
+  use HumoAccountWeb, :controller
 
-  alias ExcmsAccountWeb.AuthService
+  alias HumoAccountWeb.AuthService
 
   plug :scrub_params, "token" when action in [:update]
 

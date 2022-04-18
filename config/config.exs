@@ -11,11 +11,11 @@ if Path.expand("#{Mix.env()}_deps.exs", __DIR__) |> File.exists?(), do:
   import_config "#{Mix.env()}_deps.exs"
 
 # Configures the endpoint
-config :excms_account, ExcmsAccountWeb.Endpoint,
+config :humo_account, HumoAccountWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "jgjMNNV0mMjjqQVqsndA68SDM01N9gp1LwwV/pYZqrxECS7tbpj1ar8O9wifgh8O",
-  render_errors: [view: ExcmsAccountWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: ExcmsAccount.PubSub,
+  render_errors: [view: HumoAccountWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: HumoAccount.PubSub,
   live_view: [signing_salt: "YsbwsVkA"]
 
 # Configure esbuild (the version is required)
@@ -33,12 +33,12 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :excms_account, ExcmsAccountWeb.AuthService,
+config :humo_account, HumoAccountWeb.AuthService,
   timeout_seconds: 3600*24,
   secret: "sKKlOpvwOwHg+cTLFO4byayYBUWEBGCJGjgGTjdRWYkTVPNGi9gnlYAmVCWo9mVnDhgT",
   salt: "JghkDhKAHTBDTVtbtdsOTtdsgtOPGqKSHvBtGHTDgh"
 
-config :excms_account, ExcmsAccountWeb.Mailer,
+config :humo_account, HumoAccountWeb.Mailer,
   adapter: Bamboo.SMTPAdapter,
   tls: :if_available,
   allowed_tls_versions: [:tlsv1, :"tlsv1.1", :"tlsv1.2"],

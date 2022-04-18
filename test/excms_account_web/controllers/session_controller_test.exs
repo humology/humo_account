@@ -1,7 +1,7 @@
-defmodule ExcmsAccountWeb.SessionControllerTest do
-  use ExcmsAccountWeb.ConnCase, async: true
-  alias ExcmsCore.Authorizer.AllAccess
-  alias ExcmsCore.Authorizer.Mock
+defmodule HumoAccountWeb.SessionControllerTest do
+  use HumoAccountWeb.ConnCase, async: true
+  alias Humo.Authorizer.AllAccess
+  alias Humo.Authorizer.Mock
 
   describe "login" do
     test "login form", %{conn: conn} do

@@ -1,2 +1,2 @@
-import "excms_core"
+import "humo"
 import "./plugin"

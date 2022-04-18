@@ -1,6 +1,6 @@
-defmodule ExcmsAccount do
+defmodule HumoAccount do
   @moduledoc """
-  ExcmsAccount keeps the contexts that define your domain
+  HumoAccount keeps the contexts that define your domain
   and business logic.
 
   Contexts are also responsible for managing your data, regardless

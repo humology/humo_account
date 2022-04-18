@@ -1,9 +1,9 @@
-defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
-  use ExcmsAccountWeb.ConnCase, async: true
+defmodule HumoAccountWeb.Dashboard.UserControllerTest do
+  use HumoAccountWeb.ConnCase, async: true
 
-  alias ExcmsAccount.UsersService
-  alias ExcmsAccount.UsersService.User
-  alias ExcmsCore.Authorizer.{Mock, AllAccess, NoAccess}
+  alias HumoAccount.UsersService
+  alias HumoAccount.UsersService.User
+  alias Humo.Authorizer.{Mock, AllAccess, NoAccess}
   import Ecto.Query, warn: false
 
   @create_attrs %{
@@ -64,7 +64,7 @@ defmodule ExcmsAccountWeb.Dashboard.UserControllerTest do
         refute response =~ "Delete"
       end
       |> Mock.with_mock(
-        can_all: fn _, "read", User -> ExcmsCore.Repo.none(User) end,
+        can_all: fn _, "read", User -> Humo.Repo.none(User) end,
         can_actions: &AllAccess.can_actions/2
       )
     end

@@ -1,4 +1,4 @@
-defmodule ExcmsAccountWeb.ConnCase do
+defmodule HumoAccountWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule ExcmsAccountWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use ExcmsAccountWeb.ConnCase, async: true`, although
+  by setting `use HumoAccountWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -22,22 +22,22 @@ defmodule ExcmsAccountWeb.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import ExcmsAccountWeb.ConnCase
+      import HumoAccountWeb.ConnCase
 
-      import ExcmsCoreWeb, only: [routes: 0]
+      import HumoWeb, only: [routes: 0]
 
-      import ExcmsAccount.Factory
+      import HumoAccount.Factory
 
       # The default endpoint for testing
-      @endpoint ExcmsAccountWeb.Endpoint
+      @endpoint HumoAccountWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(ExcmsCore.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Humo.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(ExcmsCore.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Humo.Repo, {:shared, self()})
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}

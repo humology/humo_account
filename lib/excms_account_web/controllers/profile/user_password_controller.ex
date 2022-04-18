@@ -1,6 +1,6 @@
-defmodule ExcmsAccountWeb.Profile.UserPasswordController do
-  use ExcmsAccountWeb, :controller
-  alias ExcmsAccount.UsersService
+defmodule HumoAccountWeb.Profile.UserPasswordController do
+  use HumoAccountWeb, :controller
+  alias HumoAccount.UsersService
 
   def show(conn, _params) do
     render(conn, "show.html")

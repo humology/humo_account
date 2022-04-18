@@ -1,4 +1,4 @@
-defmodule ExcmsAccountWeb.ErrorHelpers do
+defmodule HumoAccountWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -39,9 +39,9 @@ defmodule ExcmsAccountWeb.ErrorHelpers do
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do
-      Gettext.dngettext(ExcmsAccountWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(HumoAccountWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(ExcmsAccountWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(HumoAccountWeb.Gettext, "errors", msg, opts)
     end
   end
 end

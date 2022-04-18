@@ -1,15 +1,15 @@
-defmodule ExcmsAccountWeb.Dashboard.UserController do
-  use ExcmsAccountWeb, :controller
+defmodule HumoAccountWeb.Dashboard.UserController do
+  use HumoAccountWeb, :controller
 
-  alias ExcmsAccount.UsersService
-  alias ExcmsAccount.UsersService.User
-  alias ExcmsCoreWeb.AuthorizationExtractor
+  alias HumoAccount.UsersService
+  alias HumoAccount.UsersService.User
+  alias HumoWeb.AuthorizationExtractor
 
   @page_size 50
 
   plug :assign_user when action in [:show, :edit, :update, :delete]
 
-  use ExcmsCoreWeb.AuthorizeControllerHelpers,
+  use HumoWeb.AuthorizeControllerHelpers,
     resource_module: User,
     resource_assign_key: :user
 

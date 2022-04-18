@@ -1,3 +1,3 @@
-defmodule ExcmsAccountWeb.SignupView do
-  use ExcmsAccountWeb, :view
+defmodule HumoAccountWeb.SignupView do
+  use HumoAccountWeb, :view
 end

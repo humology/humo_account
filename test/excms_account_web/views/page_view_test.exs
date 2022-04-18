@@ -1,3 +1,3 @@
-defmodule ExcmsAccountWeb.PageViewTest do
-  use ExcmsAccountWeb.ConnCase, async: true
+defmodule HumoAccountWeb.PageViewTest do
+  use HumoAccountWeb.ConnCase, async: true
 end

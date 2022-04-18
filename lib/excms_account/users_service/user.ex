@@ -1,11 +1,11 @@
-defmodule ExcmsAccount.UsersService.User do
+defmodule HumoAccount.UsersService.User do
   use Ecto.Schema
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @derive {Inspect, only: [:id]}
 
-  schema "excms_account_users" do
+  schema "humo_account_users" do
     field :first_name, :string
     field :last_name, :string
     field :email, :string
@@ -118,6 +118,6 @@ defmodule ExcmsAccount.UsersService.User do
   def put_downcase_email(changeset), do: changeset
 
   defmodule Helpers do
-    use ExcmsCore.EctoResourceHelpers
+    use Humo.EctoResourceHelpers
   end
 end

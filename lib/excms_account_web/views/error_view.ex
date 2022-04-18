@@ -1,5 +1,5 @@
-defmodule ExcmsAccountWeb.ErrorView do
-  use ExcmsAccountWeb, :view
+defmodule HumoAccountWeb.ErrorView do
+  use HumoAccountWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

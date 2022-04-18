@@ -1,4 +1,4 @@
-defmodule ExcmsAccountWeb.Telemetry do
+defmodule HumoAccountWeb.Telemetry do
   use Supervisor
   import Telemetry.Metrics
 
@@ -31,11 +31,11 @@ defmodule ExcmsAccountWeb.Telemetry do
       ),
 
       # Database Metrics
-      summary("excms_core.repo.query.total_time", unit: {:native, :millisecond}),
-      summary("excms_core.repo.query.decode_time", unit: {:native, :millisecond}),
-      summary("excms_core.repo.query.query_time", unit: {:native, :millisecond}),
-      summary("excms_core.repo.query.queue_time", unit: {:native, :millisecond}),
-      summary("excms_core.repo.query.idle_time", unit: {:native, :millisecond}),
+      summary("humo.repo.query.total_time", unit: {:native, :millisecond}),
+      summary("humo.repo.query.decode_time", unit: {:native, :millisecond}),
+      summary("humo.repo.query.query_time", unit: {:native, :millisecond}),
+      summary("humo.repo.query.queue_time", unit: {:native, :millisecond}),
+      summary("humo.repo.query.idle_time", unit: {:native, :millisecond}),
 
       # VM Metrics
       summary("vm.memory.total", unit: {:byte, :kilobyte}),
@@ -49,7 +49,7 @@ defmodule ExcmsAccountWeb.Telemetry do
     [
       # A module, function and arguments to be invoked periodically.
       # This function must call :telemetry.execute/3 and a metric must be added above.
-      # {ExcmsAccountWeb, :count_users, []}
+      # {HumoAccountWeb, :count_users, []}
     ]
   end
 end

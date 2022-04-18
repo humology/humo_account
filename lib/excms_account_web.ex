@@ -1,12 +1,12 @@
-defmodule ExcmsAccountWeb do
+defmodule HumoAccountWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use ExcmsAccountWeb, :controller
-      use ExcmsAccountWeb, :view
+      use HumoAccountWeb, :controller
+      use HumoAccountWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,19 +19,19 @@ defmodule ExcmsAccountWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: ExcmsAccountWeb
+      use Phoenix.Controller, namespace: HumoAccountWeb
 
       import Plug.Conn
-      import ExcmsAccountWeb.Gettext
-      import ExcmsCoreWeb, only: [routes: 0]
+      import HumoAccountWeb.Gettext
+      import HumoWeb, only: [routes: 0]
     end
   end
 
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/excms_account_web/templates",
-        namespace: ExcmsAccountWeb
+        root: "lib/humo_account_web/templates",
+        namespace: HumoAccountWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -54,7 +54,7 @@ defmodule ExcmsAccountWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import ExcmsAccountWeb.Gettext
+      import HumoAccountWeb.Gettext
     end
   end
 
@@ -66,11 +66,11 @@ defmodule ExcmsAccountWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import ExcmsAccountWeb.ErrorHelpers
-      import ExcmsAccountWeb.Gettext
-      import ExcmsCoreWeb, only: [routes: 0]
-      import ExcmsCoreWeb.RouteAuthorizer
-      import ExcmsCoreWeb.AuthorizeViewHelpers
+      import HumoAccountWeb.ErrorHelpers
+      import HumoAccountWeb.Gettext
+      import HumoWeb, only: [routes: 0]
+      import HumoWeb.RouteAuthorizer
+      import HumoWeb.AuthorizeViewHelpers
     end
   end
 

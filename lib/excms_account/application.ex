@@ -1,4 +1,4 @@
-defmodule ExcmsAccount.Application do
+defmodule HumoAccount.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -8,18 +8,18 @@ defmodule ExcmsAccount.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start a worker by calling: ExcmsAccount.Worker.start_link(arg)
-      # {ExcmsAccount.Worker, arg}
+      # Start a worker by calling: HumoAccount.Worker.start_link(arg)
+      # {HumoAccount.Worker, arg}
     ]
 
-    children = if ExcmsCore.is_server_app_module(__MODULE__) do
+    children = if Humo.is_server_app_module(__MODULE__) do
       children ++ [
         # Start the PubSub system
-        {Phoenix.PubSub, name: ExcmsAccount.PubSub},
+        {Phoenix.PubSub, name: HumoAccount.PubSub},
         # Start the Telemetry supervisor
-        ExcmsAccountWeb.Telemetry,
+        HumoAccountWeb.Telemetry,
         # Start the Endpoint (http/https)
-        ExcmsAccountWeb.Endpoint
+        HumoAccountWeb.Endpoint
       ]
     else
       children
@@ -27,7 +27,7 @@ defmodule ExcmsAccount.Application do
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: ExcmsAccount.Supervisor]
+    opts = [strategy: :one_for_one, name: HumoAccount.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
@@ -35,7 +35,7 @@ defmodule ExcmsAccount.Application do
   # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
-    ExcmsAccountWeb.Endpoint.config_change(changed, removed)
+    HumoAccountWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

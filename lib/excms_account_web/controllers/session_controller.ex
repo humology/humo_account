@@ -1,9 +1,9 @@
-defmodule ExcmsAccountWeb.SessionController do
-  use ExcmsAccountWeb, :controller
+defmodule HumoAccountWeb.SessionController do
+  use HumoAccountWeb, :controller
 
-  alias ExcmsAccountWeb.AuthService
+  alias HumoAccountWeb.AuthService
 
-  use ExcmsCoreWeb.AuthorizeControllerHelpers,
+  use HumoWeb.AuthorizeControllerHelpers,
     resource_module: User,
     resource_assign_key: :current_user
 

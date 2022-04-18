@@ -1,13 +1,13 @@
-defmodule ExcmsAccountWeb.Routers.Root do
+defmodule HumoAccountWeb.Routers.Root do
   @moduledoc false
 
   defmacro __using__(_opts \\ []) do
     quote location: :keep do
-      pipeline :excms_account_require_authentication do
-        plug ExcmsAccountWeb.RequireAuthenticationPlug
+      pipeline :humo_account_require_authentication do
+        plug HumoAccountWeb.RequireAuthenticationPlug
       end
 
-      scope "/", ExcmsAccountWeb do
+      scope "/", HumoAccountWeb do
         get "/login", SessionController, :new
         post "/login", SessionController, :create
         delete "/logout", SessionController, :delete
@@ -22,8 +22,8 @@ defmodule ExcmsAccountWeb.Routers.Root do
         patch "/reset_password/:token", ResetPasswordController, :update
       end
 
-      scope "/", ExcmsAccountWeb do
-        pipe_through :excms_account_require_authentication
+      scope "/", HumoAccountWeb do
+        pipe_through :humo_account_require_authentication
 
         scope "/profile", Profile, as: :profile do
           resources "/", UserController, only: [:show, :edit, :update], singleton: true

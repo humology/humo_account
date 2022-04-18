@@ -1,6 +1,6 @@
-defmodule ExcmsAccountWeb.Mailer.ResetPasswordTest do
+defmodule HumoAccountWeb.Mailer.ResetPasswordTest do
   use ExUnit.Case
-  alias ExcmsAccountWeb.Mailer.ResetPassword
+  alias HumoAccountWeb.Mailer.ResetPassword
 
   test "password reset email" do
     email = "user@mail.invalid"

@@ -1,3 +1,3 @@
-defmodule ExcmsAccountWeb.Profile.UserPasswordView do
-  use ExcmsAccountWeb, :view
+defmodule HumoAccountWeb.Profile.UserPasswordView do
+  use HumoAccountWeb, :view
 end

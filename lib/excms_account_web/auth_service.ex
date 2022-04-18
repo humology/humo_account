@@ -1,14 +1,14 @@
-defmodule ExcmsAccountWeb.AuthService do
+defmodule HumoAccountWeb.AuthService do
   @moduledoc false
 
-  alias ExcmsAccount.UsersService
-  alias ExcmsAccount.UsersService.User
-  alias ExcmsAccountWeb.Mailer.VerifyEmail
-  alias ExcmsAccountWeb.Mailer.ResetPassword
-  import ExcmsCoreWeb, only: [routes: 0]
-  alias ExcmsAccountWeb.Mailer
+  alias HumoAccount.UsersService
+  alias HumoAccount.UsersService.User
+  alias HumoAccountWeb.Mailer.VerifyEmail
+  alias HumoAccountWeb.Mailer.ResetPassword
+  import HumoWeb, only: [routes: 0]
+  alias HumoAccountWeb.Mailer
 
-  @auth Application.compile_env!(:excms_account, __MODULE__)
+  @auth Application.compile_env!(:humo_account, __MODULE__)
   @auth_secret @auth[:secret]
   @auth_salt @auth[:salt]
   @auth_timeout_seconds @auth[:timeout_seconds]
@@ -87,7 +87,7 @@ defmodule ExcmsAccountWeb.AuthService do
     with {:ok, email, token} <- get_token(email) do
       Mailer.send_email(%VerifyEmail{
         to: email,
-        email_verified_url: routes().verify_email_url(ExcmsCoreWeb.endpoint(), :edit, token)
+        email_verified_url: routes().verify_email_url(HumoWeb.endpoint(), :edit, token)
       })
     end
   end
@@ -96,7 +96,7 @@ defmodule ExcmsAccountWeb.AuthService do
     with {:ok, email, token} <- get_token(email) do
       Mailer.send_email(%ResetPassword{
         to: email,
-        reset_password_url: routes().reset_password_url(ExcmsCoreWeb.endpoint(), :edit, token)
+        reset_password_url: routes().reset_password_url(HumoWeb.endpoint(), :edit, token)
       })
     end
   end

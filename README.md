@@ -1,4 +1,4 @@
-# ExcmsAccount
+# HumoAccount
 
 To start your Phoenix server:
 

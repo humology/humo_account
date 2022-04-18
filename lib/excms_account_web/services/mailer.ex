@@ -1,9 +1,9 @@
-defmodule ExcmsAccountWeb.Mailer do
-  use Bamboo.Mailer, otp_app: :excms_account
+defmodule HumoAccountWeb.Mailer do
+  use Bamboo.Mailer, otp_app: :humo_account
 
   require Logger
 
-  @mailer Application.compile_env!(:excms_account, __MODULE__)
+  @mailer Application.compile_env!(:humo_account, __MODULE__)
   @from @mailer[:username]
   @sender @mailer[:sender]
   @async @mailer[:async]
@@ -34,7 +34,7 @@ defmodule ExcmsAccountWeb.Mailer do
   end
 
   defp do_send_email(message) do
-    Application.fetch_env!(:excms_account, message.__struct__)
+    Application.fetch_env!(:humo_account, message.__struct__)
     |> Keyword.fetch!(:renderer)
     |> apply(:render_email, [message])
     |> Bamboo.Email.from(@from)
