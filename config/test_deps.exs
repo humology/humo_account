@@ -1,7 +1,7 @@
 import Config
 
 config :humo, Humo,
-  deps: [
+  apps: [
     %{app: :humo, path: "deps/humo"},
     %{app: :humo_account, path: "./"}
   ],
