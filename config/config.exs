@@ -7,8 +7,8 @@
 # General application configuration
 import Config
 
-if Path.expand("#{Mix.env()}_deps.exs", __DIR__) |> File.exists?(), do:
-  import_config "#{Mix.env()}_deps.exs"
+if Path.expand("humo_#{Mix.env()}.exs", __DIR__) |> File.exists?(), do:
+  import_config "humo_#{Mix.env()}.exs"
 
 # Configures the endpoint
 config :humo_account, HumoAccountWeb.Endpoint,

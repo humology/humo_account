@@ -63,7 +63,7 @@ defmodule HumoAccount.MixProject do
   defp aliases do
     [
       setup: ["deps.setup", "cmd mix rest.setup"],
-      "deps.setup": ["deps.get", "humo.config.gen"],
+      "deps.setup": ["deps.get", "humo.new.config"],
       "rest.setup": ["ecto.setup", "humo.assets.setup"],
       "ecto.setup": ["ecto.create", "humo.ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
