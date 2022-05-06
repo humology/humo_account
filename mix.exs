@@ -1,6 +1,8 @@
 defmodule HumoAccount.MixProject do
   use Mix.Project
 
+  @scm_url "https://github.com/humology/humo_account"
+
   def project do
     [
       app: :humo_account,
@@ -11,7 +13,17 @@ defmodule HumoAccount.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      humo_plugin: true
+      package: [
+        maintainers: ["Kamil Shersheyev"],
+        licenses: ["Apache-2.0"],
+        links: %{"GitHub" => @scm_url},
+        files: ~w(assets config/plugin.exs lib priv mix.exs package.json LICENSE README.md .formatter.exs)
+      ],
+      source_url: @scm_url,
+      humo_plugin: true,
+      description: """
+      Humo Account plugin based on Humo framework.
+      """
     ]
   end
 
@@ -50,7 +62,7 @@ defmodule HumoAccount.MixProject do
       {:bcrypt_elixir, "~> 3.0"},
       {:bamboo, "~> 1.5"},
       {:bamboo_smtp, "~> 2.1.0"},
-      {:humo, git: "git@github.com:humology/humo.git"}
+      {:humo, "~> 0.1.0"}
     ]
   end
 
