@@ -63,6 +63,9 @@ config :humo_account, HumoAccountWeb.Endpoint,
 config :humo, Humo,
   assets_watcher: true
 
+config :humo, Humo.Authorizer,
+  authorizer: Humo.Authorizer.AllAccess
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 

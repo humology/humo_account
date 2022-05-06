@@ -18,10 +18,7 @@ config :humo, :plugins,
   }
 
 config :humo, HumoWeb.PluginsRouter,
-  humo_account: %{
-    routers: [HumoAccountWeb.Routers.Root],
-    dashboard_routers: [HumoAccountWeb.Routers.Dashboard]
-  }
+  humo_account: HumoAccountWeb.PluginRouter
 
 config :humo, HumoWeb.BrowserPlugs,
   humo_account: [{HumoAccountWeb.AssignUserPlug, true}]

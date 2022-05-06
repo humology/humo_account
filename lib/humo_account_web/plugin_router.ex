@@ -1,7 +1,7 @@
-defmodule HumoAccountWeb.Routers.Root do
+defmodule HumoAccountWeb.PluginRouter do
   @moduledoc false
 
-  defmacro __using__(_opts \\ []) do
+  def root() do
     quote location: :keep do
       pipeline :humo_account_require_authentication do
         plug HumoAccountWeb.RequireAuthenticationPlug
@@ -32,5 +32,18 @@ defmodule HumoAccountWeb.Routers.Root do
         end
       end
     end
+  end
+
+  def dashboard() do
+    quote location: :keep do
+      resources "/users", HumoAccountWeb.Dashboard.UserController, except: [:new, :create]
+    end
+  end
+
+  @doc """
+  When used, dispatch to the appropriate controller/view/etc.
+  """
+  defmacro __using__(which) when is_atom(which) do
+    apply(__MODULE__, which, [])
   end
 end
