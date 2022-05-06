@@ -27,7 +27,7 @@ defmodule HumoAccountWeb.Profile.UserController do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "User updated successfully.")
-        |> redirect(to: routes().profile_user_path(conn, :show))
+        |> redirect(to: routes().humo_account_profile_user_path(conn, :show))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", changeset: changeset)

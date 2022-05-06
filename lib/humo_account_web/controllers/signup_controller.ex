@@ -16,7 +16,7 @@ defmodule HumoAccountWeb.SignupController do
         AuthService.send_verify_email(email)
 
         conn
-        |> redirect(to: routes().verify_email_path(conn, :index))
+        |> redirect(to: routes().humo_account_verify_email_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

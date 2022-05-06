@@ -29,6 +29,6 @@
 </div>
 
 <%= can_link Plug.Conn.assign(@conn, :user, @user), "Edit",
-             to: routes().dashboard_user_path(@conn, :edit, @user),
+             to: routes().dashboard_humo_account_user_path(@conn, :edit, @user),
              class: "mr-1" %>
-<%= can_link @conn, "Back", to: routes().dashboard_user_path(@conn, :index) %>
+<%= can_link @conn, "Back", to: routes().dashboard_humo_account_user_path(@conn, :index) %>

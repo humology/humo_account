@@ -22,8 +22,8 @@ defmodule HumoAccountWeb.VerifyEmailControllerTest do
       }
     }
 
-    conn = post(conn, routes().signup_path(conn, :create), params)
-    assert redirected_to(conn) == routes().verify_email_path(conn, :index)
+    conn = post(conn, routes().humo_account_signup_path(conn, :create), params)
+    assert redirected_to(conn) == routes().humo_account_verify_email_path(conn, :index)
 
     assert %{email_verified_at: nil} = UsersService.get_user_by_email(email)
 

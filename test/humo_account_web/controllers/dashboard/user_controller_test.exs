@@ -33,7 +33,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
     test "render allowed links", %{conn: conn} do
       for resource_can_actions <- [[], ["read"], ["update"], ["delete"], ["read", "update", "delete"]] do
         fn ->
-          conn = get(conn, routes().dashboard_user_path(conn, :index))
+          conn = get(conn, routes().dashboard_humo_account_user_path(conn, :index))
 
           response = html_response(conn, 200)
           assert response =~ "<h3>Users</h3>"
@@ -54,7 +54,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
 
     test "when list of record is empty, renders no user", %{conn: conn} do
       fn ->
-        conn = get(conn, routes().dashboard_user_path(conn, :index))
+        conn = get(conn, routes().dashboard_humo_account_user_path(conn, :index))
 
         response = html_response(conn, 200)
         assert response =~ "<h3>Users</h3>"
@@ -71,7 +71,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
 
     test "no access", %{conn: conn} do
       fn ->
-        conn = get(conn, routes().dashboard_user_path(conn, :index))
+        conn = get(conn, routes().dashboard_humo_account_user_path(conn, :index))
         assert response(conn, 403) =~ "Forbidden"
       end
       |> Mock.with_mock(can_actions: &NoAccess.can_actions/2)
@@ -82,7 +82,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
     test "renders user edit form with allowed links", %{conn: conn, user: user} do
       for list_module_can_actions <- [["read"], []] do
         fn ->
-          conn = get(conn, routes().dashboard_user_path(conn, :edit, user))
+          conn = get(conn, routes().dashboard_humo_account_user_path(conn, :edit, user))
 
           response = html_response(conn, 200)
           assert response =~ "Edit User"
@@ -97,7 +97,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
 
     test "no access", %{conn: conn, user: user} do
       fn ->
-        conn = get(conn, routes().dashboard_user_path(conn, :edit, user))
+        conn = get(conn, routes().dashboard_humo_account_user_path(conn, :edit, user))
         assert response(conn, 403) =~ "Forbidden"
       end
       |> Mock.with_mock(can_actions: &NoAccess.can_actions/2)
@@ -107,8 +107,8 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
   describe "update user" do
     test "redirects when data is valid", %{conn: conn, user: user} do
       fn ->
-        conn = put(conn, routes().dashboard_user_path(conn, :update, user), user: @update_attrs)
-        assert redirected_to(conn) == routes().dashboard_user_path(conn, :show, user)
+        conn = put(conn, routes().dashboard_humo_account_user_path(conn, :update, user), user: @update_attrs)
+        assert redirected_to(conn) == routes().dashboard_humo_account_user_path(conn, :show, user)
 
         user = UsersService.get_user!(user.id)
         assert "updated@test.invalid" = user.email
@@ -120,7 +120,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
       fn ->
-        conn = put(conn, routes().dashboard_user_path(conn, :update, user), user: @invalid_attrs)
+        conn = put(conn, routes().dashboard_humo_account_user_path(conn, :update, user), user: @invalid_attrs)
         assert html_response(conn, 200) =~ "Edit User"
       end
       |> Mock.with_mock(can_actions: &AllAccess.can_actions/2)
@@ -128,7 +128,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
 
     test "no access", %{conn: conn, user: user} do
       fn ->
-        conn = put(conn, routes().dashboard_user_path(conn, :update, user), user: @update_attrs)
+        conn = put(conn, routes().dashboard_humo_account_user_path(conn, :update, user), user: @update_attrs)
         assert response(conn, 403) =~ "Forbidden"
       end
       |> Mock.with_mock(can_actions: &NoAccess.can_actions/2)
@@ -140,7 +140,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
       for record_can_actions <- [["read", "update"], ["read"]],
           list_module_can_actions <- [["read"], []] do
         fn ->
-          conn = get(conn, routes().dashboard_user_path(conn, :show, user))
+          conn = get(conn, routes().dashboard_humo_account_user_path(conn, :show, user))
 
           response = html_response(conn, 200)
           assert (response =~ "Edit") == ("update" in record_can_actions)
@@ -155,7 +155,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
 
     test "no access", %{conn: conn, user: user} do
       fn ->
-        conn = get(conn, routes().dashboard_user_path(conn, :show, user))
+        conn = get(conn, routes().dashboard_humo_account_user_path(conn, :show, user))
         assert response(conn, 403) =~ "Forbidden"
       end
       |> Mock.with_mock(can_actions: &NoAccess.can_actions/2)
@@ -165,11 +165,11 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
   describe "delete user" do
     test "deletes chosen user", %{conn: conn, user: user} do
       fn ->
-        conn = delete(conn, routes().dashboard_user_path(conn, :delete, user))
-        assert redirected_to(conn) == routes().dashboard_user_path(conn, :index)
+        conn = delete(conn, routes().dashboard_humo_account_user_path(conn, :delete, user))
+        assert redirected_to(conn) == routes().dashboard_humo_account_user_path(conn, :index)
 
         assert_error_sent 404, fn ->
-          get(conn, routes().dashboard_user_path(conn, :show, user))
+          get(conn, routes().dashboard_humo_account_user_path(conn, :show, user))
         end
       end
       |> Mock.with_mock(can_actions: fn _, %User{} -> ["delete"] end)
@@ -177,7 +177,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
 
     test "no access", %{conn: conn, user: user} do
       fn ->
-        conn = delete(conn, routes().dashboard_user_path(conn, :delete, user))
+        conn = delete(conn, routes().dashboard_humo_account_user_path(conn, :delete, user))
         assert response(conn, 403) =~ "Forbidden"
       end
       |> Mock.with_mock(can_actions: &NoAccess.can_actions/2)

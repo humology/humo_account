@@ -49,7 +49,7 @@ defmodule HumoAccountWeb.Dashboard.UserController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User updated successfully.")
-        |> redirect(to: routes().dashboard_user_path(conn, :show, user))
+        |> redirect(to: routes().dashboard_humo_account_user_path(conn, :show, user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", user: user, changeset: changeset)
@@ -62,7 +62,7 @@ defmodule HumoAccountWeb.Dashboard.UserController do
 
     conn
     |> put_flash(:info, "User deleted successfully.")
-    |> redirect(to: routes().dashboard_user_path(conn, :index))
+    |> redirect(to: routes().dashboard_humo_account_user_path(conn, :index))
   end
 
   defp assign_user(conn, _opts) do

@@ -20,7 +20,7 @@ defmodule HumoAccountWeb.Profile.UserPasswordController do
         conn
         |> put_flash(:info, "User updated successfully.")
         |> configure_session(renew: true)
-        |> redirect(to: routes().profile_user_path(conn, :show))
+        |> redirect(to: routes().humo_account_profile_user_path(conn, :show))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", changeset: changeset)

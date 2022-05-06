@@ -87,7 +87,7 @@ defmodule HumoAccountWeb.AuthService do
     with {:ok, email, token} <- get_token(email) do
       Mailer.send_email(%VerifyEmail{
         to: email,
-        email_verified_url: routes().verify_email_url(HumoWeb.endpoint(), :edit, token)
+        email_verified_url: routes().humo_account_verify_email_url(HumoWeb.endpoint(), :edit, token)
       })
     end
   end
@@ -96,7 +96,7 @@ defmodule HumoAccountWeb.AuthService do
     with {:ok, email, token} <- get_token(email) do
       Mailer.send_email(%ResetPassword{
         to: email,
-        reset_password_url: routes().reset_password_url(HumoWeb.endpoint(), :edit, token)
+        reset_password_url: routes().humo_account_reset_password_url(HumoWeb.endpoint(), :edit, token)
       })
     end
   end

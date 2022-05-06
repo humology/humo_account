@@ -1,7 +1,7 @@
 <h1>Reset</h1>
 
 <%= if @changeset != nil do %>
-  <%= form_for @changeset, routes().reset_password_path(@conn, :update, @token), [method: :post], fn f -> %>
+  <%= form_for @changeset, routes().humo_account_reset_password_path(@conn, :update, @token), [method: :post], fn f -> %>
     <div class="mb-3 col-md-4">
       <%= label f, :password, class: "form-label" %>
       <%= password_input f, :password, class: "form-control" %>

@@ -1,6 +1,6 @@
 <div class="row mt-5">
   <div class="col-md-5 m-auto">
-    <%= form_for @conn, routes().reset_password_path(@conn, :create), [method: :post], fn f -> %>
+    <%= form_for @conn, routes().humo_account_reset_password_path(@conn, :create), [method: :post], fn f -> %>
       <h3 class="mb-3">Forgot password</h3>
       <%= text_input f, :email, class: "form-control", placeholder: "Email" %>
       <%= submit "Reset password", class: "btn btn-primary mt-4" %>

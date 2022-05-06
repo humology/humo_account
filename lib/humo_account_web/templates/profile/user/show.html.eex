@@ -12,14 +12,14 @@
       <span class="col-md-8 col-form-label"><%= @current_user.last_name %></span>
     </div>
 
-    <div class="row"><%= link "Edit profile", to: routes().profile_user_path(@conn, :edit) %></div>
+    <div class="row"><%= link "Edit profile", to: routes().humo_account_profile_user_path(@conn, :edit) %></div>
   </div>
 
   <div class="container mb-3">
     <div class="row">
       <label class="col-sm-4 col-form-label">Email</label>
       <span class="col-sm-8 col-form-label"><%= @current_user.email %></span>
-      <%= link "Edit email", to: routes().profile_user_email_path(@conn, :edit) %>
+      <%= link "Edit email", to: routes().humo_account_profile_user_email_path(@conn, :edit) %>
     </div>
   </div>
 
@@ -27,7 +27,7 @@
     <div class="row">
       <label class="col-sm-4 col-form-label">Password</label>
       <span class="col-sm-8 col-form-label">•••••••••••••</span>
-      <%= link "Edit password", to: routes().profile_user_password_path(@conn, :edit) %>
+      <%= link "Edit password", to: routes().humo_account_profile_user_password_path(@conn, :edit) %>
     </div>
   </div>
 </div>

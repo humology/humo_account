@@ -11,10 +11,10 @@ defmodule HumoAccountWeb.SignupControllerTest do
   end
 
   test "show form", %{conn: conn} do
-    conn = get(conn, routes().signup_path(conn, :new))
+    conn = get(conn, routes().humo_account_signup_path(conn, :new))
 
     assert html_response(conn, 200) =~
-             "<form action=\"#{routes().signup_path(conn, :create)}\" method=\"post\">"
+             "<form action=\"#{routes().humo_account_signup_path(conn, :create)}\" method=\"post\">"
   end
 
   test "success", %{conn: conn} do
@@ -29,8 +29,8 @@ defmodule HumoAccountWeb.SignupControllerTest do
       }
     }
 
-    conn = post(conn, routes().signup_path(conn, :create), params)
-    assert redirected_to(conn) == routes().verify_email_path(conn, :index)
+    conn = post(conn, routes().humo_account_signup_path(conn, :create), params)
+    assert redirected_to(conn) == routes().humo_account_verify_email_path(conn, :index)
 
     assert %{email_verified_at: nil} = UsersService.get_user_by_email(email)
   end
@@ -47,7 +47,7 @@ defmodule HumoAccountWeb.SignupControllerTest do
       }
     }
 
-    conn = post(conn, routes().signup_path(conn, :create), params)
+    conn = post(conn, routes().humo_account_signup_path(conn, :create), params)
     assert html_response(conn, 200) =~ "user_email\">has already been taken"
   end
 end

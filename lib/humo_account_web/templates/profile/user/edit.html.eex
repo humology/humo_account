@@ -2,7 +2,7 @@
   <h3>Edit My Profile</h3>
 
   <div class="container mb-3">
-    <%= form_for @changeset, routes().profile_user_path(@conn, :update), [method: :patch], fn f -> %>
+    <%= form_for @changeset, routes().humo_account_profile_user_path(@conn, :update), [method: :patch], fn f -> %>
       <%= if @changeset.action do %>
         <div class="alert alert-danger">
           <p>Oops, something went wrong! Please check the errors below.</p>

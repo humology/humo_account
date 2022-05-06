@@ -6,10 +6,10 @@ defmodule HumoAccountWeb.SessionControllerTest do
   describe "login" do
     test "login form", %{conn: conn} do
       fn ->
-        conn = get(conn, routes().session_path(conn, :new))
+        conn = get(conn, routes().humo_account_session_path(conn, :new))
 
         assert html_response(conn, 200) =~
-                "<form action=\"#{routes().session_path(conn, :create)}\" method=\"post\">"
+                "<form action=\"#{routes().humo_account_session_path(conn, :create)}\" method=\"post\">"
       end
       |> Mock.with_mock(can_actions: &AllAccess.can_actions/2)
     end
@@ -18,11 +18,11 @@ defmodule HumoAccountWeb.SessionControllerTest do
       fn ->
         user = insert(:user)
         params = %{email: user.email, password: "password"}
-        conn = post(conn, routes().session_path(conn, :create), params)
+        conn = post(conn, routes().humo_account_session_path(conn, :create), params)
 
         user_id = user.id
         assert %{"user_id" => ^user_id} = get_session(conn)
-        assert redirected_to(conn) == routes().dashboard_user_path(conn, :index)
+        assert redirected_to(conn) == routes().dashboard_humo_account_user_path(conn, :index)
       end
       |> Mock.with_mock(can_actions: &AllAccess.can_actions/2)
     end
@@ -32,7 +32,7 @@ defmodule HumoAccountWeb.SessionControllerTest do
         user = insert(:user)
         params = %{email: user.email, password: "wrong_password"}
 
-        conn = post(conn, routes().session_path(conn, :create), params)
+        conn = post(conn, routes().humo_account_session_path(conn, :create), params)
         assert html_response(conn, 200) =~ "Bad email/password combination"
       end
       |> Mock.with_mock(can_actions: &AllAccess.can_actions/2)
@@ -44,8 +44,8 @@ defmodule HumoAccountWeb.SessionControllerTest do
         email = user_not_verified.email
 
         params = %{email: email, password: "password"}
-        conn = post(conn, routes().session_path(conn, :create), params)
-        assert redirected_to(conn) == routes().verify_email_path(conn, :index)
+        conn = post(conn, routes().humo_account_session_path(conn, :create), params)
+        assert redirected_to(conn) == routes().humo_account_verify_email_path(conn, :index)
 
         assert_receive %Bamboo.Email{to: ^email}
       end
@@ -58,14 +58,14 @@ defmodule HumoAccountWeb.SessionControllerTest do
       user = insert(:user)
 
       params = %{email: user.email, password: "password"}
-      conn = post(conn, routes().session_path(conn, :create), params)
+      conn = post(conn, routes().humo_account_session_path(conn, :create), params)
 
       %{conn: conn}
     end
 
     test "with logout session is cleaned", %{conn: conn} do
       fn ->
-        conn = delete(conn, routes().session_path(conn, :delete))
+        conn = delete(conn, routes().humo_account_session_path(conn, :delete))
         assert redirected_to(conn)
         assert %{} == get_session(conn)
       end

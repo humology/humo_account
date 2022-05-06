@@ -8,12 +8,12 @@ config :humo, :plugins,
   humo_account: %{
     title: "Accounts",
     dashboard_links: [
-      %{title: "Users", route: :dashboard_user_path, action: :index}
+      %{title: "Users", route: :dashboard_humo_account_user_path, action: :index}
     ],
     account_links: [
-      %{title: "Login", route: :session_path, action: :new},
-      %{title: "Profile", route: :profile_user_path, action: :show},
-      %{title: "Logout", route: :session_path, action: :delete, method: :delete}
+      %{title: "Login", route: :humo_account_session_path, action: :new},
+      %{title: "Profile", route: :humo_account_profile_user_path, action: :show},
+      %{title: "Logout", route: :humo_account_session_path, action: :delete, method: :delete}
     ]
   }
 
