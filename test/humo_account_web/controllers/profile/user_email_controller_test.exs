@@ -49,6 +49,6 @@ defmodule HumoAccountWeb.Profile.UserEmailControllerTest do
     assert UsersService.get_user_by_email(user.email)
     refute UsersService.get_user_by_email("some@other.email")
 
-    assert html_response(conn, 200) =~ "phx-feedback-for=\"user_current_password\""
+    assert html_response(conn, 200) =~ "phx-feedback-for=\"user[current_password]\""
   end
 end

@@ -41,6 +41,6 @@ defmodule HumoAccountWeb.Profile.UserPasswordControllerTest do
 
     %{password_hash: password_hash} = UsersService.get_user_by_email(user.email)
     assert Bcrypt.verify_pass("password", password_hash)
-    assert html_response(conn, 200) =~ "phx-feedback-for=\"user_current_password\""
+    assert html_response(conn, 200) =~ "phx-feedback-for=\"user[current_password]\""
   end
 end
