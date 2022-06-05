@@ -65,7 +65,7 @@ defmodule HumoAccount.MixProject do
       {:bamboo, "~> 1.5"},
       {:bamboo_smtp, "~> 2.1.0"},
       #{:humo, "~> 0.1.0"}
-      {:humo, git: "git@github.com:humology/humo.git"}
+      {:humo, github: "humology/humo"}
     ]
   end
 
