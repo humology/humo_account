@@ -10,6 +10,10 @@ import Config
 if Path.expand("humo_#{Mix.env()}.exs", __DIR__) |> File.exists?(), do:
   import_config "humo_#{Mix.env()}.exs"
 
+# Configures Humo.Repo adapter
+config :humo, Humo.Repo,
+  adapter: Ecto.Adapters.Postgres
+
 # Configures the endpoint
 config :humo_account, HumoAccountWeb.Endpoint,
   url: [host: "localhost"],
