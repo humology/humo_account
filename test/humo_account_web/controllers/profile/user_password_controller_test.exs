@@ -7,8 +7,7 @@ defmodule HumoAccountWeb.Profile.UserPasswordControllerTest do
 
     params = %{email: user.email, password: "password"}
 
-    authenticated_conn =
-      post(conn, routes().humo_account_session_path(conn, :create), params)
+    authenticated_conn = post(conn, routes().humo_account_session_path(conn, :create), params)
 
     %{conn: authenticated_conn, user: user}
   end

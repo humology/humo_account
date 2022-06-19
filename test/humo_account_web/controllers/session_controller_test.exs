@@ -9,7 +9,7 @@ defmodule HumoAccountWeb.SessionControllerTest do
         conn = get(conn, routes().humo_account_session_path(conn, :new))
 
         assert html_response(conn, 200) =~
-                "<form action=\"#{routes().humo_account_session_path(conn, :create)}\" method=\"post\">"
+                 "<form action=\"#{routes().humo_account_session_path(conn, :create)}\" method=\"post\">"
       end
       |> Mock.with_mock(can_actions: &AllAccess.can_actions/2)
     end

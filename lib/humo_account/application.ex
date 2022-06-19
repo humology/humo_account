@@ -12,18 +12,20 @@ defmodule HumoAccount.Application do
       # {HumoAccount.Worker, arg}
     ]
 
-    children = if Humo.is_server_app_module(__MODULE__) do
-      children ++ [
-        # Start the PubSub system
-        {Phoenix.PubSub, name: HumoAccount.PubSub},
-        # Start the Telemetry supervisor
-        HumoAccountWeb.Telemetry,
-        # Start the Endpoint (http/https)
-        HumoAccountWeb.Endpoint
-      ]
-    else
-      children
-    end
+    children =
+      if Humo.is_server_app_module(__MODULE__) do
+        children ++
+          [
+            # Start the PubSub system
+            {Phoenix.PubSub, name: HumoAccount.PubSub},
+            # Start the Telemetry supervisor
+            HumoAccountWeb.Telemetry,
+            # Start the Endpoint (http/https)
+            HumoAccountWeb.Endpoint
+          ]
+      else
+        children
+      end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

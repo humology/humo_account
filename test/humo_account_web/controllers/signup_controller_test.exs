@@ -48,6 +48,8 @@ defmodule HumoAccountWeb.SignupControllerTest do
     }
 
     conn = post(conn, routes().humo_account_signup_path(conn, :create), params)
-    assert html_response(conn, 200) =~ "phx-feedback-for=\"user[email]\">has already been taken</span>"
+
+    assert html_response(conn, 200) =~
+             "phx-feedback-for=\"user[email]\">has already been taken</span>"
   end
 end

@@ -9,6 +9,8 @@ defmodule HumoAccount.Factory do
       email: "jane-smith@example.invalid",
       email_verified_at: DateTime.utc_now(),
       password_hash: Bcrypt.hash_pwd_salt("password")
-    } |> Ecto.Changeset.change(params) |> Repo.insert!()
+    }
+    |> Ecto.Changeset.change(params)
+    |> Repo.insert!()
   end
 end

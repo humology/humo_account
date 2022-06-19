@@ -7,12 +7,11 @@
 # General application configuration
 import Config
 
-if Path.expand("humo_#{Mix.env()}.exs", __DIR__) |> File.exists?(), do:
-  import_config "humo_#{Mix.env()}.exs"
+if Path.expand("humo_#{Mix.env()}.exs", __DIR__) |> File.exists?(),
+  do: import_config("humo_#{Mix.env()}.exs")
 
 # Configures Humo.Repo adapter
-config :humo, Humo.Repo,
-  adapter: Ecto.Adapters.Postgres
+config :humo, Humo.Repo, adapter: Ecto.Adapters.Postgres
 
 # Configures the endpoint
 config :humo_account, HumoAccountWeb.Endpoint,
@@ -37,7 +36,7 @@ config :logger, :console,
   metadata: [:request_id]
 
 config :humo_account, HumoAccountWeb.AuthService,
-  timeout_seconds: 3600*24,
+  timeout_seconds: 3600 * 24,
   secret: "sKKlOpvwOwHg+cTLFO4byayYBUWEBGCJGjgGTjdRWYkTVPNGi9gnlYAmVCWo9mVnDhgT",
   salt: "JghkDhKAHTBDTVtbtdsOTtdsgtOPGqKSHvBtGHTDgh"
 
