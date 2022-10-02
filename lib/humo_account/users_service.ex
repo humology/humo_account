@@ -255,17 +255,15 @@ defmodule HumoAccount.UsersService do
   end
 
   defp match_search(query, search) do
-    case Ecto.UUID.cast(search) do
-      {:ok, _} ->
-        from u in query,
-          where: u.id == ^search
+    if is_uuid(search) do
+      from u in query,
+        where: u.id == ^search
+    else
+      search = "%#{search}%"
 
-      :error ->
-        search = "%#{search}%"
-
-        from u in query,
-          where:
-            ilike(u.first_name, ^search) or ilike(u.last_name, ^search) or ilike(u.email, ^search)
+      from u in query,
+        where:
+          ilike(u.first_name, ^search) or ilike(u.last_name, ^search) or ilike(u.email, ^search)
     end
   end
 
@@ -278,5 +276,9 @@ defmodule HumoAccount.UsersService do
     from query,
       limit: ^size,
       offset: ^((page - 1) * size)
+  end
+
+  defp is_uuid(str) do
+    byte_size(str) == 36 and match?({:ok, _}, Ecto.UUID.cast(str))
   end
 end
