@@ -9,7 +9,7 @@ defmodule HumoAccountWeb.Profile.UserPasswordController do
   def edit(conn, _params) do
     user = conn.assigns.current_user
     changeset = UsersService.change_user(user)
-    render(conn, "edit.html", changeset: changeset)
+    render(conn, "edit.html", changeset: changeset, page_title: "Edit password")
   end
 
   def update(conn, %{"user" => params}) do
@@ -23,7 +23,7 @@ defmodule HumoAccountWeb.Profile.UserPasswordController do
         |> redirect(to: routes().humo_account_profile_user_path(conn, :show))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", changeset: changeset)
+        render(conn, "edit.html", changeset: changeset, page_title: "Edit password")
     end
   end
 end

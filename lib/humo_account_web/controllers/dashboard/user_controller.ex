@@ -5,7 +5,7 @@ defmodule HumoAccountWeb.Dashboard.UserController do
   alias HumoAccount.UsersService.User
   alias HumoWeb.AuthorizationExtractor
 
-  @page_size 50
+  @page_size 20
 
   plug :assign_user when action in [:show, :edit, :update, :delete]
 
@@ -30,19 +30,20 @@ defmodule HumoAccountWeb.Dashboard.UserController do
       users: users,
       search: search,
       page: page,
-      page_max: page_max
+      page_max: page_max,
+      page_title: "Users"
     )
   end
 
   def show(conn, _params) do
     user = conn.assigns.user
-    render(conn, "show.html", user: user)
+    render(conn, "show.html", user: user, page_title: "Show user")
   end
 
   def edit(conn, _params) do
     user = conn.assigns.user
     changeset = UsersService.change_user(user)
-    render(conn, "edit.html", user: user, changeset: changeset)
+    render(conn, "edit.html", user: user, changeset: changeset, page_title: "Edit user")
   end
 
   def update(conn, %{"user" => user_params}) do
@@ -55,7 +56,7 @@ defmodule HumoAccountWeb.Dashboard.UserController do
         |> redirect(to: routes().dashboard_humo_account_user_path(conn, :show, user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", user: user, changeset: changeset)
+        render(conn, "edit.html", user: user, changeset: changeset, page_title: "Edit user")
     end
   end
 
