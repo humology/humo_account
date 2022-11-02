@@ -69,7 +69,7 @@ defmodule HumoAccountWeb.AuthService do
       UsersService.change_user(user)
     else
       _ ->
-        {:error, :failed}
+        {:error, :expired_or_invalid_token}
     end
   end
 
@@ -79,7 +79,7 @@ defmodule HumoAccountWeb.AuthService do
       UsersService.update_user_reset_password(user, params)
     else
       _ ->
-        {:error, :failed}
+        {:error, :expired_or_invalid_token}
     end
   end
 
