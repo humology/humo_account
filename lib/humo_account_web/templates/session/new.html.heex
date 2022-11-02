@@ -1,0 +1,29 @@
+<div class="card card-md">
+  <%= form_for @conn, routes().humo_account_session_path(@conn, :create), [method: :post], fn f -> %>
+    <div class="card-body">
+      <h2 class="card-title text-center mb-4">Login to your account</h2>
+      <div class="mb-3">
+        <%= label f, :email, "Email address", class: "form-label" %>
+        <%= email_input f, :email, class: "form-control", placeholder: "Email" %>
+      </div>
+      <div class="mb-2">
+        <%= label f, :password, class: "form-label" do %>
+          Password
+          <span class="form-label-description">
+            <%= link "I forgot password", to: routes().humo_account_reset_password_path(@conn, :new) %>
+          </span>
+        <% end %>
+        <div class="input-group input-group-flat">
+          <%= password_input f, :password, class: "form-control", placeholder: "Password" %>
+        </div>
+      </div>
+      <div class="form-footer">
+        <%= submit "Login", class: "btn btn-primary w-100" %>
+      </div>
+    </div>
+  <% end %>
+</div>
+<div class="text-center text-muted mt-3">
+  Don't have account yet? 
+  <%= link "Sign up", to: routes().humo_account_signup_path(@conn, :new) %>
+</div>

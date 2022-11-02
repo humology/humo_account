@@ -1,0 +1,95 @@
+<div class="col-12">
+  <div class="card">
+    <div class="card-body border-bottom py-3">
+      <div class="form-row">
+        <div class="me-auto col-sm-4">
+          <%= form_for @conn,
+              routes().dashboard_humo_account_user_path(@conn, :index),
+              [method: "get", class: "input-group input-group-sm"],
+              fn f -> %>
+            <%= text_input f, :search, class: "form-control",
+                placeholder: "Search by email, name or id",
+                value: @search %>
+            <%= submit "Search", class: "btn btn-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table card-table table-vcenter text-nowrap datatable">
+        <thead>
+          <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email</th>
+            <th>Email verified at</th>
+            <th>Inserted at</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for user <- @users do %>
+            <tr>
+              <td><%= user.first_name %></td>
+              <td><%= user.last_name %></td>
+              <td><%= user.email %></td>
+              <td><%= format_datetime(user.email_verified_at) %></td>
+              <td><%= format_datetime(user.inserted_at) %></td>
+              <td class="text-end">
+                <div class="dropdown position-static">
+                  <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">Actions</button>
+                  <div class="dropdown-menu dropdown-menu-end" style="">
+                    <%= can_link Plug.Conn.assign(@conn, :user, user), "Show",
+                        to: routes().dashboard_humo_account_user_path(@conn, :show, user),
+                        class: "dropdown-item" %>
+                    <%= can_link Plug.Conn.assign(@conn, :user, user), "Edit",
+                        to: routes().dashboard_humo_account_user_path(@conn, :edit, user),
+                        class: "dropdown-item" %>
+                    <%= can_link Plug.Conn.assign(@conn, :user, user), "Delete",
+                        to: routes().dashboard_humo_account_user_path(@conn, :delete, user),
+                        method: :delete, data: [confirm: "Are you sure?"],
+                        class: "dropdown-item" %>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer d-flex align-items-center">
+      <ul class="pagination m-0 ms-auto">
+        <li class={"page-item #{if @page <= 1, do: "disabled"}"}>
+          <%= link to: routes().dashboard_humo_account_user_path(
+                @conn, :index,
+                search: @search, 
+                page: min(@page-1, @page_max)
+                ), class: "page-link" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><polyline points="15 6 9 12 15 18"></polyline></svg>
+            prev
+          <% end %>
+        </li>
+        <%= for x <- max(@page-2, 1)..min(@page+2, @page_max) do %>
+          <li class={"page-item #{if @page == x, do: "active"}"}>
+            <%= link "#{x}", 
+                to: routes().dashboard_humo_account_user_path(
+                  @conn, :index,
+                  search: @search, 
+                  page: x
+                ), class: "page-link" %>
+          </li>
+        <% end %>
+        <li class={"page-item #{if @page >= @page_max, do: "disabled"}"}>
+          <%= link to: routes().dashboard_humo_account_user_path(
+                @conn, :index,
+                search: @search, 
+                page: @page+1
+                ), class: "page-link" do %>
+            next
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><polyline points="9 6 15 12 9 18"></polyline></svg>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

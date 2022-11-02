@@ -1,8 +1,7 @@
-<div class="row mt-5">
-  <div class="col-md-4 m-auto">
-    <h3 class="mb-3">Sign up</h3>
-
-    <%= form_for @changeset, routes().humo_account_signup_path(@conn, :create), [method: :post], fn f -> %>
+<div class="card card-md">
+  <%= form_for @changeset, routes().humo_account_signup_path(@conn, :create), [method: :post], fn f -> %>
+    <div class="card-body">
+      <h2 class="card-title text-center mb-4">Create new account</h2>
       <div class="mb-3">
         <%= label f, :first_name, class: "form-label" %>
         <%= text_input f, :first_name, class: "form-control" %>
@@ -16,8 +15,8 @@
       </div>
 
       <div class="mb-3">
-        <%= label f, :email, class: "form-label" %>
-        <%= text_input f, :email, class: "form-control" %>
+        <%= label f, :email, "Email address", class: "form-label" %>
+        <%= email_input f, :email, class: "form-control", placeholder: "Email" %>
         <%= error_tag f, :email %>
       </div>
 
@@ -27,12 +26,14 @@
         <%= error_tag f, :password %>
       </div>
 
-      <div class="mb-3 mt-4">
-        <%= submit "Sign up", class: "btn btn-primary" %>
+      <div class="form-footer">
+        <%= submit "Create new account", class: "btn btn-primary w-100" %>
       </div>
-    <% end %>
-    <div class="mt-4">
-      <%= link "Forgot Password?", to: routes().humo_account_reset_password_path(@conn, :new) %>
     </div>
-  </div>
+  <% end %>
+</div>
+
+<div class="text-center text-muted mt-3">
+  Already have account?
+  <%= link "Login", to: routes().humo_account_session_path(@conn, :new) %>
 </div>

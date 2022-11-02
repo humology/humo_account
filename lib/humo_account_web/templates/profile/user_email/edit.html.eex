@@ -1,25 +1,36 @@
-<h1>Edit email</h1>
+<div class="row row-deck row-cards">
+  <div class="col-sm-12 col-lg-6">
+    <div class="card card-sm">
+      <%= form_for @changeset, routes().humo_account_profile_user_email_path(@conn, :update), [method: :patch], fn f -> %>
+        <div class="card-body">
+          <%= if @changeset.action do %>
+            <div class="alert alert-danger">
+              <p>Oops, something went wrong! Please check the errors below.</p>
+            </div>
+          <% end %>
 
-<%= form_for @changeset, routes().humo_account_profile_user_email_path(@conn, :update), [method: :patch], fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+          <div class="mb-3">
+            <%= label f, :email, class: "form-label" %>
+            <%= text_input f, :email, class: "form-control" %>
+            <%= error_tag f, :email %>
+          </div>
+
+          <div class="mb-3">
+            <%= label f, :current_password, class: "form-label" %>
+            <%= password_input f, :current_password, class: "form-control"  %>
+            <%= error_tag f, :current_password %>
+          </div>
+        </div>
+
+        <div class="card-footer text-end">
+          <div class="d-flex">
+            <%= can_link @conn, "Cancel",
+                to: routes().humo_account_profile_user_path(@conn, :show),
+                class: "btn btn-link" %>
+            <%= submit "Save", class: "btn btn-primary ms-auto" %>
+          </div>
+        </div>
+      <% end %>
     </div>
-  <% end %>
-
-  <div class="mb-3 col-md-4">
-    <%= label f, :email, class: "form-label" %>
-    <%= text_input f, :email, class: "form-control" %>
-    <%= error_tag f, :email %>
   </div>
-
-  <div class="mb-3 col-md-4">
-    <%= label f, :current_password, class: "form-label" %>
-    <%= password_input f, :current_password, class: "form-control"  %>
-    <%= error_tag f, :current_password %>
-  </div>
-
-  <div class="mb-3 col-md-4">
-    <%= submit "Save", class: "btn btn-primary" %>
-  </div>
-<% end %>
+</div>

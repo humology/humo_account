@@ -1,34 +1,57 @@
-<h3>Show User</h3>
+<div class="row row-deck row-cards">
+  <div class="col-sm-12 col-lg-6">
+    <div class="card card-sm">
+      <div class="card-body">
+        <div>
+          <label class="col-sm-4 col-form-label">First name</label>
+          <span class="col-sm-8">
+            <%= @user.first_name %>
+          </span>
+        </div>
 
-<div class="mb-3 col-md-6">
-  <label class="col-sm-4 col-form-label">First name</label>
-  <span class="col-sm-8">
-    <%= @user.first_name %>
-  </span>
+        <div>
+          <label class="col-sm-4 col-form-label">Last name</label>
+          <span class="col-sm-8">
+            <%= @user.last_name %>
+          </span>
+        </div>
+
+        <div>
+          <label class="col-sm-4 col-form-label">Email</label>
+          <span class="col-sm-8">
+            <%= @user.email %>
+          </span>
+        </div>
+
+        <div>
+          <label class="col-sm-4 col-form-label">Email verified at</label>
+          <span class="col-sm-8">
+            <%= format_datetime(@user.email_verified_at) %>
+          </span>
+        </div>
+
+        <div>
+          <label class="col-sm-4 col-form-label">Inserted at</label>
+          <span class="col-sm-8">
+            <%= format_datetime(@user.inserted_at) %>
+          </span>
+        </div>
+
+        <div>
+          <label class="col-sm-4 col-form-label">Updated at</label>
+          <span class="col-sm-8">
+            <%= format_datetime(@user.updated_at) %>
+          </span>
+        </div>
+      </div>
+      <div class="card-footer text-end">
+        <div class="d-flex">
+          <%= can_link @conn, "Cancel", to: routes().dashboard_humo_account_user_path(@conn, :index), class: "btn btn-link" %>
+          <%= can_link Plug.Conn.assign(@conn, :user, @user), "Edit",
+                    to: routes().dashboard_humo_account_user_path(@conn, :edit, @user),
+                    class: "btn btn-link ms-auto" %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<div class="mb-3 col-md-6">
-  <label class="col-sm-4 col-form-label">Last name</label>
-  <span class="col-sm-8">
-    <%= @user.last_name %>
-  </span>
-</div>
-
-<div class="mb-3 col-md-6">
-  <label class="col-sm-4 col-form-label">Email</label>
-  <span class="col-sm-8">
-    <%= @user.email %>
-  </span>
-</div>
-
-<div class="mb-3 col-md-6">
-  <label class="col-sm-4 col-form-label">Email verified at</label>
-  <span class="col-sm-8">
-    <%= @user.email_verified_at %>
-  </span>
-</div>
-
-<%= can_link Plug.Conn.assign(@conn, :user, @user), "Edit",
-             to: routes().dashboard_humo_account_user_path(@conn, :edit, @user),
-             class: "mr-1" %>
-<%= can_link @conn, "Back", to: routes().dashboard_humo_account_user_path(@conn, :index) %>

@@ -1,7 +1,7 @@
 <div class="row row-deck row-cards">
   <div class="col-sm-12 col-lg-6">
     <div class="card card-sm">
-      <%= form_for @changeset, routes().humo_account_profile_user_password_path(@conn, :update), [method: :patch], fn f -> %>
+      <%= form_for @changeset, routes().humo_account_profile_user_path(@conn, :update), [method: :patch], fn f -> %>
         <div class="card-body">
           <%= if @changeset.action do %>
             <div class="alert alert-danger">
@@ -10,15 +10,15 @@
           <% end %>
 
           <div class="mb-3">
-            <%= label f, :password, "New password", class: "form-label" %>
-            <%= password_input f, :password, class: "form-control" %>
-            <%= error_tag f, :password %>
+            <%= label f, :first_name, class: "form-label" %>
+            <%= text_input f, :first_name, class: "form-control" %>
+            <%= error_tag f, :first_name %>
           </div>
 
           <div class="mb-3">
-            <%= label f, :current_password, class: "form-label" %>
-            <%= password_input f, :current_password, class: "form-control" %>
-            <%= error_tag f, :current_password %>
+            <%= label f, :last_name, class: "form-label" %>
+            <%= text_input f, :last_name, class: "form-control" %>
+            <%= error_tag f, :last_name %>
           </div>
         </div>
 

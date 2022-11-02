@@ -1,0 +1,55 @@
+<div class="row row-deck row-cards">
+  <div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="card card-sm">
+      <div class="card-header">
+        <strong>Profile</strong>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <label class="col-md-4 col-form-label">First name</label>
+          <span class="col-md-8 col-form-label"><%= @current_user.first_name %></span>
+        </div>
+
+        <div class="row">
+          <label class="col-md-4 col-form-label">Last name</label>
+          <span class="col-md-8 col-form-label"><%= @current_user.last_name %></span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <%= link "Edit", to: routes().humo_account_profile_user_path(@conn, :edit) %>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="card card-sm">
+      <div class="card-header">
+        <strong>Email</strong>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <label class="col-sm-4 col-form-label">Email</label>
+          <span class="col-sm-8 col-form-label"><%= @current_user.email %></span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <%= link "Edit", to: routes().humo_account_profile_user_email_path(@conn, :edit) %>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="card card-sm">
+      <div class="card-header">
+        <strong>Password</strong>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <label class="col-sm-4 col-form-label">Password</label>
+          <span class="col-sm-8 col-form-label">•••••••••••••</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <%= link "Edit", to: routes().humo_account_profile_user_password_path(@conn, :edit) %>
+      </div>
+    </div>
+  </div>
+</div>

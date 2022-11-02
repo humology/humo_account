@@ -1,7 +1,18 @@
-<h1>Email verified</h1>
-
-<%= if @verified do %>
-  Email was verified, now you can login
-<% else %>
-  Email verification is limited by 24 hours, please request email verification again.
-<% end %>
+<div class="card card-md">
+  <div class="card-body">
+    <%= if @verified do %>
+      <h2 class="card-title text-center mb-4">Email verification success</h2>
+      <p class="text-muted">
+        Congratulations! Please go to
+        <%= link "login", to: routes().humo_account_session_path(@conn, :new) %>
+      </p>
+    <% else %>
+      <h2 class="card-title text-center mb-4">Email verification failed</h2>
+      <p class="text-muted">
+        Email verification is limited by 24 hours, please
+        <%= link "request", to: routes().humo_account_session_path(@conn, :new) %>
+        email verification again.
+      </p>
+    <% end %>
+  </div>
+</div>

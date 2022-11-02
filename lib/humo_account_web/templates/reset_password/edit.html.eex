@@ -1,17 +1,26 @@
-<h1>Reset</h1>
+<div class="card card-md">
+  <div class="card-body">
+    <h2 class="card-title text-center mb-4">Reset password</h2>
+    <%= if @changeset do %>
+      <p class="text-muted mb-4">Set your new password</p>
 
-<%= if @changeset != nil do %>
-  <%= form_for @changeset, routes().humo_account_reset_password_path(@conn, :update, @token), [method: :post], fn f -> %>
-    <div class="mb-3 col-md-4">
-      <%= label f, :password, class: "form-label" %>
-      <%= password_input f, :password, class: "form-control" %>
-      <%= error_tag f, :password %>
-    </div>
-
-    <div class="mb-3 col-md-4">
-      <%= submit "Reset password", class: "btn btn-primary" %>
-    </div>
-  <% end %>
-<% else %>
-  Link expired, please request another password reset.
-<% end %>
+      <%= form_for @changeset, routes().humo_account_reset_password_path(@conn, :update, @token), [method: :patch], fn f -> %>
+        <div class="mb-2">
+          <%= label f, :password, "New password", class: "form-label" %>
+          <div class="input-group input-group-flat">
+            <%= password_input f, :password, class: "form-control", placeholder: "New password" %>
+          </div>
+          <%= error_tag f, :password %>
+        </div>
+        <div class="form-footer">
+          <%= submit "Update password", class: "btn btn-primary w-100" %>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="text-muted mb-4">
+        Link expired, please request another
+        <%= link "password reset", to: routes().humo_account_reset_password_path(@conn, :new) %>
+      </p>
+    <% end %>
+  </div>
+</div>
