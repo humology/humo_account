@@ -9,25 +9,31 @@ defmodule HumoAccountWeb.PluginRouter do
         plug HumoAccountWeb.RequireAuthenticationPlug
       end
 
+      pipeline :humo_minimal_layout do
+        plug :put_root_layout, {HumoWeb.layout_view(), "minimal-modal.html"}
+      end
+
       scope "/", HumoAccountWeb do
+        pipe_through :humo_minimal_layout
+
         get "/login", SessionController, :new
         post "/login", SessionController, :create
         delete "/logout", SessionController, :delete
 
         get "/signup", SignupController, :new
         post "/signup", SignupController, :create
-        get "/verify_email", VerifyEmailController, :index
-        get "/verify_email/:token", VerifyEmailController, :edit
-        get "/reset_password", ResetPasswordController, :new
-        post "/reset_password", ResetPasswordController, :create
-        get "/reset_password/:token", ResetPasswordController, :edit
-        patch "/reset_password/:token", ResetPasswordController, :update
+        get "/verify-email", VerifyEmailController, :index
+        get "/verify-email/:token", VerifyEmailController, :edit
+        get "/reset-password", ResetPasswordController, :new
+        post "/reset-password", ResetPasswordController, :create
+        get "/reset-password/:token", ResetPasswordController, :edit
+        patch "/reset-password/:token", ResetPasswordController, :update
       end
 
       scope "/", HumoAccountWeb do
         pipe_through :humo_account_require_authentication
 
-        scope "/profile", Profile, as: :profile do
+        scope "/profile", Profile, as: :profile, assigns: %{page_pretitle: "Accounts"} do
           resources "/", UserController, only: [:show, :edit, :update], singleton: true
           resources "/email", UserEmailController, only: [:edit, :update], singleton: true
           resources "/password", UserPasswordController, only: [:edit, :update], singleton: true
@@ -38,7 +44,9 @@ defmodule HumoAccountWeb.PluginRouter do
 
   def dashboard() do
     quote location: :keep do
-      resources "/users", HumoAccountWeb.Dashboard.UserController, except: [:new, :create]
+      scope "/", HumoAccountWeb.Dashboard, assigns: %{page_pretitle: "Accounts"} do
+        resources "/users", UserController, except: [:new, :create]
+      end
     end
   end
 end
