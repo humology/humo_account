@@ -9,7 +9,7 @@ defmodule HumoAccount.MixProject do
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
@@ -52,11 +52,10 @@ defmodule HumoAccount.MixProject do
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.0"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_reload, "~> 1.3.3", only: :dev},
       {:phoenix_live_view, "~> 0.17.5"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.6"},
-      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
@@ -65,9 +64,16 @@ defmodule HumoAccount.MixProject do
       {:bcrypt_elixir, "~> 3.0"},
       {:bamboo, "~> 1.5"},
       {:bamboo_smtp, "~> 2.1.0"},
-      # {:humo, "~> 0.1.0"}
-      {:humo, github: "humology/humo"}
+      {:humo, "~> 0.2.0", deps_humo_opts()}
     ]
+  end
+
+  defp deps_humo_opts() do
+    if path = System.get_env("DEPS_HUMO_PATH") do
+      [path: path]
+    else
+      []
+    end
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
@@ -84,7 +90,7 @@ defmodule HumoAccount.MixProject do
       "ecto.setup": ["ecto.create", "humo.ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "humo.ecto.migrate", "test"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["cmd npm run deploy", "phx.digest"]
     ]
   end
 end
