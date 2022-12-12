@@ -17,7 +17,7 @@ defmodule HumoAccountWeb.Profile.UserControllerTest do
 
   test "show", %{conn: conn} do
     conn = get(conn, routes().humo_account_profile_user_path(conn, :show))
-    assert html_response(conn, 200) =~ "<h3>My Profile</h3>"
+    assert html_response(conn, 200) =~ "<strong>Profile</strong>"
   end
 
   test "edit", %{conn: conn, user: user} do

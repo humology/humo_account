@@ -42,11 +42,14 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
           conn = get(conn, routes().dashboard_humo_account_user_path(conn, :index))
 
           response = html_response(conn, 200)
-          assert response =~ "<h3>Users</h3>"
+          html = Floki.parse_fragment!(response)
+          links = Floki.find(html, "a.dropdown-item") |> Floki.text()
+
+          assert Floki.find(html, "h2.page-title") |> Floki.text() =~ "Users"
           assert response =~ @create_attrs.first_name
-          assert response =~ "Show" == "read" in resource_can_actions
-          assert response =~ "Edit" == "update" in resource_can_actions
-          assert response =~ "Delete" == "delete" in resource_can_actions
+          assert links =~ "Show" == "read" in resource_can_actions
+          assert links =~ "Edit" == "update" in resource_can_actions
+          assert links =~ "Delete" == "delete" in resource_can_actions
         end
         |> Mock.with_mock(
           can_all: fn _, "read", User -> User end,
@@ -63,11 +66,14 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
         conn = get(conn, routes().dashboard_humo_account_user_path(conn, :index))
 
         response = html_response(conn, 200)
-        assert response =~ "<h3>Users</h3>"
+        html = Floki.parse_fragment!(response)
+        links = Floki.find(html, "a.dropdown-item") |> Floki.text()
+
+        assert Floki.find(html, "h2.page-title") |> Floki.text() =~ "Users"
         refute response =~ @create_attrs.first_name
-        refute response =~ "Show"
-        refute response =~ "Edit"
-        refute response =~ "Delete"
+        refute links =~ "Show"
+        refute links =~ "Edit"
+        refute links =~ "Delete"
       end
       |> Mock.with_mock(
         can_all: fn _, "read", User -> Humo.Repo.none(User) end,
@@ -91,8 +97,11 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
           conn = get(conn, routes().dashboard_humo_account_user_path(conn, :edit, user))
 
           response = html_response(conn, 200)
-          assert response =~ "Edit User"
-          assert response =~ "Back" == "read" in list_module_can_actions
+          html = Floki.parse_fragment!(response)
+          links = Floki.find(html, "a.btn.btn-link") |> Floki.text()
+
+          assert Floki.find(html, "h2.page-title") |> Floki.text() =~ "Edit user"
+          assert links =~ "Cancel" == "read" in list_module_can_actions
         end
         |> Mock.with_mock(
           can_actions: fn
@@ -139,7 +148,8 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
             user: @invalid_attrs
           )
 
-        assert html_response(conn, 200) =~ "Edit User"
+        html = Floki.parse_fragment!(html_response(conn, 200))
+        assert Floki.find(html, "h2.page-title") |> Floki.text() =~ "Edit user"
       end
       |> Mock.with_mock(can_actions: &AllAccess.can_actions/2)
     end
@@ -164,9 +174,11 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
         fn ->
           conn = get(conn, routes().dashboard_humo_account_user_path(conn, :show, user))
 
-          response = html_response(conn, 200)
-          assert response =~ "Edit" == "update" in record_can_actions
-          assert response =~ "Back" == "read" in list_module_can_actions
+          html = Floki.parse_fragment!(html_response(conn, 200))
+          links = Floki.find(html, "a.btn.btn-link") |> Floki.text()
+
+          assert links =~ "Edit" == "update" in record_can_actions
+          assert links =~ "Back" == "read" in list_module_can_actions
         end
         |> Mock.with_mock(
           can_actions: fn
@@ -192,9 +204,9 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
         conn = delete(conn, routes().dashboard_humo_account_user_path(conn, :delete, user))
         assert redirected_to(conn) == routes().dashboard_humo_account_user_path(conn, :index)
 
-        assert_error_sent 404, fn ->
+        assert_error_sent(404, fn ->
           get(conn, routes().dashboard_humo_account_user_path(conn, :show, user))
-        end
+        end)
       end
       |> Mock.with_mock(can_actions: fn _, %User{} -> ["delete"] end)
     end

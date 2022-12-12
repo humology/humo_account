@@ -21,7 +21,7 @@ defmodule HumoAccountWeb.ResetPasswordControllerTest do
     conn = get(conn, routes().humo_account_reset_password_path(conn, :edit, "wrong_token"))
 
     assert html_response(conn, 200) =~
-             "Link expired, please request another password reset"
+             "Link expired, please request another"
   end
 
   test "success", %{conn: conn, user: user} do

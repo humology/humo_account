@@ -30,7 +30,7 @@ defmodule HumoAccountWeb.VerifyEmailControllerTest do
     assert_receive %Bamboo.Email{to: ^email, assigns: %{email_verified_url: email_verified_url}}
 
     conn = get(conn, email_verified_url)
-    assert html_response(conn, 200) =~ "Email was verified, now you can login"
+    assert html_response(conn, 200) =~ "Email verification success"
 
     assert %{email_verified_at: %DateTime{}} = UsersService.get_user_by_email(email)
   end

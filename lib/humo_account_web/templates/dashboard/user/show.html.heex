@@ -46,7 +46,7 @@
       </div>
       <div class="card-footer text-end">
         <div class="d-flex">
-          <%= can_link @conn, "Cancel", to: routes().dashboard_humo_account_user_path(@conn, :index), class: "btn btn-link" %>
+          <%= can_link @conn, "Back", to: routes().dashboard_humo_account_user_path(@conn, :index), class: "btn btn-link" %>
           <%= can_link Plug.Conn.assign(@conn, :user, @user), "Edit",
                     to: routes().dashboard_humo_account_user_path(@conn, :edit, @user),
                     class: "btn btn-link ms-auto" %>
