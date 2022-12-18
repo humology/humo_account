@@ -3,8 +3,8 @@ defmodule HumoAccountWeb.AuthService do
 
   alias HumoAccount.UsersService
   alias HumoAccount.UsersService.User
-  alias HumoAccountWeb.Mailer.VerifyEmail
   alias HumoAccountWeb.Mailer.ResetPassword
+  alias HumoAccountWeb.Mailer.VerifyEmail
   import HumoWeb, only: [routes: 0]
   alias HumoAccountWeb.Mailer
 

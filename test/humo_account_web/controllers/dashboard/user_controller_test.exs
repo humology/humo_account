@@ -3,7 +3,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
 
   alias HumoAccount.UsersService
   alias HumoAccount.UsersService.User
-  alias Humo.Authorizer.{Mock, AllAccess, NoAccess}
+  alias Humo.Authorizer.{AllAccess, Mock, NoAccess}
   import Ecto.Query, warn: false
 
   @create_attrs %{

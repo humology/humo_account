@@ -3,7 +3,7 @@ defmodule HumoAccountWeb.PluginRouter do
 
   use HumoWeb.PluginRouterBehaviour
 
-  def root() do
+  def root do
     quote location: :keep do
       pipeline :humo_account_require_authentication do
         plug HumoAccountWeb.RequireAuthenticationPlug
@@ -42,7 +42,7 @@ defmodule HumoAccountWeb.PluginRouter do
     end
   end
 
-  def dashboard() do
+  def dashboard do
     quote location: :keep do
       scope "/", HumoAccountWeb.Dashboard, assigns: %{page_pretitle: "Accounts"} do
         resources "/users", UserController, except: [:new, :create]

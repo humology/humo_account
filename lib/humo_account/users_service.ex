@@ -6,8 +6,8 @@ defmodule HumoAccount.UsersService do
   import Ecto.Query, warn: false
   alias Humo.Repo
 
-  alias HumoAccount.UsersService.User
   alias Humo.Authorizer
+  alias HumoAccount.UsersService.User
 
   @doc """
   Returns list of users by page, size and optional search query.

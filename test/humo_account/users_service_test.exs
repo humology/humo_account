@@ -3,9 +3,7 @@ defmodule HumoAccount.UsersServiceTest do
 
   alias HumoAccount.UsersService
   alias HumoAccount.UsersService.User
-  alias Humo.Authorizer.Mock
-  alias Humo.Authorizer.AllAccess
-  alias Humo.Authorizer.NoAccess
+  alias Humo.Authorizer.{AllAccess, Mock, NoAccess}
 
   @valid_attrs %{
     email: "some@teST.invalid",
