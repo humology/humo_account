@@ -63,7 +63,7 @@ defmodule HumoAccount.MixProject do
       {:bcrypt_elixir, "~> 3.0"},
       {:bamboo, "~> 1.5"},
       {:bamboo_smtp, "~> 2.1.0"},
-      {:humo, "~> 0.2.0", deps_humo_opts()},
+      {:humo, "~> 0.3.0", deps_humo_opts()},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]
   end
