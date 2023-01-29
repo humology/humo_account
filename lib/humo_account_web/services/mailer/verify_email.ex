@@ -1,14 +1,18 @@
 defmodule HumoAccountWeb.Mailer.VerifyEmail do
-  defstruct to: nil, email_verified_url: nil
+  defstruct [:to, :verify_email_url]
 
-  use Bamboo.Phoenix, view: HumoAccountWeb.EmailView
+  @config Application.compile_env!(:humo_account, HumoAccountWeb.Mailer)
+  @view Keyword.fetch!(@config, :view)
+  @layout Keyword.fetch!(@config, :layout)
+
+  use Phoenix.Swoosh, view: @view, layout: @layout
 
   def render_email(%__MODULE__{to: to} = payload) do
-    new_email()
-    |> put_html_layout({HumoAccountWeb.LayoutView, "email.html"})
+    payload = Map.take(payload, [:verify_email_url])
+
+    HumoAccountWeb.Mailer.default_email()
     |> to(to)
     |> subject("Email verification")
-    |> assign(:email_verified_url, payload.email_verified_url)
-    |> render(:verify_email)
+    |> render_body(:verify_email, payload)
   end
 end

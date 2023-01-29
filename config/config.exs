@@ -30,15 +30,6 @@ config :humo_account, HumoAccountWeb.AuthService,
   secret: "sKKlOpvwOwHg+cTLFO4byayYBUWEBGCJGjgGTjdRWYkTVPNGi9gnlYAmVCWo9mVnDhgT",
   salt: "JghkDhKAHTBDTVtbtdsOTtdsgtOPGqKSHvBtGHTDgh"
 
-config :humo_account, HumoAccountWeb.Mailer,
-  adapter: Bamboo.SMTPAdapter,
-  tls: :if_available,
-  allowed_tls_versions: [:tlsv1, :"tlsv1.1", :"tlsv1.2"],
-  ssl: true,
-  retries: 3,
-  no_mx_lookups: false,
-  auth: :always
-
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 

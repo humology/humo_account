@@ -4,10 +4,10 @@ defmodule HumoAccountWeb.Mailer.VerifyEmailTest do
 
   test "password reset email" do
     email = "user@mail.invalid"
-    url = "http://email_verified_url"
+    url = "http://verify_email_url"
 
     mail =
-      %VerifyEmail{to: email, email_verified_url: url}
+      %VerifyEmail{to: email, verify_email_url: url}
       |> VerifyEmail.render_email()
 
     assert mail.to == email

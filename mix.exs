@@ -61,8 +61,9 @@ defmodule HumoAccount.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:bcrypt_elixir, "~> 3.0"},
-      {:bamboo, "~> 1.5"},
-      {:bamboo_smtp, "~> 2.1.0"},
+      {:swoosh, "~> 1.3"},
+      {:phoenix_swoosh, "~> 1.1"},
+      {:hackney, "~> 1.18.1"},
       {:humo, "~> 0.3.0", deps_humo_opts()},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]

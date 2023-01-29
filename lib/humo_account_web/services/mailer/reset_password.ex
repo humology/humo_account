@@ -1,14 +1,18 @@
 defmodule HumoAccountWeb.Mailer.ResetPassword do
   defstruct to: nil, reset_password_url: nil
 
-  use Bamboo.Phoenix, view: HumoAccountWeb.EmailView
+  @config Application.compile_env!(:humo_account, HumoAccountWeb.Mailer)
+  @view Keyword.fetch!(@config, :view)
+  @layout Keyword.fetch!(@config, :layout)
+
+  use Phoenix.Swoosh, view: @view, layout: @layout
 
   def render_email(%__MODULE__{to: to} = payload) do
-    new_email()
-    |> put_html_layout({HumoAccountWeb.LayoutView, "email.html"})
+    payload = Map.take(payload, [:reset_password_url])
+
+    HumoAccountWeb.Mailer.default_email()
     |> to(to)
     |> subject("Password reset")
-    |> assign(:reset_password_url, payload.reset_password_url)
-    |> render(:reset_password)
+    |> render_body(:reset_password, payload)
   end
 end

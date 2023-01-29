@@ -85,21 +85,21 @@ defmodule HumoAccountWeb.AuthService do
 
   def send_verify_email(email) do
     with {:ok, email, token} <- get_token(email) do
-      Mailer.send_email(%VerifyEmail{
-        to: email,
-        email_verified_url:
-          routes().humo_account_verify_email_url(HumoWeb.endpoint(), :edit, token)
-      })
+      url = routes().humo_account_verify_email_url(HumoWeb.endpoint(), :edit, token)
+
+      %VerifyEmail{to: email, verify_email_url: url}
+      |> VerifyEmail.render_email()
+      |> Mailer.deliver()
     end
   end
 
   def send_reset_password_email(email) do
     with {:ok, email, token} <- get_token(email) do
-      Mailer.send_email(%ResetPassword{
-        to: email,
-        reset_password_url:
-          routes().humo_account_reset_password_url(HumoWeb.endpoint(), :edit, token)
-      })
+      url = routes().humo_account_reset_password_url(HumoWeb.endpoint(), :edit, token)
+
+      %ResetPassword{to: email, reset_password_url: url}
+      |> ResetPassword.render_email()
+      |> Mailer.deliver()
     end
   end
 

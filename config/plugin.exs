@@ -29,11 +29,5 @@ config :humo, HumoWeb.BrowserPlugs, humo_account: [{HumoAccountWeb.AssignUserPlu
 config :humo, Humo.Warehouse, humo_account: [HumoAccount.UsersService.User]
 
 config :humo_account, HumoAccountWeb.Mailer,
-  sender: HumoAccountWeb.Mailer.SenderDummy,
-  async: true
-
-config :humo_account, HumoAccountWeb.Mailer.VerifyEmail,
-  renderer: HumoAccountWeb.Mailer.VerifyEmail
-
-config :humo_account, HumoAccountWeb.Mailer.ResetPassword,
-  renderer: HumoAccountWeb.Mailer.ResetPassword
+  view: HumoAccountWeb.EmailView,
+  layout: {HumoAccountWeb.EmailView, :layout}
