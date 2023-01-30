@@ -7,28 +7,31 @@
     <% end %>
 
     <div class="mb-3">
-      <%= label f, :first_name, class: "form-label" %>
-      <%= text_input f, :first_name, class: "form-control" %>
-      <%= error_tag f, :first_name %>
+      <%= label(f, :first_name, class: "form-label") %>
+      <%= text_input(f, :first_name, class: "form-control") %>
+      <%= error_tag(f, :first_name) %>
     </div>
 
     <div class="mb-3">
-      <%= label f, :last_name, class: "form-label" %>
-      <%= text_input f, :last_name, class: "form-control" %>
-      <%= error_tag f, :last_name %>
+      <%= label(f, :last_name, class: "form-label") %>
+      <%= text_input(f, :last_name, class: "form-control") %>
+      <%= error_tag(f, :last_name) %>
     </div>
 
     <div class="mb-3">
-      <%= label f, :email, class: "form-label" %>
-      <%= text_input f, :email, class: "form-control" %>
-      <%= error_tag f, :email %>
+      <%= label(f, :email, class: "form-label") %>
+      <%= text_input(f, :email, class: "form-control") %>
+      <%= error_tag(f, :email) %>
     </div>
   </div>
 
   <div class="card-footer text-end">
     <div class="d-flex">
-      <%= can_link @conn, "Cancel", to: routes().dashboard_humo_account_user_path(@conn, :index), class: "btn btn-link" %>
-      <%= submit "Save", class: "btn btn-primary ms-auto" %>
+      <%= can_link(@conn, "Cancel",
+        to: routes().dashboard_humo_account_user_path(@conn, :index),
+        class: "btn btn-link"
+      ) %>
+      <%= submit("Save", class: "btn btn-primary ms-auto") %>
     </div>
   </div>
 <% end %>

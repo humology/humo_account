@@ -3,37 +3,36 @@
     <div class="card-body">
       <h2 class="card-title text-center mb-4">Create new account</h2>
       <div class="mb-3">
-        <%= label f, :first_name, class: "form-label" %>
-        <%= text_input f, :first_name, class: "form-control" %>
-        <%= error_tag f, :first_name %>
+        <%= label(f, :first_name, class: "form-label") %>
+        <%= text_input(f, :first_name, class: "form-control") %>
+        <%= error_tag(f, :first_name) %>
       </div>
 
       <div class="mb-3">
-        <%= label f, :last_name, class: "form-label" %>
-        <%= text_input f, :last_name, class: "form-control" %>
-        <%= error_tag f, :last_name %>
+        <%= label(f, :last_name, class: "form-label") %>
+        <%= text_input(f, :last_name, class: "form-control") %>
+        <%= error_tag(f, :last_name) %>
       </div>
 
       <div class="mb-3">
-        <%= label f, :email, "Email address", class: "form-label" %>
-        <%= email_input f, :email, class: "form-control", placeholder: "Email" %>
-        <%= error_tag f, :email %>
+        <%= label(f, :email, "Email address", class: "form-label") %>
+        <%= email_input(f, :email, class: "form-control", placeholder: "Email") %>
+        <%= error_tag(f, :email) %>
       </div>
 
       <div class="mb-3">
-        <%= label f, :password, class: "form-label" %>
-        <%= password_input f, :password, class: "form-control" %>
-        <%= error_tag f, :password %>
+        <%= label(f, :password, class: "form-label") %>
+        <%= password_input(f, :password, class: "form-control") %>
+        <%= error_tag(f, :password) %>
       </div>
 
       <div class="form-footer">
-        <%= submit "Create new account", class: "btn btn-primary w-100" %>
+        <%= submit("Create new account", class: "btn btn-primary w-100") %>
       </div>
     </div>
   <% end %>
 </div>
 
 <div class="text-center text-muted mt-3">
-  Already have account?
-  <%= link "Login", to: routes().humo_account_session_path(@conn, :new) %>
+  Already have account? <%= link("Login", to: routes().humo_account_session_path(@conn, :new)) %>
 </div>

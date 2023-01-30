@@ -10,24 +10,25 @@
           <% end %>
 
           <div class="mb-3">
-            <%= label f, :first_name, class: "form-label" %>
-            <%= text_input f, :first_name, class: "form-control" %>
-            <%= error_tag f, :first_name %>
+            <%= label(f, :first_name, class: "form-label") %>
+            <%= text_input(f, :first_name, class: "form-control") %>
+            <%= error_tag(f, :first_name) %>
           </div>
 
           <div class="mb-3">
-            <%= label f, :last_name, class: "form-label" %>
-            <%= text_input f, :last_name, class: "form-control" %>
-            <%= error_tag f, :last_name %>
+            <%= label(f, :last_name, class: "form-label") %>
+            <%= text_input(f, :last_name, class: "form-control") %>
+            <%= error_tag(f, :last_name) %>
           </div>
         </div>
 
         <div class="card-footer text-end">
           <div class="d-flex">
-            <%= can_link @conn, "Cancel",
-                to: routes().humo_account_profile_user_path(@conn, :show),
-                class: "btn btn-link" %>
-            <%= submit "Save", class: "btn btn-primary ms-auto" %>
+            <%= can_link(@conn, "Cancel",
+              to: routes().humo_account_profile_user_path(@conn, :show),
+              class: "btn btn-link"
+            ) %>
+            <%= submit("Save", class: "btn btn-primary ms-auto") %>
           </div>
         </div>
       <% end %>
