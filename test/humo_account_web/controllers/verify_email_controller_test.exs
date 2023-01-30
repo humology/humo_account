@@ -1,6 +1,7 @@
 defmodule HumoAccountWeb.VerifyEmailControllerTest do
   use HumoAccountWeb.ConnCase, async: true
   alias HumoAccount.UsersService
+  import Swoosh.TestAssertions
 
   setup %{conn: conn} do
     user = insert(:user)
@@ -11,13 +12,13 @@ defmodule HumoAccountWeb.VerifyEmailControllerTest do
   end
 
   test "success", %{conn: conn} do
-    email = "jack@example.invalid"
+    user_email = "jack@example.invalid"
 
     params = %{
       "user" => %{
         first_name: "Jack",
         last_name: "Smith",
-        email: email,
+        email: user_email,
         password: "password"
       }
     }
@@ -25,13 +26,19 @@ defmodule HumoAccountWeb.VerifyEmailControllerTest do
     conn = post(conn, routes().humo_account_signup_path(conn, :create), params)
     assert redirected_to(conn) == routes().humo_account_verify_email_path(conn, :index)
 
-    assert %{email_verified_at: nil} = UsersService.get_user_by_email(email)
+    assert %{email_verified_at: nil} = UsersService.get_user_by_email(user_email)
 
-    assert_receive %Bamboo.Email{to: ^email, assigns: %{verify_email_url: verify_email_url}}
+    %{assigns: %{verify_email_url: verify_email_url}} =
+      assert_email_sent(fn email ->
+        assert email.subject == "Email verification"
+        assert email.to == [{"", user_email}]
+
+        email
+      end)
 
     conn = get(conn, verify_email_url)
     assert html_response(conn, 200) =~ "Email verification success"
 
-    assert %{email_verified_at: %DateTime{}} = UsersService.get_user_by_email(email)
+    assert %{email_verified_at: %DateTime{}} = UsersService.get_user_by_email(user_email)
   end
 end

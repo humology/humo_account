@@ -2,6 +2,7 @@ defmodule HumoAccountWeb.SessionControllerTest do
   use HumoAccountWeb.ConnCase, async: true
   alias Humo.Authorizer.AllAccess
   alias Humo.Authorizer.Mock
+  import Swoosh.TestAssertions
 
   describe "login" do
     test "login form", %{conn: conn} do
@@ -40,14 +41,16 @@ defmodule HumoAccountWeb.SessionControllerTest do
 
     test "not verified email", %{conn: conn} do
       fn ->
-        user_not_verified = insert(:user, email_verified_at: nil)
-        email = user_not_verified.email
+        user = insert(:user, email_verified_at: nil)
 
-        params = %{email: email, password: "password"}
+        params = %{email: user.email, password: "password"}
         conn = post(conn, routes().humo_account_session_path(conn, :create), params)
         assert redirected_to(conn) == routes().humo_account_verify_email_path(conn, :index)
 
-        assert_receive %Bamboo.Email{to: ^email}
+        assert_email_sent(fn email ->
+          assert email.subject == "Email verification"
+          assert email.to == [{"", user.email}]
+        end)
       end
       |> Mock.with_mock(can_actions: &AllAccess.can_actions/2)
     end

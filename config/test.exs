@@ -30,6 +30,4 @@ config :humo, Humo.Authorizer, authorizer: Humo.Authorizer.Mock
 
 config :bcrypt_elixir, log_rounds: 4
 
-config :humo_account, HumoAccountWeb.Mailer,
-  sender: HumoAccountWeb.Mailer.SenderDummy,
-  async: false
+config :humo_account, HumoAccountWeb.Mailer, adapter: Swoosh.Adapters.Test

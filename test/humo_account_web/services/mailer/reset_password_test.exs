@@ -3,18 +3,18 @@ defmodule HumoAccountWeb.Mailer.ResetPasswordTest do
   alias HumoAccountWeb.Mailer.ResetPassword
 
   test "password reset email" do
-    email = "user@mail.invalid"
+    user_email = "user@mail.invalid"
     url = "http://reset_password_url"
 
-    mail =
-      %ResetPassword{to: email, reset_password_url: url}
+    email =
+      %ResetPassword{to: user_email, reset_password_url: url}
       |> ResetPassword.render_email()
 
-    assert mail.to == email
-    assert mail.subject == "Password reset"
-    assert mail.html_body =~ "reset password"
-    assert mail.html_body =~ url
-    assert mail.text_body =~ "reset password"
-    assert mail.text_body =~ url
+    assert email.to == [{"", user_email}]
+    assert email.subject == "Password reset"
+    assert email.html_body =~ "reset password"
+    assert email.html_body =~ url
+    assert email.text_body =~ "reset password"
+    assert email.text_body =~ url
   end
 end

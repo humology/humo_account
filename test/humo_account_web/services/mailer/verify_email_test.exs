@@ -3,18 +3,18 @@ defmodule HumoAccountWeb.Mailer.VerifyEmailTest do
   alias HumoAccountWeb.Mailer.VerifyEmail
 
   test "password reset email" do
-    email = "user@mail.invalid"
+    user_email = "user@mail.invalid"
     url = "http://verify_email_url"
 
-    mail =
-      %VerifyEmail{to: email, verify_email_url: url}
+    email =
+      %VerifyEmail{to: user_email, verify_email_url: url}
       |> VerifyEmail.render_email()
 
-    assert mail.to == email
-    assert mail.subject == "Email verification"
-    assert mail.html_body =~ "verify email"
-    assert mail.html_body =~ url
-    assert mail.text_body =~ "verify email"
-    assert mail.text_body =~ url
+    assert email.to == [{"", user_email}]
+    assert email.subject == "Email verification"
+    assert email.html_body =~ "verify email"
+    assert email.html_body =~ url
+    assert email.text_body =~ "verify email"
+    assert email.text_body =~ url
   end
 end
