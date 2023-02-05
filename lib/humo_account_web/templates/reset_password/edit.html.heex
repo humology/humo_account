@@ -6,20 +6,21 @@
 
       <%= form_for @changeset, routes().humo_account_reset_password_path(@conn, :update, @token), [method: :patch], fn f -> %>
         <div class="mb-2">
-          <%= label f, :password, "New password", class: "form-label" %>
+          <%= label(f, :password, "New password", class: "form-label") %>
           <div class="input-group input-group-flat">
-            <%= password_input f, :password, class: "form-control", placeholder: "New password" %>
+            <%= password_input(f, :password, class: "form-control", placeholder: "New password") %>
           </div>
-          <%= error_tag f, :password %>
+          <%= error_tag(f, :password) %>
         </div>
         <div class="form-footer">
-          <%= submit "Update password", class: "btn btn-primary w-100" %>
+          <%= submit("Update password", class: "btn btn-primary w-100") %>
         </div>
       <% end %>
     <% else %>
       <p class="text-muted mb-4">
-        Link expired, please request another
-        <%= link "password reset", to: routes().humo_account_reset_password_path(@conn, :new) %>
+        Link expired, please request another <%= link("password reset",
+          to: routes().humo_account_reset_password_path(@conn, :new)
+        ) %>
       </p>
     <% end %>
   </div>

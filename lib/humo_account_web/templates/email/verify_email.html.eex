@@ -1,4 +1,0 @@
-To verify email, please open
-<%= link @email_verified_url, to: @email_verified_url %>
-<br/>
-<strong>Thanks for joining!</strong>

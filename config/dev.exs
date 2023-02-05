@@ -76,3 +76,7 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 config :humo, Humo.Authorizer, authorizer: Humo.Authorizer.AllAccess
+
+config :humo_account, HumoAccountWeb.Mailer,
+  adapter: Swoosh.Adapters.Local,
+  default_from: {"Humo Dev Support", "dev@example.invalid"}

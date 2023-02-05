@@ -1,6 +1,7 @@
 defmodule HumoAccountWeb.ResetPasswordControllerTest do
   use HumoAccountWeb.ConnCase, async: true
   alias HumoAccount.UsersService
+  import Swoosh.TestAssertions
 
   setup %{conn: conn} do
     user = insert(:user)
@@ -25,25 +26,30 @@ defmodule HumoAccountWeb.ResetPasswordControllerTest do
   end
 
   test "success", %{conn: conn, user: user} do
-    email = user.email
-
-    %{password_hash: password_hash} = UsersService.get_user_by_email(email)
+    %{password_hash: password_hash} = UsersService.get_user_by_email(user.email)
     assert Bcrypt.verify_pass("password", password_hash)
 
-    conn = post(conn, routes().humo_account_reset_password_path(conn, :create), %{email: email})
+    conn =
+      post(conn, routes().humo_account_reset_password_path(conn, :create), %{email: user.email})
 
     assert html_response(conn, 200) =~ "reset password was sent"
 
-    assert_receive %Bamboo.Email{to: ^email, assigns: %{reset_password_url: reset_password_url}}
+    %{assigns: %{reset_password_url: reset_password_url}} =
+      assert_email_sent(fn email ->
+        assert email.subject == "Password reset"
+        assert email.to == [{"Jane Smith", user.email}]
 
-    reset_password_prefix = routes().humo_account_reset_password_path(conn, :edit, "")
-    [_, token] = String.split(reset_password_url, reset_password_prefix)
+        email
+      end)
 
     conn = get(conn, reset_password_url)
-    reset_password_update = routes().humo_account_reset_password_path(conn, :update, token)
 
-    assert html_response(conn, 200) =~
-             "<form action=\"#{reset_password_update}\" method=\"post\">"
+    assert response = html_response(conn, 200)
+
+    {:ok, html} = Floki.parse_document(response)
+
+    [{"form", [{"action", reset_password_update}, {"method", "post"}], _}] =
+      Floki.find(html, "form")
 
     conn = patch(conn, reset_password_update, %{user: %{password: "new_password"}})
 
@@ -52,17 +58,15 @@ defmodule HumoAccountWeb.ResetPasswordControllerTest do
 
     assert redirected_to(conn) == routes().dashboard_humo_account_user_path(conn, :index)
 
-    %{password_hash: password_hash} = UsersService.get_user_by_email(email)
+    %{password_hash: password_hash} = UsersService.get_user_by_email(user.email)
     assert Bcrypt.verify_pass("new_password", password_hash)
   end
 
   test "not registered", %{conn: conn} do
     email = "random@example.invalid"
-
     conn = post(conn, routes().humo_account_reset_password_path(conn, :create), %{email: email})
 
     assert html_response(conn, 200) =~ "reset password was sent"
-
-    refute_receive %Bamboo.Email{}, 100
+    refute_email_sent()
   end
 end

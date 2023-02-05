@@ -1,7 +1,14 @@
 <div class="row row-deck row-cards">
   <div class="col-sm-12 col-lg-6">
     <div class="card card-sm">
-      <%= render "form.html", Map.put(assigns, :action, routes().dashboard_humo_account_user_path(@conn, :update, @user)) %>
+      <%= render(
+        "form.html",
+        Map.put(
+          assigns,
+          :action,
+          routes().dashboard_humo_account_user_path(@conn, :update, @user)
+        )
+      ) %>
     </div>
   </div>
 </div>

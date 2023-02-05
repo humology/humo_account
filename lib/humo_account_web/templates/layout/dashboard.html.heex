@@ -1,28 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] || "HumoAccount", suffix: " · Phoenix Framework" %>
-    <link phx-track-static rel="stylesheet" href={routes().static_path(@conn, "/assets/css/app.css")}/>
-    <script defer phx-track-static type="text/javascript" src={routes().static_path(@conn, "/assets/js/app.js")}></script>
+    <%= live_title_tag(assigns[:page_title] || "HumoAccount", suffix: " · Phoenix Framework") %>
+    <link
+      phx-track-static
+      rel="stylesheet"
+      href={routes().static_path(@conn, "/assets/css/app.css")}
+    />
+    <script
+      defer
+      phx-track-static
+      type="text/javascript"
+      src={routes().static_path(@conn, "/assets/js/app.js")}
+    >
+    </script>
   </head>
   <body class="theme-light">
     <div class="page">
       <header class="navbar navbar-expand-md navbar-light d-print-none">
         <div class="container-xl">
-          <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-expanded="false">
+          <button
+            class="navbar-toggler collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbar-menu"
+            aria-expanded="false"
+          >
             <span class="navbar-toggler-icon"></span>
           </button>
           <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
             <a href={routes().dashboard_page_path(@conn, :index)}>Company Logo</a>
           </h1>
           <div class="flex-row order-md-last">
-            <.account_menu conn={@conn}/>
+            <.account_menu conn={@conn} />
           </div>
-          <.dashboard_menu conn={@conn}/>
+          <.dashboard_menu conn={@conn} />
         </div>
       </header>
 

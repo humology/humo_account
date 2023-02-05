@@ -4,6 +4,7 @@ defmodule HumoAccountWeb.LayoutView do
 
   def root_menu(assigns) do
     ~H"""
+
     """
   end
 
@@ -35,7 +36,14 @@ defmodule HumoAccountWeb.LayoutView do
         <ul class="navbar-nav">
           <%= for plugin <- @nav do %>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
+              <a
+                class="nav-link dropdown-toggle"
+                href="#navbar-base"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="false"
+                role="button"
+                aria-expanded="false"
+              >
                 <span class="nav-link-title">
                   <%= plugin.title %>
                 </span>
@@ -44,7 +52,7 @@ defmodule HumoAccountWeb.LayoutView do
                 <div class="dropdown-menu-columns">
                   <div class="dropdown-menu-column">
                     <%= for link <- plugin.links do %>
-                      <%= link link.title, to: link.path, method: link.method, class: "dropdown-item" %>
+                      <%= link(link.title, to: link.path, method: link.method, class: "dropdown-item") %>
                     <% end %>
                   </div>
                 </div>
@@ -79,8 +87,24 @@ defmodule HumoAccountWeb.LayoutView do
     ~H"""
     <div class="navbar-nav">
       <div class="nav-item dropdown">
-        <a href="#" class="nav-link d-flex lh-1 text-dark p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <a
+          href="#"
+          class="nav-link d-flex lh-1 text-dark p-0"
+          data-bs-toggle="dropdown"
+          aria-label="Open user menu"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-user-circle"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
             <circle cx="12" cy="12" r="9"></circle>
             <circle cx="12" cy="10" r="3"></circle>
@@ -90,7 +114,7 @@ defmodule HumoAccountWeb.LayoutView do
         </a>
         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
           <%= for link <- @nav do %>
-            <%= link link.title, to: link.path, method: link.method, class: "dropdown-item" %>
+            <%= link(link.title, to: link.path, method: link.method, class: "dropdown-item") %>
           <% end %>
         </div>
       </div>
