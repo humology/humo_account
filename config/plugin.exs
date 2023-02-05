@@ -27,7 +27,3 @@ config :humo, HumoWeb.PluginsRouter, humo_account: HumoAccountWeb.PluginRouter
 config :humo, HumoWeb.BrowserPlugs, humo_account: [{HumoAccountWeb.AssignUserPlug, true}]
 
 config :humo, Humo.Warehouse, humo_account: [HumoAccount.UsersService.User]
-
-config :humo_account, HumoAccountWeb.Mailer,
-  view: HumoAccountWeb.EmailView,
-  layout: {HumoAccountWeb.EmailView, :layout}

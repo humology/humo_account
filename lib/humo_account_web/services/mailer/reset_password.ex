@@ -1,11 +1,9 @@
 defmodule HumoAccountWeb.Mailer.ResetPassword do
   defstruct to: nil, reset_password_url: nil
 
-  @config Application.compile_env!(:humo_account, HumoAccountWeb.Mailer)
-  @view Keyword.fetch!(@config, :view)
-  @layout Keyword.fetch!(@config, :layout)
+  alias HumoAccountWeb.EmailView
 
-  use Phoenix.Swoosh, view: @view, layout: @layout
+  use Phoenix.Swoosh, view: EmailView, layout: {EmailView, :layout}
 
   def render_email(%__MODULE__{to: to} = payload) do
     payload = Map.take(payload, [:reset_password_url])
