@@ -49,7 +49,7 @@ defmodule HumoAccountWeb.SessionControllerTest do
 
         assert_email_sent(fn email ->
           assert email.subject == "Email verification"
-          assert email.to == [{"", user.email}]
+          assert email.to == [{"Jane Smith", user.email}]
         end)
       end
       |> Mock.with_mock(can_actions: &AllAccess.can_actions/2)

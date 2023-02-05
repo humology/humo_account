@@ -69,7 +69,7 @@ defmodule HumoAccount.MixProject do
     ]
   end
 
-  defp deps_humo_opts() do
+  defp deps_humo_opts do
     if path = System.get_env("DEPS_HUMO_PATH") do
       [path: path]
     else

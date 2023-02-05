@@ -88,6 +88,8 @@ defmodule HumoAccount.UsersService do
 
   """
   def get_user_by_email(email) do
+    email = String.downcase(email)
+
     Repo.get_by(User, email: email)
   end
 
@@ -256,26 +258,30 @@ defmodule HumoAccount.UsersService do
 
   defp match_search(query, search) do
     if is_uuid(search) do
-      from u in query,
+      from(u in query,
         where: u.id == ^search
+      )
     else
       search = "%#{search}%"
 
-      from u in query,
+      from(u in query,
         where:
           ilike(u.first_name, ^search) or ilike(u.last_name, ^search) or ilike(u.email, ^search)
+      )
     end
   end
 
   defp sort_by_inserted_at(query) do
-    from u in query,
+    from(u in query,
       order_by: [desc: u.inserted_at]
+    )
   end
 
   defp paginate(query, page, size) do
-    from query,
+    from(query,
       limit: ^size,
       offset: ^((page - 1) * size)
+    )
   end
 
   defp is_uuid(str) do

@@ -27,8 +27,8 @@ defmodule HumoAccountWeb.SessionController do
         |> configure_session(renew: true)
         |> redirect(to: routes().dashboard_humo_account_user_path(conn, :index))
 
-      {:error, :email_not_verified, email} ->
-        AuthService.send_verify_email(email)
+      {:error, :email_not_verified, user} ->
+        AuthService.send_verify_email(user)
 
         conn
         |> redirect(to: routes().humo_account_verify_email_path(conn, :index))

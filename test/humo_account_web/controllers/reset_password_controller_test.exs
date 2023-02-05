@@ -37,7 +37,7 @@ defmodule HumoAccountWeb.ResetPasswordControllerTest do
     %{assigns: %{reset_password_url: reset_password_url}} =
       assert_email_sent(fn email ->
         assert email.subject == "Password reset"
-        assert email.to == [{"", user.email}]
+        assert email.to == [{"Jane Smith", user.email}]
 
         email
       end)

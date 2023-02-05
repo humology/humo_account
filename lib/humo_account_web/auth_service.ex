@@ -3,8 +3,6 @@ defmodule HumoAccountWeb.AuthService do
 
   alias HumoAccount.UsersService
   alias HumoAccount.UsersService.User
-  alias HumoAccountWeb.Mailer.ResetPassword
-  alias HumoAccountWeb.Mailer.VerifyEmail
   import HumoWeb, only: [routes: 0]
   alias HumoAccountWeb.Mailer
 
@@ -14,32 +12,16 @@ defmodule HumoAccountWeb.AuthService do
   @auth_timeout_seconds @auth[:timeout_seconds]
 
   def authenticate_by_email_password(email, password) do
-    email = String.downcase(email)
-
-    with %User{
-           email_verified_at: %DateTime{}
-         } = user <- UsersService.get_user_by_email(email),
+    with %User{email_verified_at: %DateTime{}} = user <-
+           UsersService.get_user_by_email(email),
          true <- Bcrypt.verify_pass(password, user.password_hash) do
       {:ok, user}
     else
-      %User{email_verified_at: nil, email: email} ->
-        {:error, :email_not_verified, email}
+      %User{email_verified_at: nil} = user ->
+        {:error, :email_not_verified, user}
 
       _ ->
         {:error, :unauthorized}
-    end
-  end
-
-  def get_token(email) do
-    email = String.downcase(email)
-
-    case UsersService.get_user_by_email(email) do
-      %User{email: email} ->
-        token = encode_payload(email)
-        {:ok, email, token}
-
-      _ ->
-        {:error, :not_found}
     end
   end
 
@@ -83,24 +65,34 @@ defmodule HumoAccountWeb.AuthService do
     end
   end
 
-  def send_verify_email(email) do
-    with {:ok, email, token} <- get_token(email) do
-      url = routes().humo_account_verify_email_url(HumoWeb.endpoint(), :edit, token)
+  def send_verify_email(%User{id: id, email: email} = user) when not is_nil(id) do
+    view = Mailer.verify_email_view()
 
-      %VerifyEmail{to: email, verify_email_url: url}
-      |> VerifyEmail.render_email()
-      |> Mailer.deliver()
-    end
+    %{user: user, verify_email_url: get_verify_email_url(email)}
+    |> view.render_email()
+    |> Mailer.deliver()
   end
 
-  def send_reset_password_email(email) do
-    with {:ok, email, token} <- get_token(email) do
-      url = routes().humo_account_reset_password_url(HumoWeb.endpoint(), :edit, token)
+  def send_reset_password_email(%User{id: id, email: email} = user) when not is_nil(id) do
+    view = Mailer.reset_password_view()
 
-      %ResetPassword{to: email, reset_password_url: url}
-      |> ResetPassword.render_email()
-      |> Mailer.deliver()
-    end
+    %{user: user, reset_password_url: get_reset_password_url(email)}
+    |> view.render_email()
+    |> Mailer.deliver()
+  end
+
+  defp get_reset_password_url(email) do
+    token = create_token(email)
+    routes().humo_account_reset_password_url(HumoWeb.endpoint(), :edit, token)
+  end
+
+  defp get_verify_email_url(email) do
+    token = create_token(email)
+    routes().humo_account_verify_email_url(HumoWeb.endpoint(), :edit, token)
+  end
+
+  defp create_token(email) do
+    encode_payload(email)
   end
 
   defp encode_payload(payload) do

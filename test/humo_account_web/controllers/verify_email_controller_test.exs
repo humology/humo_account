@@ -31,7 +31,7 @@ defmodule HumoAccountWeb.VerifyEmailControllerTest do
     %{assigns: %{verify_email_url: verify_email_url}} =
       assert_email_sent(fn email ->
         assert email.subject == "Email verification"
-        assert email.to == [{"", user_email}]
+        assert email.to == [{"Jack Smith", user_email}]
 
         email
       end)
