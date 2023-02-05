@@ -1,6 +1,6 @@
 defmodule HumoAccount.Factory do
   alias Humo.Repo
-  alias HumoAccount.UsersService.User
+  alias HumoAccount.Accounts.User
 
   def insert(:user, params \\ []) do
     %User{

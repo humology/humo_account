@@ -1,4 +1,4 @@
-defmodule HumoAccount.UsersService.User do
+defmodule HumoAccount.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -6,13 +6,13 @@ defmodule HumoAccount.UsersService.User do
   @derive {Inspect, only: [:id]}
 
   schema "humo_account_users" do
-    field :first_name, :string
-    field :last_name, :string
-    field :email, :string
-    field :email_verified_at, :utc_datetime_usec, default: nil
-    field :password, :string, virtual: true
-    field :current_password, :string, virtual: true
-    field :password_hash, :string
+    field(:first_name, :string)
+    field(:last_name, :string)
+    field(:email, :string)
+    field(:email_verified_at, :utc_datetime_usec, default: nil)
+    field(:password, :string, virtual: true)
+    field(:current_password, :string, virtual: true)
+    field(:password_hash, :string)
 
     timestamps()
   end

@@ -1,8 +1,8 @@
 defmodule HumoAccountWeb.AuthService do
   @moduledoc false
 
-  alias HumoAccount.UsersService
-  alias HumoAccount.UsersService.User
+  alias HumoAccount.Accounts
+  alias HumoAccount.Accounts.User
   import HumoWeb, only: [routes: 0]
   alias HumoAccountWeb.Mailer
 
@@ -13,7 +13,7 @@ defmodule HumoAccountWeb.AuthService do
 
   def authenticate_by_email_password(email, password) do
     with %User{email_verified_at: %DateTime{}} = user <-
-           UsersService.get_user_by_email(email),
+           Accounts.get_user_by_email(email),
          true <- Bcrypt.verify_pass(password, user.password_hash) do
       {:ok, user}
     else
@@ -26,18 +26,18 @@ defmodule HumoAccountWeb.AuthService do
   end
 
   def get_user_by_id(user_id) when is_binary(user_id) do
-    UsersService.get_user(user_id)
+    Accounts.get_user(user_id)
   end
 
   def get_user_by_id(_user_id), do: nil
 
   def set_email_verified(token) do
     with {:ok, email} when is_binary(email) <- decode_payload(token),
-         %User{} = user <- UsersService.get_user_by_email(email),
+         %User{} = user <- Accounts.get_user_by_email(email),
          {
            :ok,
            %User{email_verified_at: %DateTime{}}
-         } <- UsersService.update_user_email_verified(user) do
+         } <- Accounts.update_user_email_verified(user) do
       true
     else
       _ ->
@@ -47,8 +47,8 @@ defmodule HumoAccountWeb.AuthService do
 
   def change_user_reset_password(token) do
     with {:ok, email} when is_binary(email) <- decode_payload(token),
-         %User{} = user <- UsersService.get_user_by_email(email) do
-      UsersService.change_user(user)
+         %User{} = user <- Accounts.get_user_by_email(email) do
+      Accounts.change_user(user)
     else
       _ ->
         {:error, :expired_or_invalid_token}
@@ -57,8 +57,8 @@ defmodule HumoAccountWeb.AuthService do
 
   def update_user_reset_password(token, params) do
     with {:ok, email} when is_binary(email) <- decode_payload(token),
-         %User{} = user <- UsersService.get_user_by_email(email) do
-      UsersService.update_user_reset_password(user, params)
+         %User{} = user <- Accounts.get_user_by_email(email) do
+      Accounts.update_user_reset_password(user, params)
     else
       _ ->
         {:error, :expired_or_invalid_token}

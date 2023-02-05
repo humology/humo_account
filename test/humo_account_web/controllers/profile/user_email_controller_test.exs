@@ -1,6 +1,6 @@
 defmodule HumoAccountWeb.Profile.UserEmailControllerTest do
   use HumoAccountWeb.ConnCase, async: true
-  alias HumoAccount.UsersService
+  alias HumoAccount.Accounts
 
   setup %{conn: conn} do
     user = insert(:user)
@@ -25,8 +25,8 @@ defmodule HumoAccountWeb.Profile.UserEmailControllerTest do
     params = %{"user" => %{email: email, current_password: "password"}}
     conn = patch(conn, routes().humo_account_profile_user_email_path(conn, :update), params)
 
-    assert UsersService.get_user_by_email(email)
-    refute UsersService.get_user_by_email(user.email)
+    assert Accounts.get_user_by_email(email)
+    refute Accounts.get_user_by_email(user.email)
 
     assert redirected_to(conn) == routes().humo_account_profile_user_path(conn, :show)
   end
@@ -46,8 +46,8 @@ defmodule HumoAccountWeb.Profile.UserEmailControllerTest do
 
     conn = patch(conn, routes().humo_account_profile_user_email_path(conn, :update), params)
 
-    assert UsersService.get_user_by_email(user.email)
-    refute UsersService.get_user_by_email("some@other.email")
+    assert Accounts.get_user_by_email(user.email)
+    refute Accounts.get_user_by_email("some@other.email")
 
     assert html_response(conn, 200) =~ "phx-feedback-for=\"user[current_password]\""
   end

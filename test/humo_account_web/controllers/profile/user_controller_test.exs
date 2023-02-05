@@ -1,6 +1,6 @@
 defmodule HumoAccountWeb.Profile.UserControllerTest do
   use HumoAccountWeb.ConnCase, async: true
-  alias HumoAccount.UsersService
+  alias HumoAccount.Accounts
 
   setup %{conn: conn} do
     user = insert(:user)
@@ -42,7 +42,7 @@ defmodule HumoAccountWeb.Profile.UserControllerTest do
              first_name: "Some other first_name",
              last_name: "Some other last_name",
              email: ^email
-           } = UsersService.get_user_by_email(email)
+           } = Accounts.get_user_by_email(email)
 
     assert redirected_to(conn) == routes().humo_account_profile_user_path(conn, :show)
   end

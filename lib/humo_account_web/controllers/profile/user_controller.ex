@@ -1,6 +1,6 @@
 defmodule HumoAccountWeb.Profile.UserController do
   use HumoAccountWeb, :controller
-  alias HumoAccount.UsersService
+  alias HumoAccount.Accounts
 
   use HumoWeb.AuthorizeControllerHelpers,
     resource_module: User,
@@ -16,14 +16,14 @@ defmodule HumoAccountWeb.Profile.UserController do
 
   def edit(conn, _params) do
     user = conn.assigns.current_user
-    changeset = UsersService.change_user(user)
+    changeset = Accounts.change_user(user)
     render(conn, "edit.html", changeset: changeset, page_title: "Edit profile")
   end
 
   def update(conn, %{"user" => params}) do
     user = conn.assigns.current_user
 
-    case UsersService.update_user_profile(user, params) do
+    case Accounts.update_user_profile(user, params) do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "User updated successfully.")

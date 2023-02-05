@@ -1,6 +1,6 @@
 defmodule HumoAccountWeb.Profile.UserPasswordController do
   use HumoAccountWeb, :controller
-  alias HumoAccount.UsersService
+  alias HumoAccount.Accounts
 
   def show(conn, _params) do
     render(conn, "show.html")
@@ -8,14 +8,14 @@ defmodule HumoAccountWeb.Profile.UserPasswordController do
 
   def edit(conn, _params) do
     user = conn.assigns.current_user
-    changeset = UsersService.change_user(user)
+    changeset = Accounts.change_user(user)
     render(conn, "edit.html", changeset: changeset, page_title: "Edit password")
   end
 
   def update(conn, %{"user" => params}) do
     user = conn.assigns.current_user
 
-    case UsersService.update_user_password(user, params) do
+    case Accounts.update_user_password(user, params) do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "User updated successfully.")

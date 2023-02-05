@@ -1,6 +1,6 @@
 defmodule HumoAccountWeb.ResetPasswordControllerTest do
   use HumoAccountWeb.ConnCase, async: true
-  alias HumoAccount.UsersService
+  alias HumoAccount.Accounts
   import Swoosh.TestAssertions
 
   setup %{conn: conn} do
@@ -26,7 +26,7 @@ defmodule HumoAccountWeb.ResetPasswordControllerTest do
   end
 
   test "success", %{conn: conn, user: user} do
-    %{password_hash: password_hash} = UsersService.get_user_by_email(user.email)
+    %{password_hash: password_hash} = Accounts.get_user_by_email(user.email)
     assert Bcrypt.verify_pass("password", password_hash)
 
     conn =
@@ -58,7 +58,7 @@ defmodule HumoAccountWeb.ResetPasswordControllerTest do
 
     assert redirected_to(conn) == routes().dashboard_humo_account_user_path(conn, :index)
 
-    %{password_hash: password_hash} = UsersService.get_user_by_email(user.email)
+    %{password_hash: password_hash} = Accounts.get_user_by_email(user.email)
     assert Bcrypt.verify_pass("new_password", password_hash)
   end
 

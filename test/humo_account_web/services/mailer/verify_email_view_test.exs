@@ -3,7 +3,7 @@ defmodule HumoAccountWeb.Mailer.VerifyEmailViewTest do
   alias HumoAccountWeb.Mailer.VerifyEmailView
 
   test "password reset email" do
-    user = %HumoAccount.UsersService.User{
+    user = %HumoAccount.Accounts.User{
       email: "user@mail.invalid",
       first_name: "Test",
       last_name: "User"

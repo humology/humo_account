@@ -1,13 +1,13 @@
 defmodule HumoAccountWeb.Dashboard.UserController do
   use HumoAccountWeb, :controller
 
-  alias HumoAccount.UsersService
-  alias HumoAccount.UsersService.User
+  alias HumoAccount.Accounts
+  alias HumoAccount.Accounts.User
   alias HumoWeb.AuthorizationExtractor
 
   @page_size 20
 
-  plug :assign_user when action in [:show, :edit, :update, :delete]
+  plug(:assign_user when action in [:show, :edit, :update, :delete])
 
   use HumoWeb.AuthorizeControllerHelpers,
     resource_module: User,
@@ -19,9 +19,9 @@ defmodule HumoAccountWeb.Dashboard.UserController do
 
     authorization = AuthorizationExtractor.extract(conn)
 
-    users = UsersService.page_users(authorization, page, @page_size, search)
+    users = Accounts.page_users(authorization, page, @page_size, search)
 
-    users_count = UsersService.count_users(authorization, search)
+    users_count = Accounts.count_users(authorization, search)
     page_max = div(users_count - 1, @page_size) + 1
 
     render(
@@ -42,14 +42,14 @@ defmodule HumoAccountWeb.Dashboard.UserController do
 
   def edit(conn, _params) do
     user = conn.assigns.user
-    changeset = UsersService.change_user(user)
+    changeset = Accounts.change_user(user)
     render(conn, "edit.html", user: user, changeset: changeset, page_title: "Edit user")
   end
 
   def update(conn, %{"user" => user_params}) do
     user = conn.assigns.user
 
-    case UsersService.update_user(user, user_params) do
+    case Accounts.update_user(user, user_params) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User updated successfully.")
@@ -62,7 +62,7 @@ defmodule HumoAccountWeb.Dashboard.UserController do
 
   def delete(conn, _params) do
     user = conn.assigns.user
-    {:ok, _user} = UsersService.delete_user(user)
+    {:ok, _user} = Accounts.delete_user(user)
 
     conn
     |> put_flash(:info, "User deleted successfully.")
@@ -70,6 +70,6 @@ defmodule HumoAccountWeb.Dashboard.UserController do
   end
 
   defp assign_user(conn, _opts) do
-    assign(conn, :user, UsersService.get_user!(Map.fetch!(conn.params, "id")))
+    assign(conn, :user, Accounts.get_user!(Map.fetch!(conn.params, "id")))
   end
 end

@@ -1,8 +1,8 @@
 defmodule HumoAccountWeb.Dashboard.UserControllerTest do
   use HumoAccountWeb.ConnCase, async: true
 
-  alias HumoAccount.UsersService
-  alias HumoAccount.UsersService.User
+  alias HumoAccount.Accounts
+  alias HumoAccount.Accounts.User
   alias Humo.Authorizer.{AllAccess, Mock, NoAccess}
   import Ecto.Query, warn: false
 
@@ -21,7 +21,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
   @invalid_attrs %{email: nil, first_name: nil, last_name: nil, password: nil}
 
   def fixture(:user) do
-    {:ok, user} = UsersService.create_user(@create_attrs)
+    {:ok, user} = Accounts.create_user(@create_attrs)
     user
   end
 
@@ -131,7 +131,7 @@ defmodule HumoAccountWeb.Dashboard.UserControllerTest do
 
         assert redirected_to(conn) == routes().dashboard_humo_account_user_path(conn, :show, user)
 
-        user = UsersService.get_user!(user.id)
+        user = Accounts.get_user!(user.id)
         assert "updated@test.invalid" = user.email
       end
       |> Mock.with_mock(

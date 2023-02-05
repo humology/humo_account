@@ -1,6 +1,6 @@
 defmodule HumoAccountWeb.SignupControllerTest do
   use HumoAccountWeb.ConnCase, async: true
-  alias HumoAccount.UsersService
+  alias HumoAccount.Accounts
 
   setup %{conn: conn} do
     user = insert(:user)
@@ -32,7 +32,7 @@ defmodule HumoAccountWeb.SignupControllerTest do
     conn = post(conn, routes().humo_account_signup_path(conn, :create), params)
     assert redirected_to(conn) == routes().humo_account_verify_email_path(conn, :index)
 
-    assert %{email_verified_at: nil} = UsersService.get_user_by_email(email)
+    assert %{email_verified_at: nil} = Accounts.get_user_by_email(email)
   end
 
   test "duplicate email", %{conn: conn, user: user} do

@@ -1,13 +1,13 @@
-defmodule HumoAccount.UsersService do
+defmodule HumoAccount.Accounts do
   @moduledoc """
-  The UsersService context.
+  The Accounts context.
   """
 
   import Ecto.Query, warn: false
   alias Humo.Repo
 
   alias Humo.Authorizer
-  alias HumoAccount.UsersService.User
+  alias HumoAccount.Accounts.User
 
   @doc """
   Returns list of users by page, size and optional search query.

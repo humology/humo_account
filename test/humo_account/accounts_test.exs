@@ -1,8 +1,8 @@
-defmodule HumoAccount.UsersServiceTest do
+defmodule HumoAccount.AccountsTest do
   use HumoAccount.DataCase, async: true
 
-  alias HumoAccount.UsersService
-  alias HumoAccount.UsersService.User
+  alias HumoAccount.Accounts
+  alias HumoAccount.Accounts.User
   alias Humo.Authorizer.{AllAccess, Mock, NoAccess}
 
   @valid_attrs %{
@@ -37,42 +37,42 @@ defmodule HumoAccount.UsersServiceTest do
 
     test "without access returns no users" do
       fn ->
-        assert UsersService.page_users(nil, 1, 2, nil) == []
+        assert Accounts.page_users(nil, 1, 2, nil) == []
       end
       |> Mock.with_mock(can_all: &NoAccess.can_all/3)
     end
 
     test "returns 2 users on 1st page", %{user2: user2, user3: user3} do
       fn ->
-        assert UsersService.page_users(nil, 1, 2, nil) == [user3, user2]
+        assert Accounts.page_users(nil, 1, 2, nil) == [user3, user2]
       end
       |> Mock.with_mock(can_all: &AllAccess.can_all/3)
     end
 
     test "returns 1 user on 2nd page", %{user: user} do
       fn ->
-        assert UsersService.page_users(nil, 2, 2, nil) == [user]
+        assert Accounts.page_users(nil, 2, 2, nil) == [user]
       end
       |> Mock.with_mock(can_all: &AllAccess.can_all/3)
     end
 
     test "finds user by email", %{user: user} do
       fn ->
-        assert UsersService.page_users(nil, 1, 5, user.email) == [user]
+        assert Accounts.page_users(nil, 1, 5, user.email) == [user]
       end
       |> Mock.with_mock(can_all: &AllAccess.can_all/3)
     end
 
     test "finds user by id", %{user: user} do
       fn ->
-        assert UsersService.page_users(nil, 1, 5, user.id) == [user]
+        assert Accounts.page_users(nil, 1, 5, user.id) == [user]
       end
       |> Mock.with_mock(can_all: &AllAccess.can_all/3)
     end
 
     test "cannot find user by query" do
       fn ->
-        assert UsersService.page_users(nil, 1, 5, "wrong search") == []
+        assert Accounts.page_users(nil, 1, 5, "wrong search") == []
       end
       |> Mock.with_mock(can_all: &AllAccess.can_all/3)
     end
@@ -87,35 +87,35 @@ defmodule HumoAccount.UsersServiceTest do
 
     test "without access returns 0" do
       fn ->
-        assert UsersService.count_users(nil, nil) == 0
+        assert Accounts.count_users(nil, nil) == 0
       end
       |> Mock.with_mock(can_all: &NoAccess.can_all/3)
     end
 
     test "with all access returns 2" do
       fn ->
-        assert UsersService.count_users(nil, nil) == 2
+        assert Accounts.count_users(nil, nil) == 2
       end
       |> Mock.with_mock(can_all: &AllAccess.can_all/3)
     end
 
     test "when email matches, returns 1", %{user: user} do
       fn ->
-        assert UsersService.count_users(nil, user.email) == 1
+        assert Accounts.count_users(nil, user.email) == 1
       end
       |> Mock.with_mock(can_all: &AllAccess.can_all/3)
     end
 
     test "when id matches, returns 1", %{user: user} do
       fn ->
-        assert UsersService.count_users(nil, user.id) == 1
+        assert Accounts.count_users(nil, user.id) == 1
       end
       |> Mock.with_mock(can_all: &AllAccess.can_all/3)
     end
 
     test "when query doesn't match, returns 0" do
       fn ->
-        assert UsersService.count_users(nil, "wrong query") == 0
+        assert Accounts.count_users(nil, "wrong query") == 0
       end
       |> Mock.with_mock(can_all: &AllAccess.can_all/3)
     end
@@ -125,12 +125,12 @@ defmodule HumoAccount.UsersServiceTest do
     test "returns existing user by id" do
       user = insert(:user)
 
-      assert user == UsersService.get_user!(user.id)
+      assert user == Accounts.get_user!(user.id)
     end
 
     test "when cannot find user by id, raises error" do
       assert_raise Ecto.NoResultsError, fn ->
-        UsersService.get_user!(Ecto.UUID.generate())
+        Accounts.get_user!(Ecto.UUID.generate())
       end
     end
   end
@@ -139,17 +139,17 @@ defmodule HumoAccount.UsersServiceTest do
     test "returns existing user by email" do
       user = insert(:user)
 
-      assert user == UsersService.get_user_by_email(user.email)
+      assert user == Accounts.get_user_by_email(user.email)
     end
 
     test "when cannot find user by email, returns nil" do
-      refute UsersService.get_user_by_email("wrong@example.invalid")
+      refute Accounts.get_user_by_email("wrong@example.invalid")
     end
   end
 
   describe "create_user/1" do
     test "with valid data creates user" do
-      assert {:ok, %User{} = user} = UsersService.create_user(@valid_attrs)
+      assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
       assert user.email == "some@test.invalid"
       assert user.first_name == "some first_name"
       assert user.last_name == "some last_name"
@@ -157,14 +157,14 @@ defmodule HumoAccount.UsersServiceTest do
     end
 
     test "with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = UsersService.create_user(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_attrs)
     end
   end
 
   describe "update_user/2" do
     test "with valid data updates user" do
       user = insert(:user)
-      assert {:ok, %User{} = user} = UsersService.update_user(user, @update_attrs)
+      assert {:ok, %User{} = user} = Accounts.update_user(user, @update_attrs)
       assert user.email == "updated@test.invalid"
       assert user.first_name == "some updated first_name"
       assert user.last_name == "some updated last_name"
@@ -173,15 +173,15 @@ defmodule HumoAccount.UsersServiceTest do
 
     test "with invalid data returns error changeset" do
       user = insert(:user)
-      assert {:error, %Ecto.Changeset{}} = UsersService.update_user(user, @invalid_attrs)
-      assert user == UsersService.get_user!(user.id)
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_user(user, @invalid_attrs)
+      assert user == Accounts.get_user!(user.id)
     end
   end
 
   describe "update_user_profile/2" do
     test "with valid data updates user profile" do
       user = insert(:user)
-      assert {:ok, %User{} = user} = UsersService.update_user_profile(user, @update_attrs)
+      assert {:ok, %User{} = user} = Accounts.update_user_profile(user, @update_attrs)
       refute user.email == "updated@test.invalid"
       assert user.first_name == "some updated first_name"
       assert user.last_name == "some updated last_name"
@@ -190,15 +190,15 @@ defmodule HumoAccount.UsersServiceTest do
 
     test "with invalid data returns error changeset" do
       user = insert(:user)
-      assert {:error, %Ecto.Changeset{}} = UsersService.update_user_profile(user, @invalid_attrs)
-      assert user == UsersService.get_user!(user.id)
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_user_profile(user, @invalid_attrs)
+      assert user == Accounts.get_user!(user.id)
     end
   end
 
   describe "update_user_reset_password/2" do
     test "with valid data updates user password" do
       user = insert(:user)
-      assert {:ok, %User{} = user} = UsersService.update_user_reset_password(user, @update_attrs)
+      assert {:ok, %User{} = user} = Accounts.update_user_reset_password(user, @update_attrs)
       refute user.email == "updated@test.invalid"
       refute user.first_name == "some updated first_name"
       refute user.last_name == "some updated last_name"
@@ -209,16 +209,16 @@ defmodule HumoAccount.UsersServiceTest do
       user = insert(:user)
 
       assert {:error, %Ecto.Changeset{}} =
-               UsersService.update_user_reset_password(user, @invalid_attrs)
+               Accounts.update_user_reset_password(user, @invalid_attrs)
 
-      assert user == UsersService.get_user!(user.id)
+      assert user == Accounts.get_user!(user.id)
     end
   end
 
   describe "update_user_email_verified/1" do
     test "sets email verified" do
       user = insert(:user)
-      assert {:ok, %User{} = user} = UsersService.update_user_email_verified(user)
+      assert {:ok, %User{} = user} = Accounts.update_user_email_verified(user)
       assert user.email_verified_at
     end
   end
@@ -226,7 +226,7 @@ defmodule HumoAccount.UsersServiceTest do
   describe "update_user_password/2" do
     test "with valid data updates user's password" do
       user = insert(:user)
-      assert {:ok, %User{} = user} = UsersService.update_user_password(user, @update_attrs)
+      assert {:ok, %User{} = user} = Accounts.update_user_password(user, @update_attrs)
       refute user.email == "updated@test.invalid"
       refute user.first_name == "some updated first_name"
       refute user.last_name == "some updated last_name"
@@ -236,9 +236,9 @@ defmodule HumoAccount.UsersServiceTest do
     test "when current password is wrong, returns error changeset" do
       user = insert(:user)
       attrs = %{@update_attrs | current_password: "wrong password"}
-      assert {:error, %Ecto.Changeset{}} = UsersService.update_user_password(user, attrs)
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_user_password(user, attrs)
 
-      user = UsersService.get_user!(user.id)
+      user = Accounts.get_user!(user.id)
 
       refute user.email == "updated@test.invalid"
       refute user.first_name == "some updated first_name"
@@ -248,15 +248,15 @@ defmodule HumoAccount.UsersServiceTest do
 
     test "with invalid data returns error changeset" do
       user = insert(:user)
-      assert {:error, %Ecto.Changeset{}} = UsersService.update_user_password(user, @invalid_attrs)
-      assert user == UsersService.get_user!(user.id)
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_user_password(user, @invalid_attrs)
+      assert user == Accounts.get_user!(user.id)
     end
   end
 
   describe "update_user_email/2" do
     test "with valid data updates the user" do
       user = insert(:user)
-      assert {:ok, %User{} = user} = UsersService.update_user_email(user, @update_attrs)
+      assert {:ok, %User{} = user} = Accounts.update_user_email(user, @update_attrs)
       assert user.email == "updated@test.invalid"
       refute user.first_name == "some updated first_name"
       refute user.last_name == "some updated last_name"
@@ -265,8 +265,8 @@ defmodule HumoAccount.UsersServiceTest do
 
     test "with invalid data returns error changeset" do
       user = insert(:user)
-      assert {:error, %Ecto.Changeset{}} = UsersService.update_user_email(user, @invalid_attrs)
-      assert user == UsersService.get_user!(user.id)
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_user_email(user, @invalid_attrs)
+      assert user == Accounts.get_user!(user.id)
     end
   end
 
@@ -274,10 +274,10 @@ defmodule HumoAccount.UsersServiceTest do
     test "deletes user" do
       user = insert(:user)
 
-      UsersService.delete_user(user)
+      Accounts.delete_user(user)
 
       assert_raise Ecto.NoResultsError, fn ->
-        UsersService.get_user!(user.id)
+        Accounts.get_user!(user.id)
       end
     end
   end
@@ -285,7 +285,7 @@ defmodule HumoAccount.UsersServiceTest do
   describe "change_user/1" do
     test "returns user changeset" do
       user = insert(:user)
-      assert %Ecto.Changeset{} = UsersService.change_user(user)
+      assert %Ecto.Changeset{} = Accounts.change_user(user)
     end
   end
 end

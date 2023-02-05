@@ -1,7 +1,7 @@
 defmodule HumoAccountWeb.ResetPasswordController do
   use HumoAccountWeb, :controller
 
-  alias HumoAccount.UsersService
+  alias HumoAccount.Accounts
   alias HumoAccountWeb.AuthService
 
   plug(:scrub_params, "token" when action in [:update])
@@ -11,8 +11,8 @@ defmodule HumoAccountWeb.ResetPasswordController do
   end
 
   def create(conn, %{"email" => email}) do
-    case UsersService.get_user_by_email(email) do
-      %UsersService.User{} = user ->
+    case Accounts.get_user_by_email(email) do
+      %Accounts.User{} = user ->
         AuthService.send_reset_password_email(user)
 
       _ ->

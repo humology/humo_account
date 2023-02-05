@@ -1,6 +1,6 @@
 defmodule HumoAccountWeb.Profile.UserPasswordControllerTest do
   use HumoAccountWeb.ConnCase, async: true
-  alias HumoAccount.UsersService
+  alias HumoAccount.Accounts
 
   setup %{conn: conn} do
     user = insert(:user)
@@ -22,7 +22,7 @@ defmodule HumoAccountWeb.Profile.UserPasswordControllerTest do
     params = %{"user" => %{password: password, current_password: "password"}}
     conn = patch(conn, routes().humo_account_profile_user_password_path(conn, :update), params)
 
-    %{password_hash: password_hash} = UsersService.get_user_by_email(user.email)
+    %{password_hash: password_hash} = Accounts.get_user_by_email(user.email)
     assert Bcrypt.verify_pass("newpassword", password_hash)
 
     assert redirected_to(conn) == routes().humo_account_profile_user_path(conn, :show)
@@ -38,7 +38,7 @@ defmodule HumoAccountWeb.Profile.UserPasswordControllerTest do
     params = %{"user" => %{password: password, current_password: "wrongpassword"}}
     conn = patch(conn, routes().humo_account_profile_user_password_path(conn, :update), params)
 
-    %{password_hash: password_hash} = UsersService.get_user_by_email(user.email)
+    %{password_hash: password_hash} = Accounts.get_user_by_email(user.email)
     assert Bcrypt.verify_pass("password", password_hash)
     assert html_response(conn, 200) =~ "phx-feedback-for=\"user[current_password]\""
   end
